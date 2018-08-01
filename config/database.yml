@@ -1,7 +1,7 @@
 development: &defaults
   adapter: mysql2
   encoding: utf8
-  database: exchange_development
+  database: cryptbank_development
   username: root
   password: admin
   pool: 10
@@ -9,8 +9,8 @@ development: &defaults
 
 test:
   <<: *defaults
-  database: exchange_test
+  database: cryptbank_test
 
 production:
   <<: *defaults
-  database: exchange_production
+  database: cryptbank_production

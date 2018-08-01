@@ -10,7 +10,7 @@
   padding: 0;
   font-family: 'Lato', sans-serif;
   font-size: 16px;
-  background-color: #0E142B;
+  background-color: #0f0721;
 
   h1, h2, h3, h4, h5, h6 {
     font-family: 'Lato', sans-serif;
@@ -41,87 +41,6 @@
 
   .hmblubg {
     position: relative;
-  }
-  .hm-platform {
-    width: 100%;
-    float: left;
-    padding: 50px 0;
-  }
-
-  .platform-main {
-    width: 100%;
-    float: left;
-    padding-right: 30px;
-  }
-
-  .platrtl {
-    padding-right: 0;
-    padding-left: 30px;
-  }
-
-  .platform-head {
-    width: 100%;
-    float: left;
-    margin-bottom: 50px;
-    position: relative;
-    h1 {
-      font-size: 47px;
-      margin-top: 0;
-      text-align: right;
-      color: #fff;
-      font-weight: 700;
-      margin-bottom: 25px;
-    }
-    p {
-      color: #fff;
-      font-size: 16px;
-      text-align: right;
-    }
-  }
-
-  .plat-vs {
-    position: absolute;
-    right: -63px;
-    top: 20px;
-    color: #fff;
-    font-size: 47px;
-    font-weight: 700;
-  }
-
-  .platform-leftcol {
-    width: 100%;
-    float: left;
-    margin-bottom: 45px;
-  }
-
-  .platform-icon {
-    width: 100%;
-    float: left;
-    img {
-      width: 100%;
-    }
-  }
-
-  .platform-text {
-    width: 100%;
-    float: left;
-    h2 {
-      font-size: 30px;
-      margin-top: 0;
-      margin-bottom: 15px;
-      color: #fff;
-    }
-    p {
-      color: #fff;
-      font-size: 16px;
-      font-weight: 300;
-    }
-  }
-
-  .platrtl .platform-head {
-    h1, p {
-      text-align: left;
-    }
   }
 
   header {
@@ -568,70 +487,6 @@
     position: relative;
   }
 
-  .hm_partners {
-    float: left;
-    width: 100%;
-    height: 125px;
-  }
-
-  .partner_heading {
-    position: relative;
-    padding: 32px 0 0 0;
-
-    &::after {
-      position: absolute;
-      content: "";
-      height: 125px;
-      width: 5px;
-      background: #F19212;
-      top: 0;
-      right: 0;
-    }
-
-    h2 {
-      color: #F19212;
-      font-weight: 900;
-      font-size: 32px;
-      text-transform: uppercase;
-      margin: 0 0 0 0;
-    }
-
-    h4 {
-      color: #F19212;
-      font-weight: 400;
-      font-size: 22px;
-      text-transform: uppercase;
-      margin: 0;
-    }
-  }
-
-  .hmpartner_list {
-    .normal-imglist {
-      .item a {
-        display: block;
-        border: none;
-        -webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
-        -moz-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
-        box-shadow: none;
-
-        img {
-          border: none;
-          width: auto;
-          vertical-align: middle;
-        }
-      }
-
-      .util-next {
-        color: #fff;
-      }
-    }
-    padding: 33px 0 0 0;
-  }
-
-  .normal-imglist .util-prev {
-    color: #fff;
-  }
-
   /**footer**/
   footer {
     width: 100%;
@@ -842,15 +697,6 @@
       font-size: 16px;
     }
 
-    .partner_heading {
-      h2 {
-        font-size: 25px;
-      }
-      h4 {
-        font-size: 20px;
-      }
-      padding: 37px 0 0 0;
-    }
     .our-team {
       .testimonial-user-thumb {
         height: 100px;
@@ -907,9 +753,7 @@
       }
       padding: 37px 0 0 0;
     }
-    .hmpartner_list .normal-imglist .item a img {
-      width: 150px;
-    }
+
     .hm-team {
       padding: 110px 0 150px 0;
     }
@@ -941,58 +785,7 @@
     }
   }
 
-  @media (min-width: 768px) and (max-width: 991px) {
-    .plat-vs {
-      display: none;
-    }
-    .platform-main {
-      padding-right: 0;
-    }
-    .platform-head {
-      h1 {
-        text-align: left;
-        font-size: 38px;
-      }
-      p {
-        text-align: left;
-      }
-    }
-    .platform-icon img {
-      width: 87px;
-      margin-bottom: 25px;
-    }
-    .platrtl {
-      padding-left: 0;
-    }
-  }
-
   @media (max-width: 768px) {
-    .plat-vs {
-      display: none;
-    }
-
-    .platform-main {
-      padding-right: 0;
-    }
-
-    .platform-head {
-      h1 {
-        text-align: left;
-        font-size: 38px;
-      }
-      p {
-        text-align: left;
-      }
-    }
-
-    .platform-icon img {
-      width: 87px;
-      margin-bottom: 25px;
-    }
-
-    .platrtl {
-      padding-left: 0;
-    }
 
     .hm_whychoose::after {
       width: 100%;
@@ -1062,20 +855,7 @@
       text-align: center;
       margin: 0 0 40px 0;
     }
-    .hm_partners {
-      height: auto;
-      padding: 0 0 40px 0;
-      text-align: center;
-    }
-    .partner_heading::after {
-      height: 5px;
-      width: 75px;
-      bottom: -19px;
-      right: 0;
-      left: 0;
-      margin: 0 auto;
-      top: inherit;
-    }
+
     .hm_whychoose {
       transform: skewY(0deg);
       padding: 60px 0 23px 0;

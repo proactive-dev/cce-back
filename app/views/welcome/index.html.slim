@@ -11,15 +11,15 @@
             span.icon-bar
             span.icon-bar
           a.navbar-brand href="#"
-            img src='#{image_path 'logo.png'}' alt="Crypto" title="CRYPTBANKSERVICE"
+            img src='#{image_path 'logo.png'}' alt="Crypto" title="CryptBankService"
         #bs-example-navbar-collapse-1.collapse.navbar-collapse
           ul.nav.navbar-nav.navbar-right
             li.active
               a href="#{market_path(current_market)}"
                 = t('header.market')
-            / li
-            /   a href="#TEAM"
-            /     = t('landing.team.title')
+            li
+              a href="#TEAM"
+                = t('landing.team.title')
             - unless current_user
               li
                 a href="#{signin_path}"
@@ -37,9 +37,9 @@
   .container
     .buy_sell
       h1
-        = t('brand')
+        = t('landing.welcome.title')
       h3
-        = t('slogan')
+        = t('landing.welcome.subtitle')
       - if current_user
         button
           = link_to t('header.getstart'), settings_path
@@ -53,12 +53,10 @@ section.vision
         .vision_part
           h1
             = t('landing.vision.title')
-          h3
-            = t('landing.vision.subtitle')
           p
-            = t('landing.vision.desc')
+            = t('landing.vision.desc1')
           p
-            = t('landing.vision.desc')
+            = t('landing.vision.desc2')
       .col-lg-12.col-md-12.col-sm-12
         .mind
           img.img-responsive src='#{image_path 'mind_mg.png'}' alt=" "
@@ -74,7 +72,7 @@ section.hmcount-bg
         p.count-text
           = t('landing.count.country')
       .counter.col_fourth
-        h2.timer.count-title.count-number data-to="7" data-speed="1500"
+        h2.timer.count-title.count-number data-to="14" data-speed="1500"
         p.count-text
           = t('landing.count.market')
       .counter.col_fourth
@@ -143,147 +141,37 @@ section.hm_whychoose
               = t('landing.choose_us.transparency.title')
             p
               = t('landing.choose_us.transparency.desc')
-/ section.hm_roadmap
-/   .container
-/     .hm_head
-/       h2.wow.fadeInLeft data-wow-duration="1s" data-wow-offset="50" data-wow-delay="0s"
-/         = t('landing.roadmap.title')
-/       h4.wow.fadeInLeft data-wow-duration="1s" data-wow-offset="50" data-wow-delay="0s"
-/         = t('landing.roadmap.subtitle')
-/     .row.hm_body
-/       .timeline
-/         .entries
-/           .entry
-/             .title
-/               = t('landing.roadmap.step.1st')
-/           .entry
-/             .title.big
-/               = t('landing.roadmap.step.1st')
-/           .entry
-/             .title
-/               = t('landing.roadmap.step.1st')
-/           .entry
-/             .title
-/               = t('landing.roadmap.step.1st')
-/           .entry
-/             .title
-/               = t('landing.roadmap.step.1st')
-/           .entry
-/             .title
-/               = t('landing.roadmap.step.1st')
-/           .entry
-/             .title style="padding-bottom:0px;"
-/               |
-section.hm-platform
+section.hm_roadmap
   .container
-    .col-md-12.col-sm-24
-      .platform-main
-        .platform-head
-          span.plat-vs
-            = t('landing.platform.vs')
-          h1
-            = t('landing.platform.centralized')
-            br
-              = t('landing.platform.title')
-          p
-            = t('landing.platform.desc1')
-        .platform-leftcol
-          .row
-            .col-md-4
-              .platform-icon
-                img src='#{image_path 'high-commission.png'}'
-            .col-md-20
-              .platform-text
-                h2
-                  = t('landing.platform.high_commission.title')
-                p
-                  = t('landing.platform.high_commission.desc')
-        .platform-leftcol
-          .row
-            .col-md-4
-              .platform-icon
-                img src='#{image_path 'high-cost.png'}'
-            .col-md-20
-              .platform-text
-                h2
-                  = t('landing.platform.high_cost.title')
-                p
-                  = t('landing.platform.high_cost.desc')
-        .platform-leftcol
-          .row
-            .col-md-4
-              .platform-icon
-                img src='#{image_path 'tough-entry.png'}'
-            .col-md-20
-              .platform-text
-                h2
-                  = t('landing.platform.tough_entry.title')
-                p
-                  = t('landing.platform.tough_entry.desc')
-        .platform-leftcol
-          .row
-            .col-md-4
-              .platform-icon
-                img src='#{image_path 'unstable.png'}'
-            .col-md-20
-              .platform-text
-                h2
-                  = t('landing.platform.unstable_operation.title')
-                p
-                  = t('landing.platform.unstable_operation.desc')
-    .col-md-12.col-sm-24
-      .platform-main.platrtl
-        .platform-head
-          h1
-            = t('landing.platform.decentralized')
-            br
-              = t('landing.platform.title')
-          p
-            = t('landing.platform.desc2')
-        .platform-leftcol
-          .row
-            .col-md-4
-              .platform-icon
-                img src='#{image_path 'lower-cost.png'}'
-            .col-md-20
-              .platform-text
-                h2
-                  = t('landing.platform.low_cost.title')
-                p
-                  = t('landing.platform.low_cost.desc')
-        .platform-leftcol
-          .row
-            .col-md-4
-              .platform-icon
-                img src='#{image_path 'free-use.png'}'
-            .col-md-20
-              .platform-text
-                h2
-                  = t('landing.platform.free_use.title')
-                p
-                  = t('landing.platform.free_use.desc')
-        .platform-leftcol
-          .row
-            .col-md-4
-              .platform-icon
-                img src='#{image_path 'easy-entry.png'}'
-            .col-md-20
-              .platform-text
-                h2
-                  = t('landing.platform.easy_entry.title')
-                p
-                  = t('landing.platform.easy_entry.desc')
-        .platform-leftcol
-          .row
-            .col-md-4
-              .platform-icon
-                img src='#{image_path 'modules.png'}'
-            .col-md-20
-              .platform-text
-                h2
-                  = t('landing.platform.autnomous_modules.title')
-                p
-                  = t('landing.platform.autnomous_modules.desc')
+    .hm_head
+      h2.wow.fadeInLeft data-wow-duration="1s" data-wow-offset="50" data-wow-delay="0s"
+        = t('landing.roadmap.title')
+      h4.wow.fadeInLeft data-wow-duration="1s" data-wow-offset="50" data-wow-delay="0s"
+        = t('landing.roadmap.subtitle')
+    .row.hm_body
+      .timeline
+        .entries
+          .entry
+            .title
+              = t('landing.roadmap.step.1st')
+          .entry
+            .title.big
+              = t('landing.roadmap.step.1st')
+          .entry
+            .title
+              = t('landing.roadmap.step.1st')
+          .entry
+            .title
+              = t('landing.roadmap.step.1st')
+          .entry
+            .title
+              = t('landing.roadmap.step.1st')
+          .entry
+            .title
+              = t('landing.roadmap.step.1st')
+          .entry
+            .title style="padding-bottom:0px;"
+              |
 section#TEAM.hm-team
   .container
     .col-md-24
@@ -370,41 +258,10 @@ section#TEAM.hm-team
                     |  CEO, Co-Founder
                 p
                   | Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.
-section.hm_partners
-  .container
-    .row
-      .col-lg-8.col-md-8.col-sm-8
-        .partner_heading
-          h2.gradient1
-            = t('landing.partners.title')
-          h4
-            = t('landing.partners.desc')
-      .col-lg-16.col-md-16.col-sm-16
-        .hmpartner_list
-          #normal-imglist.util-carousel.normal-imglist
-            .item
-              a href="#"
-                img src='#{image_path 'partner1.png'}' alt=""
-            .item
-              a href="#"
-                img src='#{image_path 'partner2.png'}' alt=""
-            .item
-              a href="#"
-                img src='#{image_path 'partner3.png'}' alt=""
-            .item
-              a href="#"
-                img src='#{image_path 'partner1.png'}' alt=""
-            .item
-              a href="#"
-                img src='#{image_path 'partner2.png'}' alt=""
-            .item
-              a href="#"
-                img src='#{image_path 'partner3.png'}' alt=""
 footer
   .container
     .col-md-12.col-sm-12
       .f-about-col
-        img src='#{image_path 'logo.png'}'
         p
           = t('footer.copyright')
         p
@@ -450,5 +307,3 @@ footer
             a href="#"
               i.fa.fa-twitter-square
               span = t('social.twitter')
-        span#siteseal
-          = javascript_include_tag "https://seal.godaddy.com/getSeal?sealID=yFY76JeoKDb3hlZ7OfFfpG4SPSQGWXmWR7FkjkQ5QqWelOBaY6ROanQ6ylBI"
