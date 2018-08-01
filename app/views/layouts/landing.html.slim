@@ -1,0 +1,23 @@
+doctype html
+html lang="en"
+  head
+    meta charset="utf-8"
+    meta http-equiv="X-UA-Compatible" content="IE=edge"
+    meta name="viewport" content="width=device-width, initial-scale=1"
+    link rel="shortcut icon" href="/favicon.png"
+    link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,800,800italic,300" rel="stylesheet" type="text/css"
+    link href="https://fonts.googleapis.com/css?family=Fjalla+One" rel="stylesheet" type="text/css"
+    title
+      | CRYPTBANKSERVICE
+
+    = include_gon
+    = stylesheet_link_tag "application", :media => "all"
+    = javascript_include_tag "application"
+    = javascript_include_tag "welcome"
+    = render 'shared/html5'
+    = render 'shared/meta'
+    /= csrf_meta_tags
+
+  body id='#{body_id}' data-lang="#{locale_name}"
+    = yield
+    = javascript_include_tag "particle_config.js"

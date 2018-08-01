@@ -1,0 +1,8 @@
+.panel.panel-default
+  .panel-body
+    .row
+      #guide.col-xs-24
+        h3 = t('.title')
+        p.text-ignore = t('.intro')
+        p
+          = link_to t('.liability'), t('.liability-uri'), :target => '_blank'

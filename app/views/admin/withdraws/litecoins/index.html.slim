@@ -1,0 +1,11 @@
+- unless @accepted_litecoins.empty?
+  .panel.panel-primary
+    .panel-heading: span = t('.one')
+    = render partial: 'table', locals: {litecoins: @accepted_litecoins}
+- unless @other_litecoins.empty?
+  .panel.panel-success
+    .panel-heading: span = t('.all')
+    = render partial: 'table', locals: {litecoins: @other_litecoins}
+
+- if @other_litecoins.empty? and @accepted_litecoins.empty?
+  h3.text-info.text-center = t('.empty')

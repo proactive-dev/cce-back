@@ -1,0 +1,3 @@
+- member.accounts.each do |account|
+  - next if account.currency_obj.nil?
+  = render partial: 'shared/admin/account', locals: {account: account}

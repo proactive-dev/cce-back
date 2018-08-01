@@ -1,0 +1,29 @@
+.panel.panel-default
+  .panel-body
+    .row
+      #guide.col-xs-8
+        table#assets.table
+          tbody
+            tr
+              td.col-xs-8
+                img src="/icon-#{currency.code}.png" alt="#{currency.code}"
+              td.col-xs-16
+                h4 = t("currency.#{currency.key}.name")
+                h3 = balance.round(4)
+      #content.col-xs-16
+        .jumbotron
+          .row
+            table.table
+              thead
+                tr
+                  td
+                    = t('.address')
+                  td
+                    = t('.balance')
+              tbody
+                - proofs.each do |proof|
+                  tr
+                    td
+                      = link_to proof.address, proof.address_url(proof.address)
+                    td
+                      = proof.balance.round(4)

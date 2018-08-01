@@ -1,0 +1,109 @@
+- id: ethbtc
+  code: 2
+  name: ETH/BTC      
+  base_unit: eth
+  quote_unit: btc
+  #price_group_fixed: 1 # aggregate price levels in orderbook
+  bid: {fee: 0, currency: btc, fixed: 8}
+  ask: {fee: 0, currency: eth, fixed: 8}
+  sort_order: 1
+  #visible: false     # default to true
+
+- id: ltcbtc
+  code: 3
+  name: LTC/BTC      # default name
+  base_unit: ltc
+  quote_unit: btc
+  #price_group_fixed: 1 # aggregate price levels in orderbook
+  bid: {fee: 0, currency: btc, fixed: 8}
+  ask: {fee: 0, currency: ltc, fixed: 8}
+  sort_order: 1
+  #visible: false     # default to true
+
+- id: ltceth
+  code: 10
+  name: LTC/ETH      # default name
+  base_unit: ltc
+  quote_unit: eth
+  #price_group_fixed: 1 # aggregate price levels in orderbook
+  bid: {fee: 0, currency: eth, fixed: 8}
+  ask: {fee: 0, currency: ltc, fixed: 8}
+  sort_order: 1
+  #visible: false     # default to true
+
+- id: btcmas
+  code: 20
+  name: BTC/MAS
+  base_unit: btc
+  quote_unit: mas
+  #price_group_fixed: 1 # aggregate price levels in orderbook
+  bid: {fee: 0, currency: mas, fixed: 8}
+  ask: {fee: 0, currency: btc, fixed: 8}
+  sort_order: 1
+  #visible: false     # default to true
+
+- id: ethmas
+  code: 21
+  name: ETH/MAS
+  base_unit: eth
+  quote_unit: mas
+  #price_group_fixed: 1 # aggregate price levels in orderbook
+  bid: {fee: 0, currency: mas, fixed: 8}
+  ask: {fee: 0, currency: eth, fixed: 8}
+  sort_order: 1
+  #visible: false     # default to true
+
+- id: ltcmas
+  code: 22
+  name: LTC/MAS      # default name
+  base_unit: ltc
+  quote_unit: mas
+  #price_group_fixed: 1 # aggregate price levels in orderbook
+  bid: {fee: 0, currency: mas, fixed: 8}
+  ask: {fee: 0, currency: ltc, fixed: 8}
+  sort_order: 1
+  #visible: false     # default to true
+
+- id: btcskb
+  code: 30
+  name: BTC/SKB
+  base_unit: btc
+  quote_unit: skb
+  #price_group_fixed: 1 # aggregate price levels in orderbook
+  bid: {fee: 0, currency: skb, fixed: 8}
+  ask: {fee: 0, currency: btc, fixed: 8}
+  sort_order: 1
+  #visible: false     # default to true
+
+- id: ethskb
+  code: 31
+  name: ETH/SKB
+  base_unit: eth
+  quote_unit: skb
+  #price_group_fixed: 1 # aggregate price levels in orderbook
+  bid: {fee: 0, currency: skb, fixed: 8}
+  ask: {fee: 0, currency: eth, fixed: 8}
+  sort_order: 1
+  #visible: false     # default to true
+
+- id: ltcskb
+  code: 32
+  name: LTC/SKB      # default name
+  base_unit: ltc
+  quote_unit: skb
+  #price_group_fixed: 1 # aggregate price levels in orderbook
+  bid: {fee: 0, currency: skb, fixed: 8}
+  ask: {fee: 0, currency: ltc, fixed: 8}
+  sort_order: 1
+  #visible: false     # default to true
+
+- id: masskb
+  code: 33
+  name: MAS/SKB      # default name
+  base_unit: mas
+  quote_unit: skb
+  #price_group_fixed: 1 # aggregate price levels in orderbook
+  bid: {fee: 0, currency: skb, fixed: 8}
+  ask: {fee: 0, currency: mas, fixed: 8}
+  sort_order: 1
+  #visible: false     # default to true

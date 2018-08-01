@@ -1,0 +1,24 @@
+.row
+  .panel.panel-primary
+    .panel-heading
+      span = t('.manage_price')
+    .panel-body
+      = form_tag admin_markets_path, method: :get do |f|
+        .col-xs-2.text-right = label_tag 'market'
+        .col-xs-2 = select_tag :market_field, options_from_collection_for_select(@prices, 'market_id', 'market_id')
+        .col-xs-2.text-right = label_tag 'type'
+        .col-xs-2 = select_tag :type_field, options_from_collection_for_select(Price::PRICE_TYPE, :last, :first)
+        .col-xs-2.text-right = label_tag 'price'
+        .col-xs-4 = text_field_tag :input_term, @input_term, placeholder: t('.new_price')
+        .col-xs-3.col-xs-offset-2 = submit_tag t('.apply'), data: { confirm: 'Are you sure to apply new price configuration for a market?' }
+
+.row
+  .panel.panel-primary
+    .panel-heading: span = t('.market')
+    = table_for(@prices, class: 'table table-condensed table-hover') do |t|
+      - t.column :market, class: 'col-xs-4' do |p|
+        = p.market_id.upcase
+      - t.column :price_type, class: 'col-xs-4' do |p|
+        = p.price_type.upcase
+      - t.column :price, class: 'col-xs-4'
+      - t.column :updated_at, class: 'col-xs-4'
