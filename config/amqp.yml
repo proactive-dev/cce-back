@@ -12,6 +12,9 @@ exchange:
   orderbook:
     name: exchange.orderbook
     type: fanout
+  binance:
+    name: exchange.binance
+    type: fanout
 
 queue:
   matching:
@@ -44,6 +47,9 @@ queue:
     durable: true
   sms:
     name: exchange.notification.sms
+    durable: true
+  binance_processor:
+    name: exchange.binance.processor
     durable: true
 
 binding:
@@ -79,6 +85,9 @@ binding:
   sms_notification:
     queue: sms
     exchange: notification
+  binance_processor:
+    queue: binance_processor
+    exchange: binance
 
 channel:
   trade_executor:

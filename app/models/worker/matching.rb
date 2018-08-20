@@ -39,7 +39,7 @@ module Worker
 
     def reload(market)
       if market == 'all'
-        Market.all.each {|market| initialize_engine market }
+        Market.inner.each {|market| initialize_engine market }
         Rails.logger.info "All engines reloaded."
       else
         initialize_engine Market.find(market)

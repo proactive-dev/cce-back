@@ -73,6 +73,8 @@ gem 'method-not-implemented', '~> 1.0'
 gem 'passgen', '~> 1.0'
 gem 'digest-sha3', '~> 1.1'
 
+gem 'binance'
+
 group :development, :test do
   gem 'factory_girl_rails'
   gem 'faker', '~> 1.4.3'

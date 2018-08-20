@@ -18,6 +18,14 @@ class Market < ActiveYamlBase
     all_with_invisible.select &:visible
   end
 
+  def self.inner
+    all_with_invisible.select &:is_inner?
+  end
+
+  def self.from_binance
+    all.select &:is_binance?
+  end
+
   def self.enumerize
     all_with_invisible.inject({}) {|hash, i| hash[i.id.to_sym] = i.code; hash }
   end
@@ -67,6 +75,14 @@ class Market < ActiveYamlBase
 
   def bid_currency
     Currency.find_by_code(bid["currency"])
+  end
+
+  def is_binance?
+    !is_inner? && source.casecmp('binance').zero?
+  end
+
+  def is_inner?
+    source.nil?
   end
 
   def scope?(account_or_currency)
