@@ -1,10 +1,12 @@
 module Worker
   class BinanceProcessor
 
+    FRESH_TRADES = 80
+
     def initialize
       @binance_api_client  = Binance::Client::REST.new
 
-      init_depth
+      init_market_data
       fetch_trades
 
       Thread.new do
@@ -29,9 +31,9 @@ module Worker
           bids = data.fetch('bids')
           asks = data.fetch('asks')
 
-          write_depth(market_id, bids, asks)
+          update_depth(market_id, bids, asks)
         when 'trade'
-          write_trade(data)
+          update_trades(data)
         else
           raise ArgumentError, "Unknown event: #{event}"
       end
@@ -42,13 +44,17 @@ module Worker
 
     private
 
-    def init_depth
+    def init_market_data
       @bid_depth = Hash.new
       @ask_depth = Hash.new
+
+      @trades = {}
 
       Market.from_binance.each do |market|
         @bid_depth[market.id] = RBTree.new
         @ask_depth[market.id] = RBTree.new
+
+        @trades[market.id] = Array.new
       end
     end
 
@@ -56,19 +62,19 @@ module Worker
       Market.from_binance.each do |market|
         data = @binance_api_client.depth symbol: market.id.upcase, limit: 200
         last_update_id = data.fetch('lastUpdateId')
-        Rails.cache.write("#{market.id}_last_update_id", last_update_id, force: true)
+        Rails.cache.write("exchange:#{market.id}:last_update_id", last_update_id, force: true)
 
         @bid_depth[market.id].clear
         @ask_depth[market.id].clear
 
-        write_depth market.id, data.fetch('bids'), data.fetch('asks')
+        update_depth market.id, data.fetch('bids'), data.fetch('asks')
       end
     rescue
       Rails.logger.error "Failed to get depth: #{$!}"
       Rails.logger.error $!.backtrace.join("\n")
     end
 
-    def write_depth(market_id, bids, asks)
+    def update_depth(market_id, bids, asks)
       bids.each do |order|
         @bid_depth[market_id][order[0]] = order[1]
         @bid_depth[market_id].delete_if{|k, v| v.to_f == 0}
@@ -97,26 +103,38 @@ module Worker
 
     def fetch_trades
       Market.from_binance.each do |market|
-        data = @binance_api_client.trades symbol: market.id.upcase, limit: 80
-        price = data.fetch('price').to_f
-        volume = data.fetch('qty').to_f
-        done_at = data.fetch('time')
-        @trade = Trade.create!(price: price, volume: volume, funds: price*volume,
-                               currency: market.id.to_sym)
-        AMQPQueue.publish(
-            :trade,
-            @trade.as_json,
-            { headers: {
-                market: market.id,
-                ask_member_id: Member.admin_member.id,
-                bid_member_id: Member.admin_member.id
-            }
-            }
-        )
+        data = @binance_api_client.trades symbol: market.id.upcase, limit: FRESH_TRADES
+        data.each do |item|
+          price = item.fetch('price').to_f
+          volume = item.fetch('qty').to_f
+          done_at = item.fetch('time')
+
+          trade = Trade.new(price: price, volume: volume, funds: price*volume,
+                                currency: market.id.to_sym)
+          @trades[market.id].push trade
+        end
+        Rails.cache.write "exchange:#{market.id}:trades", @trades[market.id]
+        Rails.cache.write "exchange:#{market.id}:ticker:last", @trades[market.id].last.try(:price) || ::Trade::ZERO
       end
     rescue
       Rails.logger.error "Failed to get trades: #{$!}"
       Rails.logger.error $!.backtrace.join("\n")
     end
+
+    def update_trades(data)
+      market_id = data.fetch('market')
+      price = data.fetch('price')
+      volume = data.fetch('volume')
+
+      trade = Trade.new(price: price, volume: volume, funds: price*volume,
+                             currency: market_id.to_sym)
+      trades = @trades[market_id]
+      trades.unshift(trade.for_global)
+      trades.pop if trades.size > FRESH_TRADES
+
+      Rails.cache.write "exchange:#{market_id}:trades", trades
+      Rails.cache.write "exchange:#{market_id}:ticker:last", price
+    end
+
   end
 end

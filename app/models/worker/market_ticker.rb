@@ -7,7 +7,7 @@ module Worker
       @tickers = {}
       @trades  = {}
 
-      Market.all.each do |market|
+      Market.inner.each do |market|
         initialize_market_data market
       end
     end
