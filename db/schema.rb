@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180721051010) do
+ActiveRecord::Schema.define(version: 20180820084240) do
 
   create_table "account_versions", force: true do |t|
     t.integer  "member_id"
@@ -194,6 +194,16 @@ ActiveRecord::Schema.define(version: 20180721051010) do
     t.datetime "last_verify_at"
     t.datetime "created_at"
     t.datetime "updated_at"
+  end
+
+  create_table "k_lines", force: true do |t|
+    t.integer  "market"
+    t.datetime "start_at"
+    t.decimal  "low",      precision: 32, scale: 16
+    t.decimal  "high",     precision: 32, scale: 16
+    t.decimal  "open",     precision: 32, scale: 16
+    t.decimal  "close",    precision: 32, scale: 16
+    t.decimal  "volume",   precision: 32, scale: 16
   end
 
   create_table "members", force: true do |t|
@@ -400,6 +410,15 @@ ActiveRecord::Schema.define(version: 20180721051010) do
   end
 
   add_index "tags", ["name"], name: "index_tags_on_name", unique: true, using: :btree
+
+  create_table "tickers", force: true do |t|
+    t.integer  "market"
+    t.decimal  "low",       precision: 32, scale: 16
+    t.decimal  "high",      precision: 32, scale: 16
+    t.decimal  "open",      precision: 32, scale: 16
+    t.decimal  "volume",    precision: 32, scale: 16
+    t.datetime "timestamp"
+  end
 
   create_table "tickets", force: true do |t|
     t.string   "title"

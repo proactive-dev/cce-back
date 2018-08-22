@@ -35,7 +35,8 @@ def process_ticker(data)
   volume = data.fetch('q').to_f
   # timestamp = data.fetch('E')
 
-  last = Rails.cache.read "exchange:#{market_id}:ticker:last"
+  last = Rails.cache.read "exchange:#{market_id}:ticker_last"
+
   ticker = {
       low:  low   || ::Trade::ZERO,
       high: high  || ::Trade::ZERO,
@@ -51,18 +52,41 @@ def process_ticker(data)
   Rails.cache.write "exchange:#{market_id}:h24:high", high, expires_in: 24.hours
 end
 
+def process_kline(data)
+  market_id = data.fetch('s').downcase
+  k = data.fetch('k')
+  start_at = Time.at(k.fetch('t') / 1000)
+  open = k.fetch('o').to_f
+  close = k.fetch('c').to_f
+  high = k.fetch('h').to_f
+  low = k.fetch('l').to_f
+  volume = k.fetch('q').to_f
+
+  market = Market.find market_id
+
+  ActiveRecord::Base.transaction do
+    kline = KLine.find_or_create_by(market: market.code, start_at: start_at)
+    kline.open = open
+    kline.close = close
+    kline.high = high
+    kline.low = low
+    kline.volume = volume
+    kline.save!
+  end
+end
 
 def process_trade(data)
   market_id = data.fetch('s').downcase
-  price = data.fetch('p').to_f
-  volume = data.fetch('q').to_f
+  id = data.fetch('t')
+  price = data.fetch('p')
+  volume = data.fetch('q')
+  created_at = data.fetch('T')
   bid_id = data.fetch('b')
   ask_id = data.fetch('a')
-  done_at = data.fetch('T')
 
   check_trade # TODO
 
-  AMQPQueue.enqueue :binance_processor, {event: 'trade', data: {market: market_id, price: price, volume: volume}}
+  AMQPQueue.enqueue :binance_processor, {event: 'trade', data: {market: market_id, id: id, price: price, volume: volume, created_at: created_at}}
 end
 
 def check_trade
@@ -81,6 +105,8 @@ def process_message(message_data)
       process_depth data
     when '24hrMiniTicker'
       process_ticker data
+    when 'kline'
+      process_kline data
   end
 end
 
@@ -100,6 +126,7 @@ EM.run do
   Market.from_binance.each do |market|
     socket_client.trade symbol: market.id.upcase, methods: methods
     socket_client.diff_depth symbol: market.id.upcase, methods: methods
+    socket_client.kline symbol: market.id.upcase, interval: '1m', methods: methods
     socket_client.single stream: { type: 'miniTicker', symbol: market.id.upcase}, methods: methods
   end
 end

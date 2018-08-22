@@ -105,16 +105,17 @@ module Worker
       Market.from_binance.each do |market|
         data = @binance_api_client.trades symbol: market.id.upcase, limit: FRESH_TRADES
         data.each do |item|
+          id = item.fetch('id')
           price = item.fetch('price').to_f
           volume = item.fetch('qty').to_f
-          done_at = item.fetch('time')
+          created_at = Time.at(item.fetch('time')/1000)
 
-          trade = Trade.new(price: price, volume: volume, funds: price*volume,
-                                currency: market.id.to_sym)
-          @trades[market.id].push trade
+          trade = Trade.new(id: id, price: price, volume: volume, funds: price*volume,
+                                currency: market.id.to_sym, created_at: created_at)
+          @trades[market.id].unshift(trade.for_global)
         end
         Rails.cache.write "exchange:#{market.id}:trades", @trades[market.id]
-        Rails.cache.write "exchange:#{market.id}:ticker:last", @trades[market.id].last.try(:price) || ::Trade::ZERO
+        Rails.cache.write "exchange:#{market.id}:ticker_last", @trades[market.id].last.try(:price) || ::Trade::ZERO
       end
     rescue
       Rails.logger.error "Failed to get trades: #{$!}"
@@ -123,17 +124,19 @@ module Worker
 
     def update_trades(data)
       market_id = data.fetch('market')
-      price = data.fetch('price')
-      volume = data.fetch('volume')
+      id = data.fetch('id')
+      price = data.fetch('price').to_f
+      volume = data.fetch('volume').to_f
+      created_at = Time.at(data.fetch('created_at')/1000)
 
-      trade = Trade.new(price: price, volume: volume, funds: price*volume,
-                             currency: market_id.to_sym)
+      trade = Trade.new(id: id, price: price, volume: volume, funds: price*volume,
+                             currency: market_id.to_sym, created_at: created_at)
       trades = @trades[market_id]
       trades.unshift(trade.for_global)
       trades.pop if trades.size > FRESH_TRADES
 
       Rails.cache.write "exchange:#{market_id}:trades", trades
-      Rails.cache.write "exchange:#{market_id}:ticker:last", price
+      Rails.cache.write "exchange:#{market_id}:ticker_last", price
     end
 
   end

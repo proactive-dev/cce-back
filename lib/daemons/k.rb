@@ -28,12 +28,19 @@ def last_ts(market, period = 1)
 end
 
 def next_ts(market, period = 1)
-  if ts = last_ts(market, period)
+  if ts = last_ts(market.id, period)
     ts += period.minutes
   else
-    if first_trade = Trade.with_currency(market).first
-      ts = Trade.with_currency(market).first.created_at.to_i
-      period == 10080 ? Time.at(ts).beginning_of_week : Time.at(ts -  ts % (period * 60))
+    if market.is_binance?
+      if first_k_line = KLine.where(market: market.code).first
+        ts = KLine.where(market: market.code).first.start_at.to_i
+        period == 10080 ? Time.at(ts).beginning_of_week : Time.at(ts -  ts % (period * 60))
+      end
+    else # if market.is_inner?
+      if first_trade = Trade.with_currency(market.id).first
+        ts = Trade.with_currency(market.id).first.created_at.to_i
+        period == 10080 ? Time.at(ts).beginning_of_week : Time.at(ts -  ts % (period * 60))
+      end
     end
   end
 end
@@ -49,12 +56,20 @@ def _k1_set(market, start, period)
   right < 0 ? [] : @r.lrange(key(market, 1), left, right).map{|str| JSON.parse(str)}
 end
 
-def k1(market, start)
-  trades = Trade.with_currency(market).where('created_at >= ? AND created_at < ?', start, 1.minutes.since(start)).pluck(:price, :volume)
-  return nil if trades.count == 0
+def k1(market_id, start)
+  market = Market.find market_id
+  if market.is_binance?
+    k_line = KLine.find_by(market: market.code, start_at: start)
+    return nil if k_line.nil?
 
-  prices, volumes = trades.transpose
-  [start.to_i, prices.first.to_f, prices.max.to_f, prices.min.to_f, prices.last.to_f, volumes.sum.to_f.round(4)]
+    [start.to_i, k_line.open.to_f, k_line.high.to_f, k_line.low.to_f, k_line.close.to_f, k_line.volume.to_f.round(4)]
+  else # if market.is_inner?
+    trades = Trade.with_currency(market_id).where('created_at >= ? AND created_at < ?', start, 1.minutes.since(start)).pluck(:price, :volume)
+    return nil if trades.count == 0
+
+    prices, volumes = trades.transpose
+    [start.to_i, prices.first.to_f, prices.max.to_f, prices.min.to_f, prices.last.to_f, volumes.sum.to_f.round(4)]
+  end
 end
 
 def kn(market, start, period = 5)
@@ -110,20 +125,20 @@ def fill(market, period = 1)
   #
   # The protect buffer also allows MySQL slave have enough time to sync data.
   while (ts + 30.seconds) <= Time.now
-    append_point(market, period, ts)
+    append_point(market.id, period, ts)
     ts = next_ts(market, period)
   end
 
-  update_point(market, period, last_ts(market, period))
+  update_point(market.id, period, last_ts(market.id, period))
 end
 
 while($running) do
   Market.all.each do |market|
-    ts = next_ts(market.id, 1)
+    ts = next_ts(market, 1)
     next unless ts
 
     [1, 5, 15, 30, 60, 120, 240, 360, 720, 1440, 4320, 10080].each do |period|
-      fill(market.id, period)
+      fill(market, period)
     end
   end
 

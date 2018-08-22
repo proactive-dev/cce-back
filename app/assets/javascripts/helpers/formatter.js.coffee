@@ -66,6 +66,7 @@ class Formatter
 
   ticker_fill: ['', '0', '00', '000', '0000', '00000', '000000', '0000000', '00000000']
   ticker_price: (price, fillTo=6) ->
+    price = price.toString()
     [left, right] = price.split('.')
     if fill = @ticker_fill[fillTo-right.length]
       "#{left}.<g>#{right}</g><span class='fill'>#{fill}</span>"
