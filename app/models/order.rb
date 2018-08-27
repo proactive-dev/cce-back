@@ -103,6 +103,10 @@ class Order < ActiveRecord::Base
     created_at.to_i
   end
 
+  def market_obj
+    Market.find currency
+  end
+
   def market
     currency
   end

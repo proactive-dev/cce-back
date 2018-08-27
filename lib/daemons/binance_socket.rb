@@ -76,21 +76,7 @@ def process_kline(data)
 end
 
 def process_trade(data)
-  market_id = data.fetch('s').downcase
-  id = data.fetch('t')
-  price = data.fetch('p')
-  volume = data.fetch('q')
-  created_at = data.fetch('T')
-  bid_id = data.fetch('b')
-  ask_id = data.fetch('a')
-
-  check_trade # TODO
-
-  AMQPQueue.enqueue :binance_processor, {event: 'trade', data: {market: market_id, id: id, price: price, volume: volume, created_at: created_at}}
-end
-
-def check_trade
-
+  AMQPQueue.enqueue :binance_processor, {event: 'trade', data: data}
 end
 
 def process_message(message_data)

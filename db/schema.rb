@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180820084240) do
+ActiveRecord::Schema.define(version: 20180822011000) do
 
   create_table "account_versions", force: true do |t|
     t.integer  "member_id"
@@ -282,6 +282,7 @@ ActiveRecord::Schema.define(version: 20180820084240) do
     t.decimal  "origin_locked",             precision: 32, scale: 16
     t.decimal  "funds_received",            precision: 32, scale: 16, default: 0.0
     t.integer  "trades_count",                                        default: 0
+    t.integer  "binance_id"
   end
 
   add_index "orders", ["currency", "state"], name: "index_orders_on_currency_and_state", using: :btree
@@ -411,15 +412,6 @@ ActiveRecord::Schema.define(version: 20180820084240) do
 
   add_index "tags", ["name"], name: "index_tags_on_name", unique: true, using: :btree
 
-  create_table "tickers", force: true do |t|
-    t.integer  "market"
-    t.decimal  "low",       precision: 32, scale: 16
-    t.decimal  "high",      precision: 32, scale: 16
-    t.decimal  "open",      precision: 32, scale: 16
-    t.decimal  "volume",    precision: 32, scale: 16
-    t.datetime "timestamp"
-  end
-
   create_table "tickets", force: true do |t|
     t.string   "title"
     t.text     "content"
@@ -453,6 +445,7 @@ ActiveRecord::Schema.define(version: 20180820084240) do
     t.integer  "ask_member_id"
     t.integer  "bid_member_id"
     t.decimal  "funds",         precision: 32, scale: 16
+    t.integer  "binance_id"
   end
 
   add_index "trades", ["ask_id"], name: "index_trades_on_ask_id", using: :btree

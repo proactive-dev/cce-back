@@ -12,7 +12,17 @@ class Ordering
     end
 
     @orders.each do |order|
-      AMQPQueue.enqueue(:matching, action: 'submit', order: order.to_matching_attributes)
+      if order.market_obj.is_binance?
+        order_id = BinanceAPI.create_order(order)
+        if order_id
+          ActiveRecord::Base.transaction do
+            order.binance_id = order_id
+            order.save!
+          end
+        end
+      else # if order.market.is_inner?
+        AMQPQueue.enqueue(:matching, action: 'submit', order: order.to_matching_attributes)
+      end
     end
 
     true
@@ -24,7 +34,13 @@ class Ordering
 
   def cancel!
     ActiveRecord::Base.transaction do
-      @orders.each {|order| do_cancel! order }
+      @orders.each do |order|
+        if order.market_obj.is_binance?
+          do_cancel order
+        else # if order.market.is_inner?
+          do_cancel! order
+        end
+      end
     end
   end
 
@@ -40,7 +56,14 @@ class Ordering
   end
 
   def do_cancel(order)
-    AMQPQueue.enqueue(:matching, action: 'cancel', order: order.to_matching_attributes)
+    if order.market_obj.is_binance?
+      result = BinanceAPI.cancel_order(order)
+      if result
+        do_cancel! order
+      end
+    else # if order.market.is_inner?
+      AMQPQueue.enqueue(:matching, action: 'cancel', order: order.to_matching_attributes)
+    end
   end
 
   def do_cancel!(order)
