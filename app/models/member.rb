@@ -30,6 +30,7 @@ class Member < ActiveRecord::Base
   validates :sn, presence: true
   validates :display_name, uniqueness: true, allow_blank: true
   validates :email, email: true, uniqueness: true, allow_nil: true
+  validates :affiliate_code, uniqueness: true, allow_nil: true
 
   before_create :build_default_id_document
   after_create  :touch_accounts
@@ -112,6 +113,20 @@ class Member < ActiveRecord::Base
 
   def active!
     update activated: true
+  end
+
+  def is_affiliate?
+    !self.affiliate_code.nil?
+  end
+
+  def generate_affiliate_code
+    return if self.affiliate_code
+
+    begin
+      self.affiliate_code = ROTP::Base32.random_base32(8).upcase
+    end while Member.where(:affiliate_code => self.affiliate_code).any?
+
+    self.save!
   end
 
   def update_password(password)

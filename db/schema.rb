@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180822011000) do
+ActiveRecord::Schema.define(version: 20180831011000) do
 
   create_table "account_versions", force: true do |t|
     t.integer  "member_id"
@@ -217,9 +217,10 @@ ActiveRecord::Schema.define(version: 20180822011000) do
     t.boolean  "activated"
     t.integer  "country_code"
     t.string   "phone_number"
-    t.boolean  "disabled",     default: false
-    t.boolean  "api_disabled", default: false
+    t.boolean  "disabled",       default: false
+    t.boolean  "api_disabled",   default: false
     t.string   "nickname"
+    t.string   "affiliate_code"
   end
 
   create_table "oauth_access_grants", force: true do |t|

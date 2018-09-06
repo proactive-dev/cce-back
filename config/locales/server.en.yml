@@ -1838,6 +1838,7 @@ en:
     total: Total
     deposit: Deposit
     withdraw: Withdraw
+    affiliate: Affiliate
   admin_header:
     deposits: Deposits
     withdraws: Withdraws
@@ -1850,6 +1851,7 @@ en:
     contact: Contact Us
     terms: Terms of use
     privacy: Privacy Policy
+    affiliate: About Affiliate
     main: Main Links
     others: Other Links
   social:
