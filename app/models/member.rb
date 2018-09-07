@@ -119,6 +119,10 @@ class Member < ActiveRecord::Base
     !self.affiliate_code.nil?
   end
 
+  def affiliate_url
+    "https://exchange-cryptocoin.com?ref=#{self.affiliate_code}"
+  end
+
   def generate_affiliate_code
     return if self.affiliate_code
 

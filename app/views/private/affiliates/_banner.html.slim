@@ -1,0 +1,38 @@
+div
+  h4.row
+    span = banner
+    .icon
+      .v
+      .h
+div
+  .left_banners
+    figure.banners.full_banner
+      figcaption = t('private.affiliates.index.banner.full_banner')
+      a href="#"
+        img src="/affiliates/#{banner}_468x60.gif" alt="full_banner"
+      p.size = "468x60"
+    figure.banners.rectangle
+      figcaption = t('private.affiliates.index.banner.rectangle')
+      a href="#"
+        img src="/affiliates/#{banner}_300x250.gif" alt="rectangle"
+      p.size = "300x250"
+    figure.banners.square
+      figcaption = t('private.affiliates.index.banner.square')
+      a href="#"
+        img src="/affiliates/#{banner}_120x120.gif" alt="square"
+      p.size = "120x120"
+  .right_banners
+    figure.banners.sky_scraper
+      figcaption = t('private.affiliates.index.banner.sky_scraper')
+      a href="#"
+        img src="/affiliates/#{banner}_120x600.gif" alt="sky_scraper"
+      p.size = "120x600"
+    figure.banners.wide_sky_scraper
+      figcaption = t('private.affiliates.index.banner.wide_sky_scraper')
+      a href="#"
+        img src="/affiliates/#{banner}_160x600.gif" alt="wide_sky_scraper"
+      p.size = "160x600"
+  .html_code
+    p = t('private.affiliates.index.banner.html_code')
+    textarea = "<a href='#{@affiliate_url}' target='_blank'><img src='https://bitflyer.com/images/affiliates/#{banner}468x60.gif' alt=''></a>"
+
