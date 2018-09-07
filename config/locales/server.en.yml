@@ -469,14 +469,14 @@ en:
     satoshi:
       key: Bitcoin
       title: Bitcoin Deposits
-      intro: Deposit bitcoin from your own wallet address to Rabbit account
+      intro: Deposit bitcoin from your own wallet address to Rabbit-cc account
       latency: 1 confirmation
       transfer: Automatic
       go: Deposit
     ethereum:
       key: Ethereum
       title: Ethereum Deposits
-      intro: Deposit ethereum from your own wallet address to Rabbit account
+      intro: Deposit ethereum from your own wallet address to Rabbit-cc account
       latency: 1 confirmation
       transfer: Automatic
       go: Deposit
@@ -712,7 +712,7 @@ en:
       view_open_tickets: View open tickets
     account_versions:
       index:
-        description: Every transaction and every penny of income in Rabbit are well documented and exhaustive.
+        description: Every transaction and every penny of income in Rabbit-cc are well documented and exhaustive.
     api_tokens:
       user_tokens:
         no_token: You have no API token.
@@ -1098,15 +1098,15 @@ en:
       panel: Login
       new:
         title: Login my account
-        intro: Login Rabbit now for you to exchange.
+        intro: Login Rabbit-cc now for you to exchange.
       failure:
         title: Login my account
-        intro: Login Rabbit now for you to exchange.
+        intro: Login Rabbit-cc now for you to exchange.
     identities:
       panel: Create Account
       new:
         title: Create My Account
-        intro: This will be your only ID on Rabbit which is necessary for your exchange, deposit and withdrawal . please fill it out carefully.
+        intro: This will be your only ID on Rabbit-cc which is necessary for your exchange, deposit and withdrawal . please fill it out carefully.
       edit:
         panel: My Account
         title: Reset Password
@@ -1497,7 +1497,7 @@ en:
       trade: Submit and cancel orders
     authorizations:
       new:
-        title: Rabbit Application Authorization
+        title: Rabbit-cc Application Authorization
         authorize_html: Authorize <strong class='text-info'>%{name}</strong> to use your account?
         scopes: 'This application will be able to:'
         authorize: Authorize
@@ -1658,41 +1658,41 @@ en:
       truncate: "..."
   mailer:
     dear_user: Dear user,
-    signature: Thanks,<br/>The Rabbit Team
+    signature: Thanks,<br/>The Rabbit-cc Team
     please_contact: If it's not you, please <a href='mailto:%{contact_mail}'>contact us</a> ASAP.
     footer: This is an automatically generated email, please do not reply, if you have any question, please <a href="mailto:%{contact_mail}">contact us</a>.
   comment_mailer:
     admin_notification:
-      subject: "[Rabbit] User reply a ticket"
+      subject: "[Rabbit-cc] User reply a ticket"
       notification_content: User %{email} reply a ticket, please follow the link below to see the detail
     user_notification:
-      subject: "[Rabbit] Your ticket got a new reply"
+      subject: "[Rabbit-cc] Your ticket got a new reply"
       notification_content: 'Your ticket got a new reply, please follow the link below to see the detail:'
   deposit_mailer:
     accepted:
-      subject: "[Rabbit] Your deposit has been credited into your account"
+      subject: "[Rabbit-cc] Your deposit has been credited into your account"
       content: Your %{currency} deposit has been credited into your account.
   member_mailer:
     notify_signin:
-      subject: "[Rabbit] You have just signed in"
+      subject: "[Rabbit-cc] You have just signed in"
       just_signed_in: You have just signed in.
     google_auth_activated:
-      subject: "[Rabbit] Google authenticator activated"
+      subject: "[Rabbit-cc] Google authenticator activated"
       google_auth_activated: You have activated google authenticator successfully
     google_auth_deactivated:
-      subject: "[Rabbit] Google authenticator deactivated"
+      subject: "[Rabbit-cc] Google authenticator deactivated"
       google_auth_deactivated: You have deactivated google authenticator successfully
     sms_auth_activated:
-      subject: "[Rabbit] SMS authenticator activated"
+      subject: "[Rabbit-cc] SMS authenticator activated"
       sms_auth_activated: You have activated SMS authenticator successfully
     sms_auth_deactivated:
-      subject: "[Rabbit] SMS authenticator deactivated"
+      subject: "[Rabbit-cc] SMS authenticator deactivated"
       sms_auth_deactivated: You have deactivated SMS authenticator successfully
     reset_password_done:
-      subject: "[Rabbit] Your password changed"
+      subject: "[Rabbit-cc] Your password changed"
       successful: Your password has been changed successfully.
     phone_number_verified:
-      subject: "[Rabbit] Your phone number verified"
+      subject: "[Rabbit-cc] Your phone number verified"
       verified: 'Your phone number verified: %{phone_number}'
   system_mailer:
     daily_stats:
@@ -1705,38 +1705,38 @@ en:
       trades_change_total: Trades Changes Total
   ticket_mailer:
     admin_notification:
-      subject: "[Rabbit] User created a new ticket"
+      subject: "[Rabbit-cc] User created a new ticket"
       admin_notification_content: User %{email} created a new ticket, please follow the link below to see the detail
     author_notification:
-      subject: "[Rabbit] Thank you for submit ticket"
+      subject: "[Rabbit-cc] Thank you for submit ticket"
       thanks_for_submit_ticket: Thank you for submit ticket to us, we will get back to you as soon as possible.
   token_mailer:
     activation:
-      subject: "[Rabbit] Account Activation"
-      click_to_verify: 'Thank you for signing up on Rabbit, please follow this link to verify your Email:'
+      subject: "[Rabbit-cc] Account Activation"
+      click_to_verify: 'Thank you for signing up on Rabbit-cc, please follow this link to verify your Email:'
       unable_to_click: Copy and open the link in your browser if you are unable to click and visit it.
       link_expire: The link expires in 30 minutes.
     reset_password:
-      subject: "[Rabbit] Please Reset Your Password"
+      subject: "[Rabbit-cc] Please Reset Your Password"
       hi: Hi,
       follow_the_link: 'Please follow this link to reset your password within 30 minutes:'
   withdraw_mailer:
     submitted:
-      subject: "[Rabbit] Your withdraw state update"
+      subject: "[Rabbit-cc] Your withdraw state update"
       content: The request of your %{currency} withdrawal has been successfully submitted, We will process it as soon as possible. Please be patient with us. Contact us if you have any questions.
     processing:
-      subject: "[Rabbit] Your withdraw state update"
+      subject: "[Rabbit-cc] Your withdraw state update"
       content: The request of your %{currency} withdrawal is in process. Please be patient with us. Contact us if you have any questions.
     done:
-      subject: "[Rabbit] Your withdraw state update"
+      subject: "[Rabbit-cc] Your withdraw state update"
       content: The request of your %{currency} withdrawal is complete. Please check it out. Contact us if you have any questions.
     withdraw_state:
-      subject: "[Rabbit] Your withdraw state update"
+      subject: "[Rabbit-cc] Your withdraw state update"
       your_state: 'Your withdrawal state: '
   'true': true
   'false': false
   slogan: Best cryptocurrency exchange
-  brand: Rabbit
+  brand: Rabbit-cc
   tags:
     vip: VIP
     hero: Hero Member
@@ -1750,9 +1750,9 @@ en:
   gon:
     ask: Ask
     bid: Bid
-    brand: Rabbit
+    brand: Rabbit-cc
     notification:
-      title: Rabbit
+      title: Rabbit-cc
       enabled: Notification enabled.
       new_trade: "%{kind} order#%{id} executed at %{price} %{quote_unit} for %{volume} %{base_unit}。"
   back: Back
@@ -1776,12 +1776,12 @@ en:
     withdraw_done: Hi %{email}, the request of your withdrawal is complete.
   landing:
     welcome:
-      title: Welcome to Rabbit!
+      title: Welcome to Rabbit-cc!
       subtitle: We are a peer to peer cryptocurrency exchange platform.
     vision:
       title: Our vision
-      desc1: ”Rabbit is a project aims to provide both easy access for the public to buy cryptocurrencies, and an easy, safe and reliable exchange between cryptocurrencies. The project promises to deliver that by establishing a peer-to-peer decentralized network for cryptocurrencies exchange”
-      desc2: ”Using the Rabbit, you can exchange altcoin directly with no central organization involved. Rabbit allows members to buy and sell cryptocurrencies directly to and from each other.”
+      desc1: ”Rabbit-cc is a project aims to provide both easy access for the public to buy cryptocurrencies, and an easy, safe and reliable exchange between cryptocurrencies. The project promises to deliver that by establishing a peer-to-peer decentralized network for cryptocurrencies exchange”
+      desc2: ”Using the Rabbit-cc, you can exchange altcoin directly with no central organization involved. Rabbit-cc allows members to buy and sell cryptocurrencies directly to and from each other.”
     count:
       currency: Cryptocurrencies Exchanged
       country: Countries Supported
@@ -2001,9 +2001,9 @@ en:
     application:
       close: Close
     meta:
-      page_title: Rabbit
-      page_description: Rabbit - Cryptocurrency Exchange
-      page_keywords: rabbit-cc.com,Exchange,Cryptocurrency,Rabbit
+      page_title: Rabbit-cc
+      page_description: Rabbit-cc - Cryptocurrency Exchange
+      page_keywords: rabbit-cc.com,Exchange,Cryptocurrency,Rabbit-cc
   members:
     edit:
       name: Please fill out the application.
@@ -2080,7 +2080,7 @@ en:
     google_auths:
       edit:
         submit: Disable
-        warning: 'Tip: If you have lost your Two-Factor Authentication by some reason and can''t login your Rabbit account, please contact our online customer service.'
+        warning: 'Tip: If you have lost your Two-Factor Authentication by some reason and can''t login your Rabbit-cc account, please contact our online customer service.'
       show:
         step-1: Step 1
         step-2: Step 2
