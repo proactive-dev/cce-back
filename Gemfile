@@ -74,6 +74,7 @@ gem 'passgen', '~> 1.0'
 gem 'digest-sha3', '~> 1.1'
 
 gem 'binance'
+gem 'rack-affiliates'
 
 group :development, :test do
   gem 'factory_girl_rails'
