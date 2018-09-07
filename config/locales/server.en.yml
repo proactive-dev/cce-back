@@ -739,6 +739,7 @@ en:
           wide_sky_scraper: Wide skyscraper
           html: HTML
           html_code: Please setup this HTML tag on your web page.
+    api_tokens:
       user_tokens:
         no_token: You have no API token.
         edit: Edit
