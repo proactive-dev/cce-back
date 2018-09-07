@@ -8,7 +8,7 @@ set :repository, ''
 set :user, 'deploy'
 set :deploy_to, '/home/deploy/exchange'
 set :branch, 'master'
-set :domain, 'exchange-cryptocoin.com'
+set :domain, 'rabbit-cc.com'
 
 set :shared_paths, [
   'config/database.yml',

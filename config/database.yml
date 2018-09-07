@@ -1,7 +1,7 @@
 development: &defaults
   adapter: mysql2
   encoding: utf8
-  database: cryptbank_development
+  database: rabbit-cc_development
   username: root
   password: admin
   pool: 10
@@ -9,8 +9,8 @@ development: &defaults
 
 test:
   <<: *defaults
-  database: cryptbank_test
+  database: rabbit-cc_test
 
 production:
   <<: *defaults
-  database: cryptbank_production
+  database: rabbit-cc_production
