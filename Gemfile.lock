@@ -1,4 +1,13 @@
 GIT
+  remote: git://github.com/Apollo-IT/binance.git
+  revision: 41e023c79eafee88b687081b68b4756e8ff00ec0
+  specs:
+    binance (1.2.0)
+      faraday (~> 0.12)
+      faraday_middleware (~> 0.12)
+      faye-websocket (~> 0.10)
+
+GIT
   remote: git://github.com/Apollo-IT/mina-slack.git
   revision: 5b7571a34f1979784720c0bfef555591e89ca3a7
   specs:
@@ -61,10 +70,6 @@ GEM
     better_errors (1.1.0)
       coderay (>= 1.0.0)
       erubis (>= 2.6.6)
-    binance (1.2.0)
-      faraday (~> 0.12)
-      faraday_middleware (~> 0.12)
-      faye-websocket (~> 0.10)
     binding_of_caller (0.7.2)
       debug_inspector (>= 0.0.1)
     bootstrap-sass (3.2.0.2)
@@ -417,7 +422,7 @@ DEPENDENCIES
   angularjs-rails
   bcrypt-ruby (~> 3.1.2)
   better_errors
-  binance
+  binance!
   binding_of_caller
   bootstrap-sass (~> 3.2.0.2)
   bootstrap-wysihtml5-rails

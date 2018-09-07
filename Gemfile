@@ -73,7 +73,7 @@ gem 'method-not-implemented', '~> 1.0'
 gem 'passgen', '~> 1.0'
 gem 'digest-sha3', '~> 1.1'
 
-gem 'binance'
+gem 'binance', github: 'Apollo-IT/binance'
 
 group :development, :test do
   gem 'factory_girl_rails'
