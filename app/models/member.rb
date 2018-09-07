@@ -120,7 +120,7 @@ class Member < ActiveRecord::Base
   end
 
   def affiliate_url
-    "https://exchange-cryptocoin.com?ref=#{self.affiliate_code}"
+    "https://rabbit-cc.com?ref=#{self.affiliate_code}"
   end
 
   def generate_affiliate_code

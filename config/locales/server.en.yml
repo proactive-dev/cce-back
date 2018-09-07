@@ -713,6 +713,32 @@ en:
     account_versions:
       index:
         description: Every transaction and every penny of income in Rabbit-cc are well documented and exhaustive.
+    affiliates:
+      index:
+        title: Affiliate program
+        description: Your affiliate program is enabled, and you can earn commissions by adding your affiliate tag to any LocalBitcoins.com URL.
+        program_flows:
+          title: Affiliate program flows
+          flow1: Please set up an affiliate banner for Rabbit-cc on your blog and website.
+          flow2: Someone will create a new account of Rabbit-cc through the link of affiliate banner on your blog or website.
+          flow3: We will give you an affiliate fee as a referral fee from Rabbit-cc.
+        url:
+          title: Affiliate URL
+          your: Your Affiliate URL
+          description: You can use this URL in mail or SNS.
+        stat:
+          title: Statistics
+          users: Users
+          commissions: Commissions (BTC)
+        banner:
+          title: Banner
+          full_banner: Full banner
+          rectangle: Rectangle
+          square: Square
+          sky_scraper: Skyscraper
+          wide_sky_scraper: Wide skyscraper
+          html: HTML
+          html_code: Please setup this HTML tag on your web page.
     api_tokens:
       user_tokens:
         no_token: You have no API token.
