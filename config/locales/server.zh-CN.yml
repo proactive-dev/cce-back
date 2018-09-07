@@ -1692,7 +1692,7 @@ zh-CN:
       truncate: "..."
   mailer:
     dear_user: 您好,
-    signature: exchange-cryptocoin.com团队
+    signature: rabbit-cc.com团队
     please_contact: 如果此次登录不是您本人操作，请马上<a href="mailto:%{contact_mail}">联系我们</a>。
     footer: 此邮件由系统自动发出，请勿直接回复。 有问题请<a href="mailto:%{contact_mail}">联系我们</a>。
   comment_mailer:
@@ -1993,7 +1993,7 @@ zh-CN:
     meta:
       page_title: Rabbit
       page_description: Rabbit - Cryptocurrency Exchange
-      page_keywords: exchange-cryptocoin.com,Exchange,Cryptocurrency,Rabbit
+      page_keywords: rabbit-cc.com,Exchange,Cryptocurrency,Rabbit
   members:
     edit:
       name: 为了保障资金安全，请填写您的真实姓名等信息。
