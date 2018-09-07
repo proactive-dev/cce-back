@@ -8,7 +8,7 @@ module Worker
 
       init_market_data
       fetch_trades
-      fetch_my_trades
+      # fetch_my_trades
 
       Thread.new do
         loop do
