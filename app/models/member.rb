@@ -120,7 +120,7 @@ class Member < ActiveRecord::Base
   end
 
   def affiliate_url
-    "https://rabbit-cc.com?ref=#{self.affiliate_code}"
+    "#{ENV['URL_SCHEMA']}://#{ENV['URL_HOST']}?ref=#{self.affiliate_code}"
   end
 
   def generate_affiliate_code

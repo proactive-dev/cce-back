@@ -8,6 +8,7 @@
     <%= stylesheet_link_tag stylesheet, media: "all" %>
     <%= stylesheet_link_tag "jquery-ui.min" %>
     <%= javascript_include_tag "locales/#{I18n.locale}" %>
+    <%= javascript_include_tag "application" %>
     <%= javascript_include_tag "affiliate" %>
     <%= yield(:scripts) if content_for?(:scripts) %>
     <%= render 'shared/html5' %>

@@ -6,7 +6,7 @@ module Private
 
     def index
       @affiliate_url = current_user.affiliate_url if @affiliate_url.nil?
-      @banners = ['affi_04', 'affi_04']
+      @banners = ['rabbit', 'rabbit']
       @affiliation_count = 0
       @commissions = 0
       render :index
