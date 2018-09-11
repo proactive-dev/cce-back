@@ -73,7 +73,7 @@ class Global
   def h24_volume
     market = Market.find currency
     if market.is_binance?
-      Rails.cache.read key('h24_volume', 5) || ZERO
+      Rails.cache.read key('h24_volume', 10) || ZERO
     else # if market.is_inner?
       Rails.cache.fetch key('h24_volume', 5), expires_in: 24.hours do
         Trade.with_currency(currency).h24.sum(:volume) || ZERO
