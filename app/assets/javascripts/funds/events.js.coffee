@@ -15,6 +15,7 @@ $(window).load ->
   # qrcode
   $.subscribe 'deposit_address:create', (event, data) ->
     code = if data then data else $('#deposit_address').html()
+    code = code.replace(/\s/g, "") if code
 
     $("#qrcode").attr('data-text', code)
     $("#qrcode").attr('title', code)
