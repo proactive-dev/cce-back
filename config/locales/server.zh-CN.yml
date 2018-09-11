@@ -1697,36 +1697,36 @@ zh-CN:
     footer: 此邮件由系统自动发出，请勿直接回复。 有问题请<a href="mailto:%{contact_mail}">联系我们</a>。
   comment_mailer:
     admin_notification:
-      subject: "[Rabbit-cc] 用户回复了服务单"
+      subject: "[Rabbit] 用户回复了服务单"
       notification_content: 用户 %{email} 回复了服务单，详情请查看链接：
     user_notification:
-      subject: "[Rabbit-cc] 您的服务单有了新的回复"
+      subject: "[Rabbit] 您的服务单有了新的回复"
       notification_content: '您的服务单有一条新的回复, 请在下方链接查看详情：'
   deposit_mailer:
     accepted:
-      subject: "[Rabbit-cc] 您的充值已经到账"
+      subject: "[Rabbit] 您的充值已经到账"
       content: 您的 %{currency} 已经到账.
   member_mailer:
     notify_signin:
-      subject: "[Rabbit-cc] 您刚刚成功登录"
+      subject: "[Rabbit] 您刚刚成功登录"
       just_signed_in: 您刚刚成功登录了。
     google_auth_activated:
-      subject: "[Rabbit-cc] 绑定谷歌两步验证"
+      subject: "[Rabbit] 绑定谷歌两步验证"
       google_auth_activated: 您已绑定谷歌两步验证。
     google_auth_deactivated:
-      subject: "[Rabbit-cc] 重置谷歌两步验证"
+      subject: "[Rabbit] 重置谷歌两步验证"
       google_auth_deactivated: 您已重置谷歌两步验证。
     sms_auth_activated:
-      subject: "[Rabbit-cc] 绑定短信两步验证"
+      subject: "[Rabbit] 绑定短信两步验证"
       sms_auth_activated: 您已绑定短信两步验证。
     sms_auth_deactivated:
-      subject: "[Rabbit-cc] 重置短信两步验证"
+      subject: "[Rabbit] 重置短信两步验证"
       sms_auth_deactivated: 您已重置短信两步验证。
     reset_password_done:
-      subject: "[Rabbit-cc] 密码修改成功"
+      subject: "[Rabbit] 密码修改成功"
       successful: 您已成功修改密码。请妥善保管~
     phone_number_verified:
-      subject: "[Rabbit-cc] 您已成功绑定手机"
+      subject: "[Rabbit] 您已成功绑定手机"
       verified: '您已成功绑定手机，号码为：%{phone_number}。'
   system_mailer:
     daily_stats:
@@ -1739,39 +1739,39 @@ zh-CN:
       trades_change_total: 交易数变动总计
   ticket_mailer:
     admin_notification:
-      subject: "[Rabbit-cc] 用户新建了服务单"
+      subject: "[Rabbit] 用户新建了服务单"
       admin_notification_content: 用户 %{email} 新建了服务单，详情请查看链接：
     author_notification:
-      subject: "[Rabbit-cc] 您的服务单提交成功"
+      subject: "[Rabbit] 您的服务单提交成功"
       thanks_for_submit_ticket: 感谢您的反馈。我们会尽快处理，并第一时间告知您相关进展。
   token_mailer:
     activation:
-      subject: "[Rabbit-cc] 帐号激活"
-      click_to_verify: '感谢您注册 Rabbit-cc，赶快点击下面的链接验证您的E-mail吧：'
+      subject: "[Rabbit] 帐号激活"
+      click_to_verify: '感谢您注册 Rabbit，赶快点击下面的链接验证您的E-mail吧：'
       unable_to_click: 如果链接无法点击，请完整拷贝到浏览器地址栏里直接访问。
       link_expire: 链接30分钟之内有效。
     reset_password:
-      subject: "[Rabbit-cc] 请重置您的密码"
+      subject: "[Rabbit] 请重置您的密码"
       hi: 您好
       follow_the_link: '请使用下面的连接，在30分钟之内尝试重置您的登录密码：'
   withdraw_mailer:
     submitted:
-      subject: "[Rabbit-cc] 您的提现状态更新"
+      subject: "[Rabbit] 您的提现状态更新"
       content: 您的%{currency}提现请求已经被成功提交，我们会尽快处理您的提现请求。谢谢您的耐心等待，如果您有任何问题，请及时与我们联系。
     processing:
-      subject: "[Rabbit-cc] 您的提现状态更新"
+      subject: "[Rabbit] 您的提现状态更新"
       content: 您的%{currency}提现请求正在处理中，谢谢您的耐心等待，如果您有任何问题，请及时与我们联系。
     done:
-      subject: "[Rabbit-cc] 您的提现状态更新"
+      subject: "[Rabbit] 您的提现状态更新"
       content: 您的%{currency}提现请求已经处理完毕，请查询您的账户。如果您有任何问题，请及时与我们联系。
     withdraw_state:
-      subject: "[Rabbit-cc] 您的提现状态更新"
+      subject: "[Rabbit] 您的提现状态更新"
       your_state: '您的提现状态：'
 
   'true': true
   'false': false
   slogan: Cryptocurrency Exchange
-  brand: Rabbit-cc
+  brand: Rabbit
   tags:
     vip: VIP
     hero: 超级用户
@@ -1785,9 +1785,9 @@ zh-CN:
   gon:
     ask: 卖出
     bid: 买入
-    brand: Rabbit-cc
+    brand: Rabbit
     notification:
-      title: Rabbit-cc
+      title: Rabbit
       enabled: 实时更新已开启。
       new_trade: "您的%{kind}委托 #%{id} 以 %{price} %{quote_unit} 价格成交，%{kind} %{volume} %{base_unit}。"
   back: 返回
@@ -1991,9 +1991,9 @@ zh-CN:
     application:
       close: 关闭
     meta:
-      page_title: Rabbit-cc
-      page_description: Rabbit-cc - Cryptocurrency Exchange
-      page_keywords: rabbit-cc.com,Exchange,Cryptocurrency,Rabbit-cc
+      page_title: Rabbit
+      page_description: Rabbit - Cryptocurrency Exchange
+      page_keywords: rabbit-cc.com,Exchange,Cryptocurrency,Rabbit
   members:
     edit:
       name: 为了保障资金安全，请填写您的真实姓名等信息。
