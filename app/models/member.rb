@@ -18,6 +18,12 @@ class Member < ActiveRecord::Base
 
   has_many :authentications, dependent: :destroy
 
+  has_many :affiliations, :foreign_key => "affiliate_id", :dependent => :destroy
+  has_many :referrals, :through => :affiliations, :source => :referred
+
+  has_one :referral_affiliation, :class_name => "Affiliation", :foreign_key => "referred_id"
+  has_one :referrer, :through => :referral_affiliation, :source => :affiliate
+
   scope :enabled, -> { where(disabled: false) }
 
   delegate :activated?, to: :two_factors, prefix: true, allow_nil: true
@@ -98,6 +104,7 @@ class Member < ActiveRecord::Base
                       activated: false)
       member.add_auth(auth_hash)
       member.send_activation if auth_hash['provider'] == 'identity'
+      member.set_referral_code(auth_hash['aff_id']) if auth_hash['aff_id']
       member
     end
   end
@@ -115,12 +122,24 @@ class Member < ActiveRecord::Base
     update activated: true
   end
 
+  def referred?
+    referrer.present?
+  end
+
   def is_affiliate?
     !self.affiliate_code.nil?
   end
 
   def affiliate_url
     "#{ENV['URL_SCHEMA']}://#{ENV['URL_HOST']}?ref=#{self.affiliate_code}"
+  end
+
+  def set_referral_code(code)
+    self.referrer_code = code
+    self.save!
+
+    affiliate = Member.find_by_affiliate_code(self.referrer_code)
+    Affiliation.create(:affiliate => affiliate, :referred => self) unless affiliate.nil?
   end
 
   def generate_affiliate_code
