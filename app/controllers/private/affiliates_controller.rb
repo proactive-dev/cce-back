@@ -2,6 +2,9 @@ module Private
   class AffiliatesController < BaseController
     layout 'affiliate'
 
+    before_action :auth_activated!
+    before_action :auth_verified!
+    before_action :two_factor_activated!
     before_action :check_affiliate!, only: :index
 
     def index

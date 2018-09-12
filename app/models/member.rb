@@ -139,7 +139,7 @@ class Member < ActiveRecord::Base
     self.save!
 
     affiliate = Member.find_by_affiliate_code(self.referrer_code)
-    Affiliation.create(:affiliate => affiliate, :referred => self) unless affiliate.nil?
+    Affiliation.create(affiliate: affiliate, referred: self, state: Affiliation::WAIT) unless affiliate.nil?
   end
 
   def generate_affiliate_code
