@@ -73,7 +73,7 @@ class Affiliation < ActiveRecord::Base
           total_btc_trade += PriceAPI.price(key, 'btc') * value
         end
       end
-      amount += 100 if total_btc_balance >= 1
+      amount += 100 if total_btc_trade >= 1
     end
 
     # calculate amount as BTC (USD to BTC)
