@@ -619,6 +619,8 @@ header {
       &.usd { tr.quote-usd { display: block; } }
       &.btc { tr.quote-btc { display: block; } }
       &.eth { tr.quote-eth { display: block; } }
+      &.mas { tr.quote-mas { display: block; } }
+      &.skb { tr.quote-skb { display: block; } }
     }
   }
 }
