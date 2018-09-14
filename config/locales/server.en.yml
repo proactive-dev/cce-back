@@ -1367,6 +1367,22 @@ en:
     documents:
       index:
         new: New Document
+    affiliations:
+      index:
+        submitted: Submitted affiliations
+        other: Other affiliations
+        empty: No data
+      show:
+        approve: Approve
+        reject: Reject
+        approve_confirm: Process affiliation?
+        reject_confirm: Reject affiliation?
+        affiliation: Affiliation
+      destroy:
+        notice: Affiliation been rejected.
+      update:
+        notice: Affiliation request is approved. Affiliation commissions will be added your account soon.
+        alert_two_factor: Two-Factor Authentication error
     statistic:
       filter: Filter
       summary: Summary

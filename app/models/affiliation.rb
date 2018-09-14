@@ -30,6 +30,16 @@ class Affiliation < ActiveRecord::Base
     self.save!
   end
 
+  def approve
+    self.state = Affiliation::DONE
+    self.save!
+  end
+
+  def reject
+    self.state = Affiliation::REJECT
+    self.save!
+  end
+
   private
 
   def calculate_amount

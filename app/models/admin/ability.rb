@@ -11,6 +11,7 @@ module Admin
       can :update, Proof
       can :manage, Document
       can :manage, Member
+      can :manage, Affiliation
       can :manage, Ticket
       can :manage, IdDocument
       can :manage, TwoFactor

@@ -1,0 +1,11 @@
+- unless @submitted_affiliations.empty?
+  .panel.panel-primary
+    .panel-heading: span = t('.submitted')
+    = render partial: 'table', locals: {affiliations: @submitted_affiliations}
+- unless @other_affiliations.empty?
+  .panel.panel-success
+    .panel-heading: span = t('.other')
+    = render partial: 'table', locals: {affiliations: @other_affiliations}
+
+- if @other_affiliations.empty? and @submitted_affiliations.empty?
+  h3.text-info.text-center = t('.empty')
