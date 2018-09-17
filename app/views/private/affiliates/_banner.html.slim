@@ -6,11 +6,12 @@ div
       .h
 div
   .left_banners
-    figure.banners.full_banner id="#{banner}_468_60"
+    figure.banners.full_banner.active id="#{banner}_468_60"
       figcaption = t('private.affiliates.index.banner.full_banner')
       a#full_banner href="#"
         img src="/affiliates/#{banner}_468_60.png" alt="full_banner"
       p.size = "468x60"
+      div#active_wrapper.active_wrapper
     figure.banners.rectangle id="#{banner}_300_250"
       figcaption = t('private.affiliates.index.banner.rectangle')
       a#rectangle href="#"

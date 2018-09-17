@@ -9,9 +9,9 @@ module Private
 
     def index
       @affiliate_url = current_user.affiliate_url if @affiliate_url.nil?
-      @banners = ['rabbit', 'rabbit']
-      @affiliation_count = 0
-      @commissions = 0
+      @banners = Banner.all
+      @affiliation_count = current_user.affiliations.count
+      @commissions = current_user.affiliations.sum(:amount)
       render :index
     end
 
