@@ -1383,8 +1383,7 @@ en:
       destroy:
         notice: Affiliation been rejected.
       update:
-        notice: Affiliation request is approved. Affiliation commissions will be added your account soon.
-        alert_two_factor: Two-Factor Authentication error
+        notice: Affiliation is approved. Affiliation commissions will be added your account soon.
     statistic:
       filter: Filter
       summary: Summary

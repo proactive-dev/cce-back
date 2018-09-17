@@ -741,6 +741,34 @@ zh-CN:
     account_versions:
       index:
         description: 每一笔交易、每一分钱收入都是有据可查，巨细无遗的。
+    affiliates:
+      index:
+        title: 联盟计划
+        description: 您的加盟计划已经启用。可以通过添加您的代销商标签到任何 rabbit-cc.com 的URL.
+        program_flows:
+          title: Affiliate program flows
+          flow1: Please set up an affiliate banner for Rabbit on your blog and website.
+          flow2: Someone will create a new account of Rabbit through the link of affiliate banner on your blog or website.
+          flow3: We will give you an affiliate fee as a referral fee from Rabbit.
+        url:
+          title: Affiliate URL
+          your: Your Affiliate URL
+          description: You can use this URL in mail or SNS.
+        stat:
+          title: 统计数据
+          users: 用户
+          commissions: 佣金 (BTC)
+        banner:
+          title: 横幅
+          full_banner: 完整的横幅
+          rectangle: 矩形
+          square: 正方形
+          sky_scraper: 摩天楼
+          wide_sky_scraper: 大摩天楼
+          html: HTML
+          html_code: Please setup this HTML tag on your web page.
+        history:
+          title: 记录
     api_tokens:
       user_tokens:
         no_token: 没有API密钥
@@ -1375,6 +1403,21 @@ zh-CN:
     documents:
       index:
         new: 新建文档
+    affiliations:
+      index:
+        submitted: 受理中联营
+        other: 其他联营
+        empty: 无任何数据
+      show:
+        approve: 批准
+        reject: 驳回
+        approve_confirm: 确定批准联营？
+        reject_confirm: 确定驳回联营？
+        affiliation: 联营
+      destroy:
+        notice: 联营拒绝了.
+      update:
+        notice: 联营一定批准了. 联营佣金加到您的帐户。
     statistic:
       filter: 筛选
       summary: 总结
@@ -1831,17 +1874,26 @@ zh-CN:
     total: 总额
     deposit: 充值
     withdraw: 提现
+    affiliate: 联盟计划
   admin_header:
     deposits: 充值管理
     withdraws: 提现管理
     statistics: 数据统计
     id_documents: 身份验证
   footer:
+    copyright: All rights reserved © 2018
     about: 关于我们
-    privacy: 隐私条款
+    fees: 费用
     contact: 联系我们
-    price: 资费说明
-    liability_proof: 偿付能力验证
+    terms: 使用条款
+    privacy: 隐私政策
+    affiliate: 关于联盟计划
+    main: 主要链接
+    others: 其他链接
+  social:
+    facebook: Facebook
+    linkedin: Linkedin
+    twitter: Twitter
   actions:
     go: 立刻前往
     submit: 提交
@@ -1948,10 +2000,6 @@ zh-CN:
         warning: 设置邮件后, 请查收您的收件箱并进行激活
         email_address: 邮箱地址
         save: 保存
-    weibo:
-      destroy:
-        last_auth_alert: 亲, 微博是您最后一种登录方式了, 解除了就没法登录了
-        unbind_success: 已经解除微博绑定
     identities:
       new:
         title: 设置密码
