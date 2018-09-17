@@ -713,6 +713,34 @@ en:
     account_versions:
       index:
         description: Every transaction and every penny of income in Rabbit are well documented and exhaustive.
+    affiliates:
+      index:
+        title: Affiliate program
+        description: Your affiliate program is enabled, and you can earn commissions by adding your affiliate tag to any rabbit-cc.com URL.
+        program_flows:
+          title: Affiliate program flows
+          flow1: Please set up an affiliate banner for Rabbit on your blog and website.
+          flow2: Someone will create a new account of Rabbit through the link of affiliate banner on your blog or website.
+          flow3: We will give you an affiliate fee as a referral fee from Rabbit.
+        url:
+          title: Affiliate URL
+          your: Your Affiliate URL
+          description: You can use this URL in mail or SNS.
+        stat:
+          title: Statistics
+          users: Users
+          commissions: Commissions (BTC)
+        banner:
+          title: Banner
+          full_banner: Full banner
+          rectangle: Rectangle
+          square: Square
+          sky_scraper: Skyscraper
+          wide_sky_scraper: Wide skyscraper
+          html: HTML
+          html_code: Please setup this HTML tag on your web page.
+        history:
+          title: History
     api_tokens:
       user_tokens:
         no_token: You have no API token.
@@ -1341,6 +1369,21 @@ en:
     documents:
       index:
         new: New Document
+    affiliations:
+      index:
+        submitted: Submitted affiliations
+        other: Other affiliations
+        empty: No data
+      show:
+        approve: Approve
+        reject: Reject
+        approve_confirm: Process affiliation?
+        reject_confirm: Reject affiliation?
+        affiliation: Affiliation
+      destroy:
+        notice: Affiliation been rejected.
+      update:
+        notice: Affiliation is approved. Affiliation commissions will be added your account soon.
     statistic:
       filter: Filter
       summary: Summary
@@ -1838,6 +1881,7 @@ en:
     total: Total
     deposit: Deposit
     withdraw: Withdraw
+    affiliate: Affiliate
   admin_header:
     deposits: Deposits
     withdraws: Withdraws
@@ -1850,6 +1894,7 @@ en:
     contact: Contact Us
     terms: Terms of use
     privacy: Privacy Policy
+    affiliate: About Affiliate
     main: Main Links
     others: Other Links
   social:

@@ -1,0 +1,39 @@
+div
+  h4.row
+    span = banner
+    .icon
+      .v
+      .h
+div
+  .left_banners
+    figure.banners.full_banner.active id="#{banner}_468_60"
+      figcaption = t('private.affiliates.index.banner.full_banner')
+      a#full_banner href="#"
+        img src="/affiliates/#{banner}_468_60.png" alt="full_banner"
+      p.size = "468x60"
+      div#active_wrapper.active_wrapper
+    figure.banners.rectangle id="#{banner}_300_250"
+      figcaption = t('private.affiliates.index.banner.rectangle')
+      a#rectangle href="#"
+        img src="/affiliates/#{banner}_300_250.png" alt="rectangle"
+      p.size = "300x250"
+    figure.banners.square id="#{banner}_120_120"
+      figcaption = t('private.affiliates.index.banner.square')
+      a#square href="#"
+        img src="/affiliates/#{banner}_120_120.png" alt="square"
+      p.size = "120x120"
+  .right_banners
+    figure.banners.sky_scraper id="#{banner}_120_600"
+      figcaption = t('private.affiliates.index.banner.sky_scraper')
+      a#sky_scraper href="#"
+        img src="/affiliates/#{banner}_120_600.png" alt="sky_scraper"
+      p.size = "120x600"
+    figure.banners.wide_sky_scraper id="#{banner}_160_600"
+      figcaption = t('private.affiliates.index.banner.wide_sky_scraper')
+      a#wide_sky_scraper href="#"
+        img src="/affiliates/#{banner}_160_600.png" alt="wide_sky_scraper"
+      p.size = "160x600"
+  .html_code
+    p = t('private.affiliates.index.banner.html_code')
+    textarea#html_code = "<a href='#{@affiliate_url}' target='_blank'><img src='#{ENV['URL_SCHEMA']}://#{ENV['URL_HOST']}/affiliates/#{banner}468_60.png' alt=''></a>"
+

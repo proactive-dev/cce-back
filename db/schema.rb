@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180822011000) do
+ActiveRecord::Schema.define(version: 20180831021500) do
 
   create_table "account_versions", force: true do |t|
     t.integer  "member_id"
@@ -48,6 +48,15 @@ ActiveRecord::Schema.define(version: 20180822011000) do
 
   add_index "accounts", ["member_id", "currency"], name: "index_accounts_on_member_id_and_currency", using: :btree
   add_index "accounts", ["member_id"], name: "index_accounts_on_member_id", using: :btree
+
+  create_table "affiliations", force: true do |t|
+    t.integer  "affiliate_id"
+    t.integer  "referred_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "state"
+    t.decimal  "amount",       precision: 32, scale: 16, default: 0.0
+  end
 
   create_table "api_tokens", force: true do |t|
     t.integer  "member_id",                        null: false
@@ -217,9 +226,11 @@ ActiveRecord::Schema.define(version: 20180822011000) do
     t.boolean  "activated"
     t.integer  "country_code"
     t.string   "phone_number"
-    t.boolean  "disabled",     default: false
-    t.boolean  "api_disabled", default: false
+    t.boolean  "disabled",       default: false
+    t.boolean  "api_disabled",   default: false
     t.string   "nickname"
+    t.string   "affiliate_code"
+    t.string   "referrer_code"
   end
 
   create_table "oauth_access_grants", force: true do |t|

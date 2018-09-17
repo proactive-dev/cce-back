@@ -46,6 +46,7 @@ Exchange::Application.routes.draw do
   get '/about' => 'documents#about', :as => :about
   get '/privacy-policy' => 'documents#privacy', :as => :privacy
   get '/terms-of-use' => 'documents#terms', :as => :terms
+  get '/affiliate-program' => 'documents#affiliate', :as => :about_affiliate
 
   resources :documents, only: [:show]
   resources :two_factors, only: [:show, :index, :update]
@@ -92,6 +93,8 @@ Exchange::Application.routes.draw do
 
     resources :exchange_assets, :controller => 'assets'
 
+    get '/affiliates' => 'affiliates#index', as: :affiliates
+    post '/affiliates/new', to: 'affiliates#gen_affiliate_code', as: :new_affiliate
 
     get '/history/orders' => 'history#orders', as: :order_history
     get '/history/trades' => 'history#trades', as: :trade_history

@@ -21,6 +21,10 @@ class DocumentsController < ApplicationController
     render 'oauth', layout: 'api_v2'
   end
 
+  def affiliate
+    render 'affiliate', layout: 'documents'
+  end
+
   def fees
     render 'fees', layout: 'documents'
   end

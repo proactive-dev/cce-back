@@ -1,0 +1,143 @@
+<h1>Affiliate Program</h1>
+<hr>
+
+<p>
+  <b>Please introduce your impressions on Rabbit-cc on your website or blog.</b>
+</p>
+
+<% if current_user %>
+  <% if current_user.is_affiliate? %>
+    <br>
+  <% else %>
+    <div class="alert alert-dismissable alert-info">
+      <p>
+        <i class="fa fa-info-circle"></i>
+        <span>
+          You have not enabled affiliate program. Please take part in affiliate program.
+        </span>
+      </p>
+    </div>
+  <% end %>
+<% else %>
+  <div class="alert alert-dismissable alert-info">
+    <p>
+      <i class="fa fa-info-circle"></i>
+      <span>
+        Please <%= link_to 'Sign Up', signup_path %> or <%= link_to 'Sign In', signin_path %> to take part in affiliate program.
+      </span>
+    </p>
+  </div>
+<% end %>
+
+<h3>
+  What is affiliate?
+</h3>
+<p>
+  Please introduce impressions on Rabbit-cc on your website or blog. If the person who passed via the affiliate link creates a new Rabbit-cc account, we will pay the referral fee according to the satisfied condition.
+</p>
+
+<br>
+<h3>
+  Terms
+</h3>
+<table class="table table-hover padding_bottom_but">
+  <tr>
+    <th width="25%"><strong>Compensation</strong></th>
+    <td>
+      <table class="table table-bordered table-hover padding_bottom_but">
+        <tr>
+          <th width="50%"><strong>Approval of identity documents</strong></th>
+          <td>BTC for 20USD</td>
+        </tr>
+        <tr>
+          <th><strong>Deposit of 0.1BTC or more</strong></th>
+          <td>BTC for 50USD</td>
+        </tr>
+        <tr>
+          <th><strong>Deposit of 1BTC or more</strong></th>
+          <td>BTC for 100USD</td>
+        </tr>
+        <tr>
+          <th><strong>When you achieve it all</strong></th>
+          <td>BTC for 170USD</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  <tr>
+    <th><strong>Payment of compensation</strong></th>
+    <td>
+      Regarding the results until the end of the month, we will pay on the 10th of next month (※).
+      <br>
+      ※ If the 10th is a Saturday, Sunday or a public holiday, pay will be done on the next business day.
+    </td>
+  </tr>
+  <tr>
+    <th><strong>Notes</strong></th>
+    <td>
+      <ul>
+        <li>Participants should possess a Rabbit-cc account and verify identity documents.
+        <li>If the request from the same IP address and the same device (PC, smart phone, tablet etc) is duplicated, it will not be eligible for approval.
+        <li>Affiliate terms could be changed without notice.
+      </ul>
+    </td>
+  </tr>
+  <tr>
+    <th><strong>Approval conditions</strong></th>
+    <td>
+      <ul>
+        <li>
+          Only for approved deposits(within 30 days from account creation) can be confirmed.
+        </li>
+      </ul>
+    </td>
+  </tr>
+</table>
+
+<% if current_user %>
+  <table class="table">
+    <tr>
+      <td width="35%"></td>
+      <td width="30%">
+        <% if current_user.is_affiliate? %>
+          <%= link_to 'Go to affiliate', affiliates_path, class: "btn btn-default btn-lg btn-block" %>
+        <% else %>
+          <%= button_to 'Become an affiliate', new_affiliate_path, class: "btn btn-default btn-lg btn-block" %>
+        <% end %>
+      </td>
+      <td width="35%"></td>
+    </tr>
+  </table>
+<% end %>
+
+<br>
+<h3>
+  Affiliate program flows
+</h3>
+<ol>
+  <li>
+    Please set up an affiliate banner for Rabbit-cc on your blog and website.
+  </li>
+  <li>
+    Someone will create a new account of Rabbit-cc through the link of affiliate banner on your blog or website.
+  </li>
+  <li>
+    We will give you an affiliate fee as a referral fee from Rabbit-cc.
+  </li>
+</ol>
+
+<br>
+<h3>
+  How to take part in?
+</h3>
+<ol>
+  <li>
+    Please create an account of Rabbit-cc and approve your identity documents.
+  </li>
+  <li>
+    After logging in from the PC, please create a link on "Affiliate" page and setup it on your website or blog.
+  </li>
+</ol>
+
+<br>
+<hr>

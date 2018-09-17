@@ -19,10 +19,10 @@
 
 # Learn more: http://github.com/javan/whenever
 
-every 1.hours do
-  command '/usr/local/rbenv/shims/backup perform -t database_backup'
+every '0 4 9 * *' do
+  rake 'affilate:check_status'
 end
 
 every :day, at: '4am' do
-  rake 'solvency:clean solvency:liability_proof'
+  rake 'solvency:liability_proof'
 end
