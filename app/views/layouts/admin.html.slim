@@ -22,8 +22,8 @@ html lang="en"
               = link_to t('admin_header.id_documents'), admin_id_documents_path
 
           - if can? :read, Proof
-           li class = check_active(Proof)
-             = link_to t(".menus.items.operating.proofs"), admin_proofs_path
+            li class = check_active(Proof)
+              = link_to t(".menus.items.operating.proofs"), admin_proofs_path
 
           - if can? :menu, Deposit
             li.dropdown class = check_active('deposits')
