@@ -46,7 +46,8 @@ def process_ticker(data)
 
   seconds  = Time.now.to_i
   time_key = seconds - (seconds % 5)
-  Rails.cache.write "exchange:#{market_id}:h24_volume:#{time_key}", volume, expires_in: 24.hours
+  # Rails.cache.write "exchange:#{market_id}:h24_volume:#{time_key}", volume, expires_in: 24.hours
+  Rails.cache.write "exchange:#{market_id}:h24_volume:latest", volume, expires_in: 24.hours
 
   Rails.cache.write "exchange:#{market_id}:h24:low", low, expires_in: 24.hours
   Rails.cache.write "exchange:#{market_id}:h24:high", high, expires_in: 24.hours
