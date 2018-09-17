@@ -12,6 +12,8 @@ module Private
       @banners = Banner.all
       @affiliation_count = current_user.affiliations.count
       @commissions = current_user.affiliations.sum(:amount)
+      @affiliations = current_user.affiliations
+                    .order('id desc').page(params[:page]).per(10)
       render :index
     end
 

@@ -15,19 +15,38 @@ p = t('.url.description')
       .input-group-addon
         i.fa.fa-copy data-clipboard-text = @affiliate_url data-select-target='affiliate_url'
 h3 = t('.banner.title')
-div.col-lg-18.col-md-18.col-sm-24.col-xs-24 id="accordion"
-  - @banners.each do |banner|
-    = render 'banner', banner: banner.name
-.col-lg-6.col-md-6.col-sm-24.col-xs-24
-  .panel.panel-default
-    .panel-heading
-      h3.panel-title = t('.stat.title')
+.row
+  div.col-lg-18.col-md-18.col-sm-24.col-xs-24 id="accordion"
+    - @banners.each do |banner|
+      = render 'banner', banner: banner.name
+  .col-lg-6.col-md-6.col-sm-24.col-xs-24
+    .panel.panel-default
+      .panel-heading
+        h3.panel-title = t('.stat.title')
+      .panel-body
+        table.table.table-condensed
+          tbody
+            tr
+              td = t('.stat.users')
+              td = @affiliation_count
+            tr
+              td = t('.stat.commissions')
+              td = @commissions
+h3 = t('.history.title')
+.row
+  .panel.panel-default#affiliations
     .panel-body
-      table.table.table-condensed
-        tbody
-          tr
-            td = t('.stat.users')
-            td = @affiliation_count
-          tr
-            td = t('.stat.commissions')
-            td = @commissions
+      .col-xs-24
+        table.table.table-condensed.table-striped
+          thead: tr
+            th = t('.referred')
+            th = t('.created_at')
+            th = t('.state')
+            th = t('.amount')
+          tbody.list
+            = render partial: 'affiliation', collection: @affiliations
+        .pull-right
+          = paginate @affiliations
+
+
+
