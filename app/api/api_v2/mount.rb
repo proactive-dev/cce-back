@@ -37,7 +37,9 @@ module APIv2
 
     base_path = Rails.env.production? ? "#{ENV['URL_SCHEMA']}://#{ENV['URL_HOST']}/#{PREFIX}" : PREFIX
     add_swagger_documentation base_path: base_path,
-      mount_path: '/doc/swagger', api_version: 'v2',
-      hide_documentation_path: true
+                              mount_path: '/doc/swagger',
+                              api_version: 'v2',
+                              hide_documentation_path: true,
+                              hide_format: true
   end
 end
