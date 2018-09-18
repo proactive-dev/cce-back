@@ -27,8 +27,8 @@ rescue StandardError => e
 end
 
 while running
-  begin
-    Currency.all.each do |currency|
+  Currency.all.each do |currency|
+    begin
       next if currency.fiat?
       break unless running
       Rails.logger.debug { "Processing #{currency.code.upcase} deposits." }
@@ -48,9 +48,9 @@ while running
         # break if processed >= 100 || (received_at && received_at <= 1.hour.ago)
       end
       Rails.logger.debug { "Finished processing #{currency.code.upcase} deposits." }
+    rescue => e
+      Rails.logger.fatal e.inspect
     end
-  rescue => e
-    Rails.logger.fatal e.inspect
   end
 
   Kernel.sleep 5
