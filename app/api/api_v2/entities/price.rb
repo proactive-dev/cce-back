@@ -14,9 +14,9 @@ module APIv2
 
       def price
         @price ||= if @object.price_type == 'normal'
-                     Global[@object.market_id].ticker[:last]
+                     Global[@object.market_id].ticker[:last].to_f
                    else
-                     @object.price
+                     @object.price.to_f
                    end
       end
     end
