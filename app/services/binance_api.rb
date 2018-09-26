@@ -23,7 +23,7 @@ class BinanceAPI
     end
 
     def cancel_order(order)
-      response = client.cancel_order!(symbol: order.market.id, orderId: order.binance_id)
+      response = client.cancel_order!(symbol: order.market.upcase, orderId: order.binance_id)
       response
     end
 
