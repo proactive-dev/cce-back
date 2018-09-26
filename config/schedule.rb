@@ -23,6 +23,6 @@ every '0 4 9 * *' do
   rake 'affilate:check_status'
 end
 
-every :day, at: '4am' do
+every 10.minutes do
   rake 'solvency:liability_proof'
 end
