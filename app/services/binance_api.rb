@@ -12,14 +12,14 @@ class BinanceAPI
       side = order.type[-3, 3].downcase == 'ask' ? 'SELL' : 'BUY'
       response = client.create_order!(symbol: order.market.upcase, side: side, type: order.ord_type,
                           quantity: order.origin_volume, price: order.price, time_in_force: 'GTC')
-      response.fetch('orderId')
+      response['orderId']
     end
 
     def create_test_order(order)
       side = order.type[-3, 3].downcase == 'ask' ? 'SELL' : 'BUY'
       response = client.create_test_order(symbol: order.market.upcase, side: side, type: order.ord_type,
                                       quantity: order.origin_volume, price: order.price, time_in_force: 'GTC')
-      response.fetch('orderId')
+      response['orderId']
     end
 
     def cancel_order(order)

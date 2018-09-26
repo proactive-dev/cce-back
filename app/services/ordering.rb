@@ -1,6 +1,7 @@
 class Ordering
 
   class CancelOrderError < StandardError; end
+  class InvalidOrderError < StandardError; end
 
   def initialize(order_or_orders)
     @orders = Array(order_or_orders)
@@ -19,6 +20,9 @@ class Ordering
             order.binance_id = order_id
             order.save!
           end
+        else
+          order.destroy
+          raise InvalidOrderError
         end
       else # if order.market.is_inner?
         AMQPQueue.enqueue(:matching, action: 'submit', order: order.to_matching_attributes)
