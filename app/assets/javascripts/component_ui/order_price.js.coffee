@@ -48,8 +48,17 @@
     price = order.total.div order.volume
     @$node.val price
 
+  @refreshPrice = (event, data) ->
+    unless @getConfigType() == 'fixed' || @getConfigType() == 'min_limit'
+      price  = data.last
+      if price
+        @$node.val price
+      else
+        @$node.val @getLastPrice()
+
   @after 'initialize', ->
     @on 'focusout', @toggleAlert
+    @on document, 'market::ticker', @refreshPrice
 
     switch @getConfigType()
       when 'fixed'
@@ -60,4 +69,5 @@
         @$node.val @getConfigPrice()
         @trigger 'place_order::input::price', {price: @getConfigPrice()}
       else
+        @$node.val @getLastPrice()
         @trigger 'place_order::price_alert::hide'
