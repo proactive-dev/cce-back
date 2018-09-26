@@ -167,7 +167,7 @@ module CoinAPI
     end
 
     def permit_transaction(issuer, recipient)
-      json_rpc(:personal_unlockAccount, [normalize_address(issuer.fetch(:address)), issuer.fetch(:secret), 5]).tap do |response|
+      json_rpc(:personal_unlockAccount, [normalize_address(issuer.fetch(:address)), issuer.fetch(:secret), '0x' + 5.to_s(16)]).tap do |response|
         unless response.fetch('result')
           raise CoinAPI::Error, "ETH withdrawal from #{issuer.fetch(:address)} to #{recipient.fetch(:address)} failed."
         end
