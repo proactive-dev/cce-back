@@ -8,6 +8,7 @@
   ask: {fee: 0, currency: eth, fixed: 8}
   sort_order: 1
   source: binance
+  source_limit: {min_volume: 0.001, min_total: 0.001}
   #visible: false     # default to true
 
 - id: ltcbtc
@@ -20,6 +21,7 @@
   ask: {fee: 0, currency: ltc, fixed: 8}
   sort_order: 1
   source: binance
+  source_limit: {min_volume: 0.01, min_total: 0.001}
   #visible: false     # default to true
 
 - id: ltceth
@@ -32,6 +34,7 @@
   ask: {fee: 0, currency: ltc, fixed: 8}
   sort_order: 1
   source: binance
+  source_limit: {min_volume: 0.001, min_total: 0.01}
   #visible: false     # default to true
 
 - id: btcmas

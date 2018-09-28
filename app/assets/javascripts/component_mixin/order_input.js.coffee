@@ -63,6 +63,18 @@
     else if v.lessThan(0)
       @value = null
       false
+    else if @limit && v.greaterThan(0)
+      name = @$node.attr('name')
+
+      min = @limit.min_volume if name.indexOf("volume") > -1
+      min = @limit.min_total if name.indexOf("total") > -1
+      if min && v.lessThan(min)
+        @value = BigNumber(min)
+        @changeOrder BigNumber(min)
+        false
+      else
+        @value = v
+        true
     else
       @value = v
       true
@@ -85,6 +97,7 @@
     @orderType = @attr.type
     @text      = ''
     @value     = null
+    @limit     = gon.market_limit
 
     @on @$node, 'change paste keyup', @process
     @on @attr.form, "place_order::max::#{@attr.variables.input}", @onMax

@@ -119,6 +119,7 @@ class ApplicationController < ActionController::Base
     gon.ticker = current_market.ticker
     gon.markets = Market.to_hash
     gon.price_config = current_market.price_config
+    gon.market_limit = current_market.source_limit
 
     gon.pusher = {
       key:       ENV['PUSHER_KEY'],
