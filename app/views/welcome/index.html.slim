@@ -17,9 +17,9 @@
             li.active
               a href="#{market_path(current_market)}"
                 = t('header.market')
-            li
-              a href="#TEAM"
-                = t('landing.team.title')
+            / li
+            /   a href="#TEAM"
+            /     = t('landing.team.title')
             - unless current_user
               li
                 a href="#{signin_path}"
