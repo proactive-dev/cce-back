@@ -43,13 +43,13 @@ module CoinAPI
       permit_transaction(issuer, recipient)
 
       txid = json_rpc(
-        :eth_sendTransaction,
-        [{
-          from:  normalize_address(issuer.fetch(:address)),
-          to:    normalize_address(recipient.fetch(:address)),
-          value: '0x' + convert_to_base_unit!(amount).to_s(16),
-          gas:   options.key?(:gas_limit) ? '0x' + options[:gas_limit].to_s(16) : nil
-        }.reject { |_, v| v.nil? }]
+          :eth_sendTransaction,
+          [{
+               from:  normalize_address(issuer.fetch(:address)),
+               to:    normalize_address(recipient.fetch(:address)),
+               value: '0x' + convert_to_base_unit!(amount).to_s(16),
+               gas:   options.key?(:gas_limit) ? '0x' + options[:gas_limit].to_s(16) : nil
+           }.reject { |_, v| v.nil? }]
       ).fetch('result')
       unless valid_txid?(normalize_txid(txid))
         raise CoinAPI::Error, \
@@ -76,11 +76,11 @@ module CoinAPI
 
       block = block_information(tx.fetch('blockNumber'))
       {
-        id:            normalize_txid(tx.fetch('hash')),
-        confirmations: calculate_confirmations(tx.fetch('blockNumber').hex),
-        received_at:   Time.at(block.fetch('timestamp').hex),
-        entries:       [{ amount:  convert_from_base_unit(tx.fetch('value').hex),
-                          address: normalize_address(tx.fetch('to')) }]
+          id:            normalize_txid(tx.fetch('hash')),
+          confirmations: calculate_confirmations(tx.fetch('blockNumber').hex),
+          received_at:   Time.at(block.fetch('timestamp').hex),
+          entries:       [{ amount:  convert_from_base_unit(tx.fetch('value').hex),
+                            address: normalize_address(tx.fetch('to')) }]
       }
     end
 
@@ -115,18 +115,20 @@ module CoinAPI
       blocks_limit       = options.fetch(:blocks_limit) { 0 }
       collected       = []
       last_checked = Rails.cache.read "last_checked_#{currency.code}_block"
+
       current_block_number = if last_checked
-                          last_checked
-                        else
-                          earliest_block
-                        end
+                               last_checked
+                             else
+                               earliest_block
+                             end
 
       limit_block_number = if latest_block_number > current_block_number + blocks_limit
-                        current_block_number + blocks_limit
-                      else
-                        latest_block_number
-                      end
-
+                             current_block_number + blocks_limit
+                           else
+                             latest_block_number
+                           end
+      # current_block_number = 6_462_400 if currency.code == 'skb' || currency.code == 'eth'
+      # Rails.logger.info "current_#{currency.code}_block_number: #{current_block_number}"
       while current_block_number <= limit_block_number
         begin
           deposits = nil
@@ -153,11 +155,11 @@ module CoinAPI
         next unless PaymentAddress.where(address: tx.fetch('to')).exists? # filter received
 
         {
-          id:            tx.fetch('hash'),
-          confirmations: calculate_confirmations(current_block.fetch('number').hex),
-          received_at:   Time.at(current_block.fetch('timestamp').hex),
-          entries:       [{ amount:  convert_from_base_unit(tx.fetch('value').hex),
-                            address: normalize_address(tx['to']) }]
+            id:            tx.fetch('hash'),
+            confirmations: calculate_confirmations(current_block.fetch('number').hex),
+            received_at:   Time.at(current_block.fetch('timestamp').hex),
+            entries:       [{ amount:  convert_from_base_unit(tx.fetch('value').hex),
+                              address: normalize_address(tx['to']) }]
         }
       end.compact
     end
@@ -203,7 +205,7 @@ module CoinAPI
     end
 
     def latest_block_number
-      Rails.cache.fetch :latest_ethereum_block_number, expires_in: 5.seconds do
+      Rails.cache.fetch "latest_#{currency.code}_block_number".to_sym, expires_in: 5.seconds do
         json_rpc(:eth_blockNumber).fetch('result').hex
       end
     rescue StandardError => e
@@ -211,7 +213,7 @@ module CoinAPI
     end
 
     def earliest_block
-      6_061_750 # start blocknumber : 31st, July
+      6_462_400 # start blocknumber : 6th, Oct
     end
   end
 end
