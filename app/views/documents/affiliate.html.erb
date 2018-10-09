@@ -1,8 +1,10 @@
-<h1>Affiliate Program</h1>
+<h1>
+  <%= t('.title') %>
+</h1>
 <hr>
 
 <p>
-  <b>Please introduce your impressions on Rabbit on your website or blog.</b>
+  <b><%= t('.intro.desc') %></b>
 </p>
 
 <% if current_user %>
@@ -13,7 +15,7 @@
       <p>
         <i class="fa fa-info-circle"></i>
         <span>
-          You have not enabled affiliate program. Please take part in affiliate program.
+          <%= t('.alert.enable') %>
         </span>
       </p>
     </div>
@@ -23,75 +25,76 @@
     <p>
       <i class="fa fa-info-circle"></i>
       <span>
-        Please <%= link_to 'Sign Up', signup_path %> or <%= link_to 'Sign In', signin_path %> to take part in affiliate program.
+        <%= t('.alert.please') %>
+        <%= link_to t('header.signup'), signup_path %>
+        <%= t('.alert.or') %>
+        <%= link_to t('header.signin'), signin_path %>
+        <%= t('.alert.take_part_in') %>
       </span>
     </p>
   </div>
 <% end %>
 
 <h3>
-  What is affiliate?
+  <%= t('.intro.title') %>
 </h3>
 <p>
-  Please introduce impressions on Rabbit on your website or blog. If the person who passed via the affiliate link creates a new Rabbit account, we will pay the referral fee according to the satisfied condition.
+  <%= t('.intro.desc') %>
+  <%= t('.intro.desc2') %>
 </p>
 
 <br>
 <h3>
-  Terms
+  <%= t('.terms') %>
 </h3>
 <table class="table table-hover padding_bottom_but">
   <tr>
-    <th width="25%"><strong>Commission</strong></th>
+    <th width="25%"><strong><%= t('.commission') %></strong></th>
     <td>
       <table class="table table-bordered table-hover padding_bottom_but">
         <tr>
-          <th width="50%"><strong>Approval of identity documents</strong></th>
-          <td>BTC for 20USD</td>
+          <th width="50%"><strong><%= t('.rule.rule_1.condition') %></strong></th>
+          <td><%= t('.rule.rule_1.commission') %></td>
         </tr>
         <tr>
-          <th><strong>Deposit of 0.1BTC or more</strong></th>
-          <td>BTC for 50USD</td>
+          <th><strong><%= t('.rule.rule_2.condition') %></strong></th>
+          <td><%= t('.rule.rule_2.commission') %></td>
         </tr>
         <tr>
-          <th><strong>Trade of 1BTC or more</strong></th>
-          <td>BTC for 100USD</td>
+          <th><strong><%= t('.rule.rule_3.condition') %></strong></th>
+          <td><%= t('.rule.rule_3.commission') %></td>
         </tr>
         <tr>
-          <th><strong>When you achieve it all</strong></th>
-          <td>BTC for 170USD</td>
+          <th><strong><%= t('.rule.rule_all.condition') %></strong></th>
+          <td><%= t('.rule.rule_all.commission') %></td>
         </tr>
       </table>
     </td>
   </tr>
   <tr>
-    <th><strong>Payment of commission</strong></th>
+    <th><strong><%= t('.payment.title') %></strong></th>
     <td>
-      Regarding the results until the end of the month, we will pay on the 10th of next month (※).
+      <%= t('.payment.description1') %>
       <br>
-      ※ If the 10th is a Saturday, Sunday or a public holiday, pay will be done on the next business day.
+      <%= t('.payment.description2') %>
     </td>
   </tr>
   <tr>
-    <th><strong>Notes</strong></th>
+    <th><strong><%= t('.note.title') %></strong></th>
     <td>
       <ul>
-        <li>Participants should possess a Rabbit account and verify identity documents.
-        <!--<li>If the request from the same IP address and the same device (PC, smart phone, tablet etc) is duplicated, it will not be eligible for approval.-->
-        <li>Affiliate terms could be changed without notice.
+        <li><%= t('.note.rule_1') %></li>
+        <!--li< %= t('.note.rule_2') %><li-->
+        <li><%= t('.note.rule_3') %></li>
       </ul>
     </td>
   </tr>
   <tr>
-    <th><strong>Approval conditions</strong></th>
+    <th><strong><%= t('.condition.title') %></strong></th>
     <td>
       <ul>
-        <li>
-          Only for approved deposits or trades(within 30 days from account creation) can be confirmed.
-        </li>
-        <li>
-          Commission for deposit of 0.1BTC or more can be confirmed when user has at least 1 deposit of more than 0.1 BTC and total asset should be larger than 0.05BTC.
-        </li>
+        <li><%= t('.condition.rule_1') %></li>
+        <li><%= t('.condition.rule_2') %></li>
       </ul>
     </td>
   </tr>
@@ -103,9 +106,9 @@
       <td width="35%"></td>
       <td width="30%">
         <% if current_user.is_affiliate? %>
-          <%= link_to 'Go to affiliate', affiliates_path, class: "btn btn-default btn-lg btn-block" %>
+          <%= link_to t('.go_to'), affiliates_path, class: "btn btn-default btn-lg btn-block" %>
         <% else %>
-          <%= button_to 'Become an affiliate', new_affiliate_path, class: "btn btn-default btn-lg btn-block" %>
+          <%= button_to t('.become'), new_affiliate_path, class: "btn btn-default btn-lg btn-block" %>
         <% end %>
       </td>
       <td width="35%"></td>
@@ -115,31 +118,21 @@
 
 <br>
 <h3>
-  Affiliate program flows
+  <%= t('private.affiliates.index.program_flows.title') %>
 </h3>
 <ol>
-  <li>
-    Please set up an affiliate banner for Rabbit on your blog and website.
-  </li>
-  <li>
-    Someone will create a new account of Rabbit through the link of affiliate banner on your blog or website.
-  </li>
-  <li>
-    We will give you an affiliate fee as a referral fee from Rabbit.
-  </li>
+  <li><%= t('private.affiliates.index.program_flows.flow1') %></li>
+  <li><%= t('private.affiliates.index.program_flows.flow2') %></li>
+  <li><%= t('private.affiliates.index.program_flows.flow3') %></li>
 </ol>
 
 <br>
 <h3>
-  How to take part in?
+  <%= t('.how_to.title') %>
 </h3>
 <ol>
-  <li>
-    Please create an account of Rabbit and approve your identity documents.
-  </li>
-  <li>
-    After logging in from the PC, please create a link on "Affiliate" page and setup it on your website or blog.
-  </li>
+  <li><%= t('.how_to.rule_1') %></li>
+  <li><%= t('.how_to.rule_2') %></li>
 </ol>
 
 <br>

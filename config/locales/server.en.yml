@@ -1140,6 +1140,52 @@ en:
         title: Reset Password
     two_factors:
       panel: Two Factor Authenticator
+  documents:
+    affiliate:
+      title: Affiliate Program
+      alert:
+        enable: You have not enabled affiliate program. Please take part in affiliate program.
+        please: Please
+        or: or
+        take_part_in: to take part in the affiliate program.
+      intro:
+        title: What is affiliate?
+        desc: Please introduce your impressions on exchange on your website or blog.
+        desc2: If the person who passed via the affiliate link creates a new account, we will pay the referral fee according to the satisfied condition.
+      terms: Terms
+      commission: Commission
+      rule:
+        rule_1:
+          condition: Approval of identity documents
+          commission: BTC for 20USD
+        rule_2:
+          condition: Deposit of 0.1BTC or more
+          commission: BTC for 50USD
+        rule_3:
+          condition: Trade of 1BTC or more
+          commission: BTC for 100USD
+        rule_all:
+          condition: When you achieve it all
+          commission: BTC for 170USD
+      payment:
+        title: Payment of commission
+        description1: Regarding the results until the end of the month, we will pay on the 10th of next month (※).
+        description2: ※ If the 10th is a Saturday, Sunday or a public holiday, pay will be done on the next business day.
+      note:
+        title: Notes
+        rule_1: Participants should possess an account and verify identity documents.
+        rule_2: If the request from the same IP address and the same device (PC, smart phone, tablet etc) is duplicated, it will not be eligible for approval.
+        rule_3: Affiliate terms could be changed without notice.
+      condition:
+        title: Approval conditions
+        rule_1: Only for approved deposits or trades(within 30 days from an account creation) can be confirmed.
+        rule_2: Commission for deposit of 0.1BTC or more can be confirmed when user has at least 1 deposit of more than 0.1 BTC and total asset should be larger than 0.05BTC.
+      how_to:
+        title: How to take part in?
+        rule_1: Please create an account of exchange and approve your identity documents.
+        rule_2: After logging in from the PC, please create a link on "Affiliate" page and setup it on your website or blog.
+      go_to: Go to affiliate
+      become: Become an affiliate
   simple_form:
     placeholders:
       deposit:
@@ -1560,7 +1606,7 @@ en:
         invalid_client: Client authentication failed due to unknown client, no client authentication included, or unsupported authentication method.
         invalid_grant: The provided authorization grant is invalid, expired, revoked, does not match the redirection URI used in the authorization request, or was issued to another client.
         unsupported_grant_type: The authorization grant type is not supported by the authorization server.
-        invalid_resource_owner: The provided resource owner credentials are not valid, r resource owner cannot be found
+        invalid_resource_owner: The provided resource owner credentials are not valid, or resource owner cannot be found
         invalid_token:
           revoked: The access token was revoked
           expired: The access token expired

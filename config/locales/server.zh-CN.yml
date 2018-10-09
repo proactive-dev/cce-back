@@ -1017,7 +1017,7 @@ zh-CN:
         amount: 总价
         time: 创建时间
       mask:
-        warning: 请 <a class=text-up href='/'>登录</a> 或 <a class=text-up href='/'>注册</a> 后进行操作
+        warning: 请 <a class=text-up href='/'>登录</a> 或者 <a class=text-up href='/'>注册</a> 后进行操作
       klime_chart:
         title: K线图
       global:
@@ -1082,7 +1082,7 @@ zh-CN:
         step_1: 第一步
         step_2: 第二步
         step_3: 第三步
-        or: 或
+        or: 或者
         download_app: 下载并打开Google Authenticator应用到您的智能手机上。
         scan_qr_code: 用手机扫瞄二维码
         enter_passphrase: 将以下密文手动输入到手机验证器中
@@ -1171,6 +1171,52 @@ zh-CN:
         title: 修改密码
     two_factors:
       panel: 两步验证
+  documents:
+    affiliate:
+      title: Affiliate Program
+      alert:
+        enable: You have not enabled affiliate program. Please take part in affiliate program.
+        please: 请
+        or: 或者
+        take_part_in: to take part in the affiliate program.
+      intro:
+        title: What is affiliate?
+        desc: Please introduce your impressions on exchange on your website or blog.
+        desc2: If the person who passed via the affiliate link creates a new account, we will pay the referral fee according to the satisfied condition.
+      terms: 条款
+      commission: 佣金
+      rule:
+        rule_1:
+          condition: Approval of identity documents
+          commission: 20美元的BTC
+        rule_2:
+          condition: Deposit of 0.1BTC or more
+          commission: 50美元的BTC
+        rule_3:
+          condition: Trade of 1BTC or more
+          commission: 100美元的BTC
+        rule_all:
+          condition: When you achieve it all
+          commission: 170美元的BTC
+      payment:
+        title: Payment of commission
+        description1: Regarding the results until the end of the month, we will pay on the 10th of next month (※).
+        description2: ※ If the 10th is a Saturday, Sunday or a public holiday, pay will be done on the next business day.
+      note:
+        title: Notes
+        rule_1: Participants should possess an account and verify identity documents.
+        rule_2: If the request from the same IP address and the same device (PC, smart phone, tablet etc) is duplicated, it will not be eligible for approval.
+        rule_3: Affiliate terms could be changed without notice.
+      condition:
+        title: Approval conditions
+        rule_1: Only for approved deposits or trades(within 30 days from an account creation) can be confirmed.
+        rule_2: Commission for deposit of 0.1BTC or more can be confirmed when user has at least 1 deposit of more than 0.1 BTC and total asset should be larger than 0.05BTC.
+      how_to:
+        title: How to take part in?
+        rule_1: Please create an account of exchange and approve your identity documents.
+        rule_2: After logging in from the PC, please create a link on "Affiliate" page and setup it on your website or blog.
+      go_to: Go to affiliate
+      become: Become an affiliate
   simple_form:
     placeholders:
       deposit:
@@ -1251,7 +1297,7 @@ zh-CN:
     creating: Creating...
     updating: Updating...
     buttons:
-      or: or
+      or: 或者
       cancel: 取消
     'yes': '是'
     'no': '否'
@@ -1611,7 +1657,7 @@ zh-CN:
         destroy:
           notice: Application revoked.
   easy_table:
-    dollars:
+    dollar:
       sn: SN
       amount: 金额
       created_at: 创建时间
@@ -1851,6 +1897,47 @@ zh-CN:
     password_changed: '%{email} 您好，您已成功修改账户密码，若非本人操作，您的账户可能存在被盗风险，请立即联系客服！'
     deposit_done: '%{email} 您好，您于%{time}进行了（%{currency}）充值操作，金额为%{amount}。最新余额为：%{balance}。（若非本人操作，请及时联系我们！）'
     withdraw_done: '%{email} 您好，您于%{time}进行了（%{currency}）提现操作，金额为%{amount}。最新余额为：%{balance}。（若非本人操作，请立即联系客服！）'
+  landing:
+    welcome:
+      title: Welcome to Rabbit!
+      subtitle: We are a peer to peer cryptocurrency exchange platform.
+    vision:
+      title: Our vision
+      desc1: ”Rabbit is a project aims to provide both easy access for the public to buy cryptocurrencies, and an easy, safe and reliable exchange between cryptocurrencies. The project promises to deliver that by establishing a peer-to-peer decentralized network for cryptocurrencies exchange”
+      desc2: ”Using the Rabbit, you can exchange altcoin directly with no central organization involved. Rabbit allows members to buy and sell cryptocurrencies directly to and from each other.”
+    count:
+      currency: Cryptocurrencies Exchanged
+      country: Countries Supported
+      market: Trade Pairs Exchanged
+      language: Languages Supported
+    choose_us:
+      title: Why are people choosing us?
+      subtitle: We make business decisions to customers for commercial, compliance, fraud risk and impending regulatory reasons.
+      payment:
+        title: PAYMENT OPTIONS
+        desc: Most popular Cryptocurrencies - Bitcoin and Ethereum
+      security:
+        title: STRONG SECURITY
+        desc: Protection against DDoS attacks, full data encryption, compliant with PCI DSS standards
+      coverage:
+        title: WORLD COVERAGE
+        desc: Providing services in 99% countries around the globe, including 24 states of US
+      fast:
+        title: FAST WITHDRAWAL
+        desc: Built on the best technology and lets you withdraw any time
+      trust:
+        title: TRUST
+        desc: Regularly publishing audits for our clients to review the balances held on their behalf
+      transparency:
+        title: TRANSPARENCY
+        desc: Everything is viewable through our API, starting from order lists and ending with coin reserves
+    roadmap:
+      title: ROADMAP
+      subtitle: Please check our RoadMap.
+      step:
+        1st: ICO Announcement
+    team:
+      title: Our Team
   header:
     home: 首页
     dashboard: 控制面板
@@ -2123,7 +2210,7 @@ zh-CN:
         step-1: 第一步
         step-2: 第二步
         step-3: 第三步
-        or: 或
+        or: 或者
         download-app: 根据您使用的手机系统类型，点击左侧快捷入口，下载并打开 Google Authenticator 应用到您的智能手机上。
         guide-link: "具体操作方式可<a href='https://support.google.com/accounts/answer/1066447?hl=zh-Hans' target='_blank'>点击这里</a>。"
         scan-qr-code: 用 Google Authenticator 应用扫瞄二维码或将以下密文手动添加到验证器中。
