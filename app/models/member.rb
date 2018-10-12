@@ -3,7 +3,9 @@ class Member < ActiveRecord::Base
   acts_as_reader
 
   has_many :orders
+  has_many :open_loans
   has_many :accounts
+  has_many :lending_accounts
   has_many :payment_addresses, through: :accounts
   has_many :withdraws
   has_many :fund_sources
@@ -40,6 +42,7 @@ class Member < ActiveRecord::Base
 
   before_create :build_default_id_document
   after_create  :touch_accounts
+  after_create  :touch_lending_accounts
   after_update :resend_activation
   after_update :sync_update
 
@@ -116,6 +119,35 @@ class Member < ActiveRecord::Base
 
   def trades
     Trade.where('bid_member_id = ? OR ask_member_id = ?', id, id)
+  end
+
+  def active_loans
+    ActiveLoan.where('demand_member_id = ? OR offer_member_id = ?', id, id)
+  end
+
+  def cancel_orders_from_lending
+    self.orders.with_state(:wait).each do |order|
+
+      account = order.hold_account
+      order   = Order.find(order.id).lock!
+
+      if order.state == Order::WAIT
+        order.state = Order::CANCEL
+        order.state_reason = "invalid lending balance"
+        account.unlock_tradable_funds(order.locked, reason: Account::ORDER_CANCEL, ref: order)
+        order.save!
+      else
+        raise CancelOrderError, "Only active order can be cancelled. id: #{order.id}, state: #{order.state}"
+      end
+    end
+
+    MemberMailer.notify_cancel_orders(self.id).deliver
+  end
+
+  def disable_from_lending
+    self.disabled = true
+    self.save
+    MemberMailer.notify_disabled_from_lending(self.id).deliver
   end
 
   def active!
@@ -197,12 +229,30 @@ class Member < ActiveRecord::Base
   end
   alias :ac :get_account
 
+  def get_lending_account(currency)
+    lending_account = lending_accounts.with_currency(currency.to_sym).first
+
+    if lending_account.nil?
+      touch_lending_accounts
+      lending_account = lending_accounts.with_currency(currency.to_sym).first
+    end
+
+    lending_account
+  end
+  alias :lac :get_lending_account
+
   def touch_accounts
     less = Currency.codes - self.accounts.map(&:currency).map(&:to_sym)
     less.each do |code|
       self.accounts.create(currency: code, balance: 0, locked: 0)
     end
+  end
 
+  def touch_lending_accounts
+    less = Currency.codes - self.accounts.map(&:currency).map(&:to_sym)
+    less.each do |code|
+      self.lending_accounts.create(currency: code, balance: 0, locked: 0)
+    end
   end
 
   def identity

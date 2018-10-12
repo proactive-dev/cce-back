@@ -1,0 +1,59 @@
+- id: btc
+  code: 2
+  name: Bitcoin
+  precision: 8
+  fee: 0.1
+
+- id: eth
+  code: 3
+  name: Ethereum
+  precision: 8
+  fee: 0.1
+
+- id: xrp
+  code: 4
+  name: Ripple
+  precision: 8
+  fee: 0.1
+
+- id: bch
+  code: 5
+  name: Bitcoincash
+  precision: 8
+  fee: 0.1
+
+- id: ltc
+  code: 6
+  name: Litecoin
+  precision: 8
+  fee: 0.1
+
+- id: dash
+  code: 7
+  name: Dashcoin
+  precision: 8
+  fee: 0.1
+
+- id: etc
+  code: 8
+  name: EthereumClassic
+  precision: 8
+  fee: 0.1
+
+- id: doge
+  code: 9
+  name: Dogecoin
+  precision: 8
+  fee: 0.1
+
+- id: mona
+  code: 10
+  name: Monacoin
+  precision: 8
+  fee: 0.1
+
+- id: ada
+  code: 11
+  name: Cardano
+  precision: 8
+  fee: 0.1

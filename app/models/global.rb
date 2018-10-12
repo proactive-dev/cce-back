@@ -30,7 +30,7 @@ class Global
   attr_accessor :currency
 
   def self.[](market)
-    if market.is_a? Market
+    if (market.is_a? Market) || (market.is_a? LoanMarket)
       self.new(market.id)
     else
       self.new(market)
@@ -98,4 +98,22 @@ class Global
   def at
     @at ||= DateTime.now.to_i
   end
+
+  def demands
+    Rails.cache.read("exchange:#{currency}:demands") || []
+  end
+
+  def offers
+    Rails.cache.read("exchange:#{currency}:offers") || []
+  end
+
+  def active_loans
+    Rails.cache.read("exchange:#{currency}:active_loans") || []
+  end
+
+  def trigger_loanbook
+    data = {demands: demands, offers: offers}
+    Pusher.trigger_async(channel, "update", data)
+  end
+
 end

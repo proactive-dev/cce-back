@@ -29,6 +29,7 @@ class Account < ActiveRecord::Base
 
   validates :member_id, uniqueness: { scope: :currency }
   validates_numericality_of :balance, :locked, greater_than_or_equal_to: ZERO
+  validates_numericality_of :borrowed, :borrow_locked, greater_than_or_equal_to: ZERO
 
   scope :enabled, -> { where("currency in (?)", Currency.ids) }
 
@@ -74,6 +75,63 @@ class Account < ActiveRecord::Base
     raise LockedError, "invalid lock amount" unless locked
     raise LockedError, "invalid lock amount (amount: #{amount}, locked: #{locked}, self.locked: #{self.locked})" if ((locked <= 0) or (locked > self.locked))
     change_balance_and_locked locked-amount, -locked
+  end
+
+  def sub_tradable_funds(amount, reason: nil, ref: nil)
+    if balance >= amount
+      sub_funds(amount, reason: reason, ref: ref)
+    else
+      delta = amount - balance
+      sub_funds(balance, reason: reason, ref: ref)
+      sub_borrowed(delta, reason: reason, ref: ref)
+    end
+  end
+
+  def lock_tradable_funds(amount, reason: nil, ref: nil)
+    if balance >= amount
+      lock_funds(amount, reason: reason, ref: ref)
+    else
+      lock_funds(balance, reason: reason, ref: ref) if balance > 0
+      lock_borrowed(amount - balance, reason: reason, ref: ref)
+    end
+  end
+
+  def unlock_tradable_funds(amount, reason: nil, ref: nil)
+    if locked >= amount
+      unlock_funds(amount, reason: reason, ref: ref)
+    else
+      unlock_funds(locked, reason: reason, ref: ref) if locked > 0
+      unlock_borrowed(amount - locked, reason: reason, ref: ref)
+    end
+  end
+
+  def plus_borrowed(amount, reason: nil, ref: nil)
+    (amount <= ZERO) and raise BorrowedError, "cannot add borrowed (amount: #{amount})"
+    change_borrowed amount, 0
+  end
+
+  def sub_borrowed(amount, reason: nil, ref: nil)
+    (amount <= ZERO or amount > self.borrowed) and raise BorrowedError, "cannot sub borrowed (amount: #{amount})"
+    change_borrowed -amount, 0
+  end
+
+  def lock_borrowed(amount, reason: nil, ref: nil)
+    (amount < ZERO or amount > self.borrowed) and raise BorrowedError, "cannot lock borrowed (amount: #{amount})"
+    change_borrowed -amount, amount
+  end
+
+  def unlock_borrowed(amount, reason: nil, ref: nil)
+    (amount < ZERO or amount > self.borrow_locked) and raise BorrowedError, "cannot unlock borrowed (amount: #{amount})"
+    change_borrowed amount, -amount
+  end
+
+  def return_borrowed(amount, reason: nil, ref: nil)
+    if borrowed >= amount
+      sub_borrowed amount, reason:reason, ref: ref
+    else
+      sub_borrowed borrowed, reason:reason, ref: ref
+      sub_funds amount-borrowed, fee: ZERO, reason: reason, ref: ref
+    end
   end
 
   after(*FUNS.keys) do |account, fun, changed, opts|
@@ -125,6 +183,14 @@ class Account < ActiveRecord::Base
     end
   end
 
+  def tradable_balance
+    self.balance + self.borrowed
+  end
+
+  def all_amount
+    self.balance + self.borrowed + self.locked + self.borrow_locked
+  end
+
   def amount
     self.balance + self.locked
   end
@@ -147,7 +213,7 @@ class Account < ActiveRecord::Base
     return unless member
 
     json = Jbuilder.encode do |json|
-      json.(self, :balance, :locked, :currency)
+      json.(self, :balance, :locked, :borrowed, :borrow_locked, :currency)
     end
     member.trigger('account', json)
   end
@@ -160,12 +226,25 @@ class Account < ActiveRecord::Base
     self
   end
 
+  def change_borrowed(delta_ba, delta_lo)
+    self.borrowed  += delta_ba
+    self.borrow_locked  += delta_lo
+    self.class.connection.execute "update accounts set borrowed = borrowed + #{delta_ba}, borrow_locked = borrow_locked + #{delta_lo} where id = #{id}"
+    add_to_transaction # so after_commit will be triggered
+    self
+  end
+
   scope :locked_sum, -> (currency) { with_currency(currency).sum(:locked) }
   scope :balance_sum, -> (currency) { with_currency(currency).sum(:balance) }
+
+  scope :borrowed_sum, -> (currency) { with_currency(currency).sum(:borrowed) }
+  scope :borrow_locked_sum, -> (currency) { with_currency(currency).sum(:borrow_locked) }
 
   class AccountError < RuntimeError; end
   class LockedError < AccountError; end
   class BalanceError < AccountError; end
+  class BorrowedError < AccountError; end
+  class BorrowLockedError < AccountError; end
 
   def as_json(options = {})
     super(options).merge({
@@ -180,7 +259,7 @@ class Account < ActiveRecord::Base
   private
 
   def sync_update
-    ::Pusher["private-#{member.sn}"].trigger_async('accounts', { type: 'update', id: self.id, attributes: {balance: balance, locked: locked} })
+    ::Pusher["private-#{member.sn}"].trigger_async('accounts', { type: 'update', id: self.id, attributes: {balance: balance, locked: locked, borrowed: borrowed, borrow_locked: borrow_locked} })
   end
 
 end
