@@ -245,5 +245,19 @@ module ApplicationHelper
     "#{number.first(3)}#{mask[3,number.size-7]}#{number.last(4)}"
   end
 
+  def lending_fee(loan)
+    if loan.state == OpenLoan::MATCHED or loan.state == OpenLoan::DONE
+      fee = case loan.type
+              when 'LoanDemand'
+                LendingAccount::ZERO
+              when 'LoanOffer'
+                loan.config.fee * loan.amount * loan.rate * 0.01
+            end
+      fee.to_s
+    else
+      '-'
+    end
+  end
+
   alias_method :d, :format_currency
 end

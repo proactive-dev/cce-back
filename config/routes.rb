@@ -96,9 +96,12 @@ Exchange::Application.routes.draw do
     get '/affiliates' => 'affiliates#index', as: :affiliates
     post '/affiliates/new', to: 'affiliates#gen_affiliate_code', as: :new_affiliate
 
+    resources :transfer_balances, only: [:index]
+
     get '/history/orders' => 'history#orders', as: :order_history
     get '/history/trades' => 'history#trades', as: :trade_history
     get '/history/account' => 'history#account', as: :account_history
+    get '/history/loans' => 'history#loans', as: :loan_history
 
     resources :markets, :only => :show, :constraints => MarketConstraint do
       resources :orders, :only => [:index, :destroy] do
@@ -112,6 +115,14 @@ Exchange::Application.routes.draw do
         end
       end
       resources :order_asks, :only => [:create] do
+        collection do
+          post :clear
+        end
+      end
+    end
+
+    resources :loan_markets, :only => [:show, :update] do
+      resources :open_loans, :only => [:index, :create, :update, :destroy] do
         collection do
           post :clear
         end

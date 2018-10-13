@@ -25,7 +25,7 @@ class Formatter
   check_trend: (type) ->
     if type == 'up' or type == 'buy' or type == 'bid' or type == true
       true
-    else if type == 'down' or type == "sell" or type = 'ask' or type == false
+    else if type == 'down' or type == "sell" or type == 'ask' or type == false
       false
     else
       throw "unknown trend smybol #{type}"
@@ -45,7 +45,7 @@ class Formatter
   short_trade: (type) ->
     if type == 'buy' or type == 'bid'
       gon.i18n['bid']
-    else if type == "sell" or type = 'ask'
+    else if type == "sell" or type == 'ask'
       gon.i18n['ask']
     else
       'n/a'

@@ -1,0 +1,32 @@
+#loan_entry.panel.panel-default
+  .panel-heading
+    h2.panel-title = t('.title')
+  .panel-body
+    = form_for [loan_market, loan], :remote => true do |f|
+      = render partial: 'balance', locals: {currency: t(loan_market.id)}
+      .form-group.col-md-5
+        .input-group.rate
+          label.input-group-addon = t('.rate')
+          = f.text_field :rate, class: 'form-control'
+          span.input-group-addon = '%'
+      .form-group.col-md-6
+        .input-group.amount
+          label.input-group-addon = t('.amount')
+          = f.text_field :origin_amount, class: 'form-control'
+          span.input-group-addon = loan_market.id.upcase
+      .form-group.col-md-5
+        .input-group.duration
+          label.input-group-addon = t('.duration')
+          = f.text_field :duration, class: 'form-control'
+          span.input-group-addon = t('.day')
+      .form-group.col-md-4
+        .input-group.auto_renew
+          = f.check_box :auto_renew, class: 'form-control'
+          span.check = t('.auto_renew')
+
+      .form-group.col-md-2
+        button.btn.btn-success.btn-block.text-up type="submit" name="type" value="offer" = t('.offer')
+      .form-group.col-md-2
+        button.btn.btn-default.btn-block.text-up type="submit" name="type" value="demand" = t('.demand')
+
+    = render partial: 'mask'

@@ -57,6 +57,14 @@ class AccountHandler extends EventHandler
     account = Account.findBy("id", id).updateAttributes(attributes)
 
 
+class LendingAccountHandler extends EventHandler
+  constructor: (channel) ->
+    super channel, "lending_accounts"
+
+  update: (id, attributes) =>
+    account = LendingAccount.findBy("id", id).updateAttributes(attributes)
+
+
 class DepositHandler extends EventHandler
   constructor: (channel) ->
     super channel, "deposits"

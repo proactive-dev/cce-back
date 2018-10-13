@@ -612,6 +612,15 @@ zh-CN:
         quote_currency: 报价货币
         quote_amount: 数量
         price: 成交价
+      loans:
+        type: 类型
+        created_at: 时间
+        currency: 货币
+        rate: 比率
+        amount: 数量
+        duration: 持续时间
+        auto_renew: 自动更新
+        fee: 手续费
       trade:
         sell: 卖出
         buy: 买入
@@ -868,6 +877,23 @@ zh-CN:
         ref:
           system: 系统
           default: 默认
+    transfer_balances:
+      move_funds: 转移账户余额
+      manage: 转移账户余额
+      amount: 数量
+      transfer: 资金转移
+      from: 从
+      account_to: 账户 到
+      account: 账户
+      coin: 暗号货币
+      exchange_account: Exchange账户余额
+      lending_account: Lending账户余额
+      total: 总额合计
+      please_set_amount: 请设置暗号货币的数量
+      please_select_different_account: 请选择不同的帐户
+      error_selected_account: 请选择不同的帐户
+      not_enough_balance_exchange_account: 缺乏在Exchange账户资金
+      not_enough_balance_lending_account: 缺乏在Lending账户资金
     id_documents:
       edit:
         state: 验证状态
@@ -991,6 +1017,7 @@ zh-CN:
         sound: 音效
         notification: 通知
         funds: "资金管理"
+        transfer_balances: "资金转移"
         signout: "安全退出"
         settings: "账户设置"
         history: "历史记录"
@@ -1025,6 +1052,74 @@ zh-CN:
         global_trades_title: 成交记录
       chat:
         title: 聊天频道
+    loan_markets:
+      show:
+        error: 错误
+        success: 成功
+        done: 已成交
+        cancel_confirm: 确认撤销此贷款吗？
+        update_confirm: 确认更新此贷款吗?
+        confirm: 确认
+        my_active_loan: 未结束的
+        my_open_loan: 打开的
+        active_loans: 贷款
+        rate: 比率
+      account_balance:
+        title: 账户资产
+        available: 可用 %{currency}
+      loan_entry:
+        title: 贷款
+        demand: "需求"
+        offer: "提供"
+        rate: 比率
+        amount: 数量
+        duration: 持续时间
+        day: 日
+        auto_renew: 自动更新
+      loan_book:
+        title_offer: 贷款提供
+        title_demand: 贷款需求
+        rate: 比率
+        amount: 数量
+        duration: 持续时间
+      lending_state:
+        new: 未成交
+        partial: 部分成交
+      settings:
+        sound: 音效
+        notification: 通知
+        funds: "资金管理"
+        signout: "安全退出"
+        settings: "账户设置"
+        history: "历史记录"
+      my_open_loans:
+        title: 我打开的贷款
+        no_open_loans: 当前没有打开的贷款.
+        confirm_clear: 确定要撤销贷款吗?
+        cancel: 取消
+        currency: 货币
+        rate: 比率
+        amount: 数量
+        duration: 持续时间
+        time: 创建时间
+        auto_renew: 自动更新
+        type: 类型
+        action: 操作
+      my_active_loans:
+        title: 我的未结束贷款
+        no_active_loans: 当前没有未结束贷款..
+        currency: 货币
+        rate: 比率
+        amount: 数量
+        duration: 持续时间
+        time: 创建时间
+        auto_renew: 自动更新
+        type: 类型
+        fee: 手续费
+      mask:
+        warning: 请 <a class=text-up href='/'>登录</a> 或 <a class=text-up href='/'>注册</a> 后进行操作
+      global:
+        global_loans_title: 贷款
     settings:
       success: 设置成功！
       failure: 无效动态密码，设置失败。请重试。
@@ -1071,12 +1166,6 @@ zh-CN:
           title: API密钥
           description: 申请和管理您的API密钥
           go: 设置
-        weibo:
-          title: 绑定微博
-          description: 绑定微博后您可以通过微博进行登录, 而无需每次都输入账号密码.
-          bound_desc: 此账号已经与 %{nickname} 绑定
-          bind: 绑定
-          unbind: 解除绑定
     otps:
       new:
         step_1: 第一步
@@ -1442,10 +1531,10 @@ zh-CN:
         daemons_title: 系统汇总
     markets:
       index:
-        manage_price: Manage Price
-        apply: Apply
-        new_price: New Price
-        market: Market
+        manage_price: 价格管理
+        apply: 适用
+        new_price: 生成新价格
+        market: 货币对
     documents:
       index:
         new: 新建文档
@@ -1464,6 +1553,17 @@ zh-CN:
         notice: 联营拒绝了.
       update:
         notice: 联营一定批准了. 联营佣金加到您的帐户。
+    lending:
+      loans:
+        index:
+          open_offers: 未结束的提供
+          open_demands: 未结束的需求
+          empty: 无任何数据
+        table_loan:
+          reject: 驳回
+          reject_confirm: 确定驳回提现？
+        destroy:
+          notice: 驳回成功
     statistic:
       filter: 筛选
       summary: 总结
@@ -1817,6 +1917,12 @@ zh-CN:
     phone_number_verified:
       subject: "[Rabbit] 您已成功绑定手机"
       verified: '您已成功绑定手机，号码为：%{phone_number}。'
+    notify_cancel_orders:
+      subject: "[Rabbit] 您的订单已取消"
+      orders_canceled: 您的订单已取消。 因为他们使用借来的资产，他们的持续时间已过期。
+    notify_disabled_from_lending:
+      subject: "[Rabbit] 您的帐户已被停用"
+      member_disabled: 您的帐户已被停用。 因为借款金额不足。
   system_mailer:
     daily_stats:
       member_stats: 新增用户
@@ -1948,12 +2054,14 @@ zh-CN:
     signout: 安全退出
     signup: 创建账户
     funds: 我的资产
+    transfer_balances: "资金转移"
     getstart: 前往交易大厅
     assets: 资产公开
     history: 历史记录
     order_history: 委托记录
     trade_history: 成交记录
     account_history: 账户记录
+    loan_history: 贷款记录
     my_profile: 用户设置
     tickets: 服务单
     account_balance: 账户资产
@@ -1962,9 +2070,11 @@ zh-CN:
     deposit: 充值
     withdraw: 提现
     affiliate: 联盟计划
+    lending: 贷款
   admin_header:
     deposits: 充值管理
     withdraws: 提现管理
+    lending: 贷款
     statistics: 数据统计
     id_documents: 身份验证
   footer:
@@ -2002,6 +2112,8 @@ zh-CN:
     member: 查看用户
     transact: 处理
     reject: 驳回
+    action_on: "开"
+    action_off: "关"
     clipboard:
       click: 点击复制
       done: 复制成功
@@ -2112,6 +2224,8 @@ zh-CN:
         sections:
           members: 用户管理
           deposits: 充值通道
+          loans: 贷款
+          history: 记录
           sites_statistics: 数据统计
           operating: 运营管理
         items:

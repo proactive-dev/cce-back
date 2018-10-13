@@ -1,7 +1,7 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
 
-  helper_method :current_user, :is_admin?, :current_market, :gon
+  helper_method :current_user, :is_admin?, :current_market, :gon, :current_loan_market
   before_action :set_timezone, :set_gon
   after_action :allow_iframe
   after_action :set_csrf_cookie_for_ng
@@ -18,6 +18,11 @@ class ApplicationController < ActionController::Base
 
   def current_market
     @current_market ||= Market.find_by_id(params[:market]) || Market.find_by_id(cookies[:market_id]) || Market.first
+  end
+
+  def current_loan_market
+    @current_loan_market ||= LoanMarket.find_by_id(params[:loan_market_id]) || LoanMarket.find_by_id(params[:id]) ||
+        LoanMarket.find_by_id(cookies[:loan_market_id]) || LoanMarket.first
   end
 
   def redirect_back_or_settings_page
@@ -120,6 +125,7 @@ class ApplicationController < ActionController::Base
     gon.markets = Market.to_hash
     gon.price_config = current_market.price_config
     gon.market_limit = current_market.source_limit
+    gon.loan_market = current_loan_market.attributes
 
     gon.pusher = {
       key:       ENV['PUSHER_KEY'],
@@ -140,6 +146,10 @@ class ApplicationController < ActionController::Base
       bid: I18n.t('gon.bid'),
       cancel: I18n.t('actions.cancel'),
       latest_trade: I18n.t('private.markets.order_book.latest_trade'),
+      on: I18n.t('actions.action_on'),
+      off: I18n.t('actions.action_off'),
+      demand: I18n.t('private.loan_markets.loan_entry.demand'),
+      offer: I18n.t('private.loan_markets.loan_entry.offer'),
       switch: {
         notification: I18n.t('private.markets.settings.notification'),
         sound: I18n.t('private.markets.settings.sound')
@@ -186,6 +196,12 @@ class ApplicationController < ActionController::Base
       trade_state: {
         new: I18n.t('private.markets.trade_state.new'),
         partial: I18n.t('private.markets.trade_state.partial')
+      },
+      place_loan: {
+        confirm_submit: I18n.t('private.loan_markets.show.confirm'),
+        confirm_cancel: I18n.t('private.loan_markets.show.cancel_confirm'),
+        confirm_update: I18n.t('private.loan_markets.show.update_confirm'),
+        rate: I18n.t('private.loan_markets.show.rate')
       }
     }
 
@@ -211,7 +227,17 @@ class ApplicationController < ActionController::Base
         memo[account.currency] = {
           currency: account.currency,
           balance: account.balance,
-          locked: account.locked
+          locked: account.locked,
+          borrowed: account.borrowed,
+          borrow_locked: account.borrow_locked
+        } if account.currency_obj.try(:enable)
+        memo
+      end
+      gon.lending_accounts = current_user.lending_accounts.inject({}) do |memo, account|
+        memo[account.currency] = {
+            currency: account.currency,
+            balance: account.balance,
+            locked: account.locked
         } if account.currency_obj.try(:visible)
         memo
       end

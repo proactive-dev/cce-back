@@ -1,0 +1,23 @@
+#loan_book.panel.panel-default
+  .panel-heading
+    .row
+      .col-xs-12
+        h2.panel-title style="text-align:center" = t('.title_offer')
+      .col-xs-12
+        h2.panel-title style="text-align:center" = t('.title_demand')
+  .panel-body.panel-body-head
+    .row
+      .col-xs-12: table.table
+        thead: tr
+          th.duration.text-right.col-xs-6 = t('.duration')
+          th.amount.text-right.col-xs-10 = t('.amount')
+          th.rate.text-right.col-xs-8 = t('.rate')
+      .col-xs-12: table.table
+        thead: tr
+          th.rate.text-right.col-xs-8 = t('.rate')
+          th.amount.text-right.col-xs-10 = t('.amount')
+          th.duration.text-right.col-xs-6 = t('.duration')
+  .panel-body.panel-body-content
+    .row
+      .col-xs-12: table.table.table-hover.offers
+      .col-xs-12: table.table.table-hover.demands

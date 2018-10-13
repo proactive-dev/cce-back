@@ -1,0 +1,20 @@
+= table_for(loans, class: 'table table-condensed table-hover', model: OpenLoan) do |t|
+  - t.column :member, class: 'col-xs-4' do |x|
+    = link_to x.member.name || x.member.email, url_for([:admin, x.member]), target: '_blank'
+  - t.column :coin, class: 'col-xs-2' do |x|
+    = x.currency.upcase
+  - t.column :type, class: 'col-xs-3'
+  - t.column :rate, class: 'col-xs-2' do |x|
+    code.text-info = x.rate
+  - t.column :amount, class: 'col-xs-2' do |x|
+    code.text-info = x.amount
+  - t.column :duration, class: 'col-xs-2' do |x|
+    code.text-info = x.duration
+  - t.column :auto_renew, class: 'col-xs-2' do |x|
+    = yesno x.auto_renew
+  - t.column :created_at, class: 'col-xs-3'
+  - t.column :state, class: 'col-xs-2' do |x|
+    = x.state.capitalize
+  - t.column :fee, class: 'col-xs-2' do |x|
+    = lending_fee x
+= paginate loans

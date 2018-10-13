@@ -584,6 +584,15 @@ en:
         quote_currency: Quote Currency
         quote_amount: Quote Amount
         price: Price
+      loans:
+        type: Type
+        created_at: Time
+        currency: Currency
+        rate: Rate
+        amount: Amount
+        duration: Duration
+        auto_renew: Auto-Renew
+        fee: Fee
       trade:
         sell: Sell
         buy: Buy
@@ -842,6 +851,23 @@ en:
         ref:
           system: System
           default: Default
+    transfer_balances:
+      move_funds: Move Funds Between Your Exchange and Lending Accounts
+      manage: Transfer Balances
+      amount: Amount
+      transfer: Transfer
+      from: from
+      account_to: account to
+      account: account
+      coin: Coin
+      exchange_account: Exchange
+      lending_account: Lending
+      total: Total
+      please_set_amount: Please Set the Amount Correctly
+      please_select_different_account: Please Select the Accounts Differently
+      error_selected_account: Please Select the Accounts Correctly
+      not_enough_balance_exchange_account: Not Enough Balance in Exchange Account
+      not_enough_balance_lending_account: Not Enough Balance in Lending account
     id_documents:
       edit:
         state: State
@@ -965,6 +991,7 @@ en:
         sound: Sound
         notification: Notify
         funds: "Funds"
+        transfer_balances: "Transfer Balances"
         signout: "Sign Out"
         settings: "Profile"
         history: "History"
@@ -999,6 +1026,75 @@ en:
         global_trades_title: TRADES
       chat:
         title: Chat Channel
+    loan_markets:
+      show:
+        error: Failed
+        success: Success
+        done: DONE
+        cancel_confirm: Are your sure cancel loan?
+        update_confirm: Are your sure update loan?
+        confirm: CONFIRM
+        my_active_loan: Active
+        my_open_loan: Open
+        active_loans: Active Loan
+        rate: Rate
+      account_balance:
+        title: Account Balance
+        available: Available %{currency}
+      loan_entry:
+        title: Place Loan
+        demand: "Demand"
+        offer: "Offer"
+        rate: Rate
+        amount: Amount
+        duration: Duration
+        day: Day(s)
+        auto_renew: Auto-Renew
+      loan_book:
+        title_offer: Loan Offers
+        title_demand: Loan Demands
+        rate: Rate
+        amount: Amount
+        duration: Duration
+      lending_state:
+        new: New
+        partial: Partial
+      settings:
+        sound: Sound
+        notification: Notify
+        funds: Funds
+        signout: Sign Out
+        settings: Profile
+        history: History
+      my_open_loans:
+        title: My Open Loans
+        no_open_loans: You have no open loans.
+        confirm_clear: Are you sure to cancel loan?
+        cancel: Cancel
+        currency: Currency
+        rate: Rate
+        amount: Amount
+        duration: Duration
+        time: Placed Time
+        auto_renew: Auto-renew
+        type: Type
+        action: Action
+      my_active_loans:
+        title: My Active Loans
+        no_active_loans: You have no active loans.
+        currency: Currency
+        rate: Rate
+        amount: Amount
+        duration: Duration
+        time: Placed Time
+        auto_renew: Auto-renew
+        type: Type
+        fee: Fee
+      mask:
+        warning: Please <a class=text-up href='/'>Sign up</a> or <a class=text-up
+          href='/'>Sign in</a> for operation
+      global:
+        global_loans_title: LOANS
     settings:
       success: Settings updated successfully.
       failure: Invalid passcode. Please try again.
@@ -1045,12 +1141,6 @@ en:
           title: API Tokens
           description: Create and manage your API tokens.
           go: Set
-        weibo:
-          title: Connect to Weibo
-          description: After you connecting to Weibo, you can login via Weibo account.
-          bound_desc: This has been connected with %{nickname}.
-          bind: Connect
-          unbind: Disconnect
     otps:
       new:
         step_1: Step 1
@@ -1430,6 +1520,17 @@ en:
         notice: Affiliation been rejected.
       update:
         notice: Affiliation is approved. Affiliation commissions will be added your account soon.
+    lending:
+      loans:
+        index:
+          open_offers: Open Offers
+          open_demands: Open Demands
+          empty: Empty
+        table_loan:
+          reject: Reject
+          reject_confirm: Confirm reject?
+        destroy:
+          notice: Reject successfully done.
     statistic:
       filter: Filter
       summary: Summary
@@ -1783,6 +1884,12 @@ en:
     phone_number_verified:
       subject: "[Rabbit] Your phone number verified"
       verified: 'Your phone number verified: %{phone_number}'
+    notify_cancel_orders:
+      subject: "[Rabbit] Your orders are canceled"
+      orders_canceled: Your orders are canceled. Because they are using borrowed assets and duration of them expired.
+    notify_disabled_from_lending:
+      subject: "[Rabbit] Your account are disabled"
+      member_disabled: Your account are disabled because of not enough amounts to return borrowed.
   system_mailer:
     daily_stats:
       member_stats: Member Stats
@@ -1914,12 +2021,14 @@ en:
     signout: Exit
     signup: Sign Up
     funds: Funds
+    transfer_balances: Transfer Balances
     getstart: Get Started
     assets: Solvency
     history: History
     order_history: Order History
     trade_history: Trade History
     account_history: Account History
+    loan_history: Loan History
     my_profile: My Profile
     tickets: Tickets
     account_balance: Total Assets
@@ -1928,9 +2037,11 @@ en:
     deposit: Deposit
     withdraw: Withdraw
     affiliate: Affiliate
+    lending: Lending
   admin_header:
     deposits: Deposits
     withdraws: Withdraws
+    lending: Lending
     statistics: Data Statistics
     id_documents: Verify Account
   footer:
@@ -1968,6 +2079,8 @@ en:
     member: Member
     transact: Transact
     reject: Reject
+    action_on: "On"
+    action_off: "Off"
     clipboard:
       click: Click to copy
       done: Copied
@@ -2078,6 +2191,8 @@ en:
         sections:
           members: Members
           deposits: Deposits
+          loans: Loans
+          history: History
           sites_statistics: Analytics
           operating: Operations
         items:

@@ -1,0 +1,18 @@
+#my_open_loans.panel.panel-default
+  .panel-heading
+    h2.panel-title = t('.title')
+  .panel-body.panel-body-head
+    table.table
+      thead: tr
+        th.currency.col-xs-3 = t('.currency')
+        th.rate.col-xs-3 = t('.rate')
+        th.amount.col-xs-4 = t('.amount')
+        th.duration.col-xs-3 = t('.duration')
+        th.auto-renew.col-xs-3 = t('.auto_renew')
+        th.type.col-xs-2 = t('.type')
+        th.time.col-xs-4 = t('.time')
+        th.action.col-xs-2 = t('.action')
+  .panel-body.panel-body-content
+    .empty-row = t('.no_open_loans')
+    table.table.table-hover
+      tbody

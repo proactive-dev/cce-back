@@ -10,9 +10,9 @@ window.MarketTickerUI = flight.component ->
     selector.html(formatter.fixBid(price))
 
   @refresh = (event, ticker) ->
-    @updatePrice @select('askSelector'),  ticker.sell, ticker.sell_trend
-    @updatePrice @select('bidSelector'),  ticker.buy,  ticker.buy_trend
-    @updatePrice @select('lastSelector'), ticker.last, ticker.last_trend
+    @updatePrice @select('askSelector'),  ticker.sell, ticker.sell_trend if ticker.sell_trend
+    @updatePrice @select('bidSelector'),  ticker.buy,  ticker.buy_trend if ticker.buy_trend
+    @updatePrice @select('lastSelector'), ticker.last, ticker.last_trend if ticker.last_trend
 
   @after 'initialize', ->
     @on document, 'market::ticker', @refresh
