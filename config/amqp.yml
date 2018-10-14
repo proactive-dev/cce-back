@@ -14,6 +14,11 @@ exchange:
     type: fanout
   binance:
     name: exchange.binance
+  lending:
+    name: exchange.lending
+    type: headers
+  loanbook:
+    name: exchange.loanbook
     type: fanout
 
 queue:
@@ -48,6 +53,20 @@ queue:
   sms:
     name: exchange.notification.sms
     durable: true
+  loan_matching:
+    name: exchange.loan_matching
+    durable: true
+  slave_loan_book:
+    name: exchange.loanbook.slave
+    durable: true
+  new_lending:
+    name: exchange.lending.new
+    durable: true
+  loan_processor:
+    name: exchange.loan.processor
+    durable: true
+  pusher_loan_market:
+    name: exchange.pusher.loan_market
   binance_processor:
     name: exchange.binance.processor
     durable: true
@@ -85,6 +104,21 @@ binding:
   sms_notification:
     queue: sms
     exchange: notification
+  loan_matching:
+    queue: loan_matching
+    clean_start: true
+  slave_loan_book:
+    queue: slave_loan_book
+    exchange: loanbook
+  lending_executor:
+    queue: new_lending
+    manual_ack: true
+  loan_processor:
+    queue: loan_processor
+    manual_ack: true
+  pusher_loan_market:
+    queue: pusher_loan_market
+    exchange: lending
   binance_processor:
     queue: binance_processor
     exchange: binance
@@ -93,4 +127,8 @@ channel:
   trade_executor:
     prefetch: 5
   order_processor:
+    prefetch: 5
+  lending_executor:
+    prefetch: 5
+  loan_processor:
     prefetch: 5

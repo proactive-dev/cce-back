@@ -22,5 +22,9 @@ while($running) do
   end
   Global.trigger 'tickers', all_tickers
 
+  LoanMarket.all.each do |market|
+    global = Global[market.id]
+    global.trigger_loanbook
+  end
   sleep 3
 end

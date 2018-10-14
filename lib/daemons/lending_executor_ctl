@@ -2,8 +2,7 @@
 require 'rubygems'
 require 'daemons/rails/config'
 
-
-num = ENV['PUSHER'] ? ENV['PUSHER'].to_i : 1
+num = ENV['LENDING_EXECUTOR'] ? ENV['LENDING_EXECUTOR'].to_i : 1
 
 num.times do |i|
   if pid = fork
@@ -11,9 +10,9 @@ num.times do |i|
   else
     config = Daemons::Rails::Config.for_controller(File.expand_path(__FILE__))
 
-    config[:app_name] = "exchange:amqp:pusher:#{i+1}"
+    config[:app_name] = "exchange:amqp:lending_executor:#{i+1}"
     config[:script]   = "#{File.expand_path('../amqp_daemon.rb', __FILE__)}"
-    config[:ARGV]     = ARGV + %w(-- pusher_market pusher_member pusher_loan_market)
+    config[:ARGV]     = ARGV + %w(-- lending_executor)
 
     Daemons::Rails.run config[:script], config.to_hash
 
