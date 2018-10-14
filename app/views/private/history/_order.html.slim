@@ -1,7 +1,11 @@
 tr
   td = order.id
   td = t ".#{order.kind}"
-  td = t ".#{order.state}"
+  td
+    - if order.state_reason
+      = t ".#{order.state}" + "(#{order.state_reason})"
+    - else
+      = t ".#{order.state}"
   td = order.currency.upcase
   td = order.price
   td = order.origin_volume

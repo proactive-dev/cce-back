@@ -1,0 +1,21 @@
+- content_for :frame do
+  .container.history-pages
+    = render 'tabs', active: :loan
+
+    .panel.panel-default#loans
+      .panel-body
+        .col-xs-24
+          table.table.table-condensed.table-striped
+            thead: tr
+              th = t('.type')
+              th = t('.created_at')
+              th = t('.currency')
+              th = t('.rate')
+              th = t('.amount')
+              th = t('.duration')
+              th = t('.auto_renew')
+              th = t('.fee')
+            tbody.list
+              = render partial: 'loan', collection: @loans
+          .pull-right
+            = paginate @loans

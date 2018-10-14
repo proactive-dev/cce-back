@@ -23,12 +23,22 @@ module Private
       @orders = current_user.orders.includes(:trades).order("id desc").page(params[:page]).per(20)
     end
 
+    def loans
+      @loans = current_user.active_loans
+                   .where('state = ?', 200) # state : DONE
+                   .includes(:demand_member).includes(:offer_member)
+                   .order('id desc').page(params[:page]).per(20)
+    end
+
     private
 
     def tabs
-      { order: ['header.order_history', order_history_path],
-        trade: ['header.trade_history', trade_history_path],
-        account: ['header.account_history', account_history_path] }
+      {
+          order: ['header.order_history', order_history_path],
+          trade: ['header.trade_history', trade_history_path],
+          account: ['header.account_history', account_history_path],
+          loan: ['header.loan_history', loan_history_path]
+      }
     end
 
   end

@@ -25,6 +25,20 @@ class SystemMailer < BaseMailer
     mail subject: "Order processor error: #{@error}"
   end
 
+  def lending_execute_error(payload, error, backtrace)
+    @payload   = payload
+    @error     = error
+    @backtrace = backtrace
+    mail subject: "ActiveLoan execute error: #{@error}"
+  end
+
+  def loan_processor_error(payload, error, backtrace)
+    @payload   = payload
+    @error     = error
+    @backtrace = backtrace
+    mail subject: "OpenLoan processor error: #{@error}"
+  end
+
   def daily_stats(ts, stats, base)
     @stats = stats
     @base  = base

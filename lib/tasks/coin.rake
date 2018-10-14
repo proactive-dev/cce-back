@@ -6,6 +6,13 @@ namespace :coin do
     end
   end
 
+  desc "Add new lending_accounts for new currency to already existing Members"
+  task new_lending_accounts: :environment do
+    Member.all.each do |member|
+      member.touch_lending_accounts
+    end
+  end
+
   desc "Sync coin deposit transactions"
   task sync_deposit: :environment do
     code    = ENV['code']

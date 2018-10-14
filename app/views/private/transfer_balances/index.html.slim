@@ -1,0 +1,29 @@
+- content_for :frame do
+  .container.transfer-balances-pages
+    .panel.panel-primary
+      .panel-heading: span = t('private.transfer_balances.move_funds')
+      .panel-body
+        .col-xs-24
+          = render 'shared/flash'
+          = yield
+        .col-xs-24
+          = form_tag transfer_balances_path, :class => 'form form-horizontal', method: :get do |f|
+            .col-xs-3 = label_tag :balance_transfer_amount, t('private.transfer_balances.transfer'), :class => 'string required control-label'
+            .col-xs-4 = number_field_tag :balance_transfer_amount, @balance_transfer_amount, placeholder: t('private.transfer_balances.amount'), step:0.0001, min:0.0001, :class => 'string required form-control'
+            .col-xs-3 = select_tag :currency_field, options_from_collection_for_select(@currencies, 'id', 'code'), :class => 'string required form-control', :style => 'text-transform: uppercase'
+            .col-xs-1 = label_tag 'balance_transfer_from_wallet', t('private.transfer_balances.from'), :class => 'string required control-label'
+            .col-xs-3 = select_tag :balance_transfer_from, options_for_select(@wallet_accounts), :class => 'string required form-control'
+            .col-xs-2 = label_tag :balance_transfer_to_wallet, t('private.transfer_balances.account_to'), :class => 'string required control-label'
+            .col-xs-3 = select_tag :balance_transfer_to, options_for_select(@wallet_accounts, 2), :class => 'string required form-control'
+            .col-xs-2 = label_tag nil, t('private.transfer_balances.account'), :class => 'string required control-label'
+            .col-xs-3 = submit_tag t('private.transfer_balances.transfer'), data: {}, :class => 'btn btn-default'
+    .panel.panel-primary
+      = table_for(@all_balances, class: 'table table-condensed table-hover') do |t|
+        - t.column t('private.transfer_balances.coin'), class: 'col-xs-2' do |x|
+          = x[:coin].upcase
+        - t.column t('private.transfer_balances.exchange_account'), class: 'col-xs-2' do |x|
+          = x[:ex]
+        - t.column t('private.transfer_balances.lending_account'), class: 'col-xs-2' do |x|
+          = x[:lx]
+        - t.column t('private.transfer_balances.total'), class: 'col-xs-2' do |x|
+          = x[:total]
