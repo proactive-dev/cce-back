@@ -614,7 +614,7 @@ en:
           'false': "#%{id} Cancel Order Reject"
     withdraws:
       update:
-        request_accepted: Withdraw request accepted.
+        request_pending: Withdraw request accepted.
       destroy:
         request_canceled: Withdraw request canceled
       index:
@@ -1583,7 +1583,7 @@ en:
           all: Last 24 hours
           empty: No data
         show:
-          process: Accepted
+          process: Process
           succeed: Withdraw
           reject: Reject
           succeed_confirm: Process withdrawal?
@@ -1600,7 +1600,7 @@ en:
           all: Last 24 hours
           empty: No data
         show:
-          process: Accepted
+          process: Process
           succeed: Withdraw
           reject: Reject
           succeed_confirm: Process withdrawal?
@@ -1614,7 +1614,7 @@ en:
           all: Last 24 hours
           empty: No data
         show:
-          process: Accepted
+          process: Process
           succeed: Withdraw
           reject: Reject
           succeed_confirm: Process withdrawal?
@@ -1628,7 +1628,7 @@ en:
           all: Last 24 hours
           empty: No data
         show:
-          process: Accepted
+          process: Process
           succeed: Withdraw
           reject: Reject
           succeed_confirm: Process withdrawal?
@@ -1642,7 +1642,7 @@ en:
           all: Last 24 hours
           empty: No data
         show:
-          process: Accepted
+          process: Process
           succeed: Withdraw
           reject: Reject
           succeed_confirm: Process withdrawal?
@@ -1818,7 +1818,7 @@ en:
         submitting: Submitting
         submitted: Submitted
         rejected: Rejected
-        accepted: Accepted
+        pending: Pending
         suspect: Suspect
         processing: Processing
         done: Done
@@ -2039,6 +2039,7 @@ en:
     affiliate: Affiliate
     lending: Lending
   admin_header:
+    assets: Assets
     deposits: Deposits
     withdraws: Withdraws
     lending: Lending
@@ -2072,6 +2073,7 @@ en:
     detail: Detail
     publish: Publish
     edit: Edit
+    transfer: Transfer
     preview: Preview
     close: Close
     cancel: Cancel
@@ -2197,7 +2199,8 @@ en:
           operating: Operations
         items:
           operating:
-            proofs: Proof
+            proofs: Admin addresses
+            payment_addresses: User addresses
             deposits: Deposits
             documents: Documents
             withdraws: Withdraws
@@ -2376,7 +2379,7 @@ en:
       submitting: Submitting
       submitted: Submitted
       rejected: Rejected
-      accepted: Accepted
+      pending: Pending
       suspect: Suspect
       processing: Processing
       done: Done
@@ -2388,7 +2391,7 @@ en:
       submitting: Submitting
       submitted: Submitted
       rejected: Rejected
-      accepted: Accepted
+      pending: Pending
       suspect: Suspect
       processing: processing
       done: Done
@@ -2400,7 +2403,7 @@ en:
       submitting: Submitting
       submitted: Submitted
       rejected: Rejected
-      accepted: Accepted
+      pending: Pending
       suspect: Suspect
       processing: processing
       done: Done
@@ -2412,7 +2415,7 @@ en:
       submitting: Submitting
       submitted: Submitted
       rejected: Rejected
-      accepted: Accepted
+      pending: Pending
       suspect: Suspect
       processing: processing
       done: Done
@@ -2424,7 +2427,7 @@ en:
       submitting: Submitting
       submitted: Submitted
       rejected: Rejected
-      accepted: Accepted
+      pending: Pending
       suspect: Suspect
       processing: processing
       done: Done
@@ -2436,7 +2439,7 @@ en:
       submitting: Submitting
       submitted: Submitted
       rejected: Rejected
-      accepted: Accepted
+      pending: Pending
       suspect: Suspect
       processing: processing
       done: Done

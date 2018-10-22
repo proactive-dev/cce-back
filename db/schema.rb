@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180831021500) do
+ActiveRecord::Schema.define(version: 20180930020050) do
 
   create_table "account_versions", force: true do |t|
     t.integer  "member_id"
@@ -100,6 +100,14 @@ ActiveRecord::Schema.define(version: 20180831021500) do
 
   add_index "api_tokens", ["access_key"], name: "index_api_tokens_on_access_key", unique: true, using: :btree
   add_index "api_tokens", ["secret_key"], name: "index_api_tokens_on_secret_key", unique: true, using: :btree
+
+  create_table "asset_transactions", force: true do |t|
+    t.string   "tx_id"
+    t.decimal  "amount",     precision: 32, scale: 16, default: 0.0, null: false
+    t.integer  "currency"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "assets", force: true do |t|
     t.string  "type"
@@ -378,8 +386,9 @@ ActiveRecord::Schema.define(version: 20180831021500) do
     t.datetime "updated_at"
     t.integer  "currency"
     t.string   "secret"
-    t.string   "details",    default: "{}"
+    t.string   "details",                              default: "{}"
     t.string   "tag"
+    t.decimal  "balance",    precision: 32, scale: 16, default: 0.0,  null: false
   end
 
   create_table "payment_transactions", force: true do |t|

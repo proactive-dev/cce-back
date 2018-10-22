@@ -5,7 +5,7 @@ module Admin
 
       def index
         start_at = DateTime.now.ago(60 * 60 * 24 * 7)
-        @accepted_litecoins = @litecoins.with_aasm_state(:accepted).order("id DESC")
+        @pending_litecoins = @litecoins.with_aasm_state(:accepted).order("id DESC")
         @other_litecoins = @litecoins.without_aasm_state(:accepted).where('created_at > ?', start_at).order("id DESC")
       end
 

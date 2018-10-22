@@ -15,7 +15,7 @@ app.controller 'WithdrawHistoryController', ($scope, $stateParams, $http) ->
     $scope.$apply()
 
   @canCancel = (state) ->
-    ['submitting', 'submitted', 'accepted'].indexOf(state) > -1
+    ['submitting', 'submitted', 'pending'].indexOf(state) > -1
 
   @cancelWithdraw = (withdraw) ->
     withdraw_channel = WithdrawChannel.findBy('currency', withdraw.currency)
