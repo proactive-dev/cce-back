@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180831021500) do
+ActiveRecord::Schema.define(version: 20180930020050) do
 
   create_table "account_versions", force: true do |t|
     t.integer  "member_id"
@@ -44,10 +44,36 @@ ActiveRecord::Schema.define(version: 20180831021500) do
     t.decimal  "in",                              precision: 32, scale: 16
     t.decimal  "out",                             precision: 32, scale: 16
     t.integer  "default_withdraw_fund_source_id"
+    t.decimal  "borrowed",                        precision: 32, scale: 16, default: 0.0
+    t.decimal  "borrow_locked",                   precision: 32, scale: 16, default: 0.0
   end
 
   add_index "accounts", ["member_id", "currency"], name: "index_accounts_on_member_id_and_currency", using: :btree
   add_index "accounts", ["member_id"], name: "index_accounts_on_member_id", using: :btree
+
+  create_table "active_loans", force: true do |t|
+    t.decimal  "rate",              precision: 32, scale: 16
+    t.decimal  "amount",            precision: 32, scale: 16
+    t.integer  "duration"
+    t.integer  "state"
+    t.integer  "demand_id"
+    t.integer  "offer_id"
+    t.integer  "currency"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "demand_member_id"
+    t.integer  "offer_member_id"
+    t.boolean  "demand_auto_renew"
+    t.boolean  "offer_auto_renew"
+  end
+
+  add_index "active_loans", ["created_at"], name: "index_active_loans_on_created_at", using: :btree
+  add_index "active_loans", ["currency", "state"], name: "index_active_loans_on_currency_and_state", using: :btree
+  add_index "active_loans", ["demand_id"], name: "index_active_loans_on_demand_id", using: :btree
+  add_index "active_loans", ["demand_member_id"], name: "index_active_loans_on_demand_member_id", using: :btree
+  add_index "active_loans", ["offer_id"], name: "index_active_loans_on_offer_id", using: :btree
+  add_index "active_loans", ["offer_member_id"], name: "index_active_loans_on_offer_member_id", using: :btree
+  add_index "active_loans", ["state"], name: "index_active_loans_on_state", using: :btree
 
   create_table "affiliations", force: true do |t|
     t.integer  "affiliate_id"
@@ -55,7 +81,7 @@ ActiveRecord::Schema.define(version: 20180831021500) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "state"
-    t.decimal  "amount",       precision: 32, scale: 16, default: 0.0
+    t.decimal  "amount",       precision: 32, scale: 16
   end
 
   create_table "api_tokens", force: true do |t|
@@ -74,6 +100,14 @@ ActiveRecord::Schema.define(version: 20180831021500) do
 
   add_index "api_tokens", ["access_key"], name: "index_api_tokens_on_access_key", unique: true, using: :btree
   add_index "api_tokens", ["secret_key"], name: "index_api_tokens_on_secret_key", unique: true, using: :btree
+
+  create_table "asset_transactions", force: true do |t|
+    t.string   "tx_id"
+    t.decimal  "amount",     precision: 32, scale: 16, default: 0.0, null: false
+    t.integer  "currency"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "assets", force: true do |t|
     t.string  "type"
@@ -215,6 +249,18 @@ ActiveRecord::Schema.define(version: 20180831021500) do
     t.decimal  "volume",   precision: 32, scale: 16
   end
 
+  create_table "lending_accounts", force: true do |t|
+    t.integer  "member_id"
+    t.integer  "currency"
+    t.decimal  "balance",    precision: 32, scale: 16, default: 0.0
+    t.decimal  "locked",     precision: 32, scale: 16, default: 0.0
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "lending_accounts", ["member_id", "currency"], name: "index_lending_accounts_on_member_id_and_currency", using: :btree
+  add_index "lending_accounts", ["member_id"], name: "index_lending_accounts_on_member_id", using: :btree
+
   create_table "members", force: true do |t|
     t.string   "sn"
     t.string   "display_name"
@@ -273,6 +319,29 @@ ActiveRecord::Schema.define(version: 20180831021500) do
 
   add_index "oauth_applications", ["uid"], name: "index_oauth_applications_on_uid", unique: true, using: :btree
 
+  create_table "open_loans", force: true do |t|
+    t.integer  "currency"
+    t.integer  "member_id"
+    t.decimal  "rate",               precision: 32, scale: 16
+    t.decimal  "amount",             precision: 32, scale: 16
+    t.decimal  "origin_amount",      precision: 32, scale: 16
+    t.integer  "duration"
+    t.boolean  "auto_renew"
+    t.integer  "state"
+    t.string   "type"
+    t.datetime "done_at"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.decimal  "funds_received",     precision: 32, scale: 16, default: 0.0
+    t.integer  "active_loans_count",                           default: 0
+    t.string   "source"
+  end
+
+  add_index "open_loans", ["currency", "state"], name: "index_open_loans_on_currency_and_state", using: :btree
+  add_index "open_loans", ["member_id", "state"], name: "index_open_loans_on_member_id_and_state", using: :btree
+  add_index "open_loans", ["member_id"], name: "index_open_loans_on_member_id", using: :btree
+  add_index "open_loans", ["state"], name: "index_open_loans_on_state", using: :btree
+
   create_table "orders", force: true do |t|
     t.integer  "bid"
     t.integer  "ask"
@@ -294,6 +363,7 @@ ActiveRecord::Schema.define(version: 20180831021500) do
     t.decimal  "funds_received",            precision: 32, scale: 16, default: 0.0
     t.integer  "trades_count",                                        default: 0
     t.integer  "binance_id"
+    t.string   "state_reason"
   end
 
   add_index "orders", ["currency", "state"], name: "index_orders_on_currency_and_state", using: :btree
@@ -316,8 +386,9 @@ ActiveRecord::Schema.define(version: 20180831021500) do
     t.datetime "updated_at"
     t.integer  "currency"
     t.string   "secret"
-    t.string   "details",    default: "{}"
+    t.string   "details",                              default: "{}"
     t.string   "tag"
+    t.decimal  "balance",    precision: 32, scale: 16, default: 0.0,  null: false
   end
 
   create_table "payment_transactions", force: true do |t|

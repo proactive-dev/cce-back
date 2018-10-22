@@ -1,0 +1,18 @@
+- unless @proofs.empty?
+  .panel.panel-primary
+    .panel-heading
+      span = "Admin addresses"
+    .panel-body
+      = table_for(@proofs, class: 'table table-condensed table-hover') do |t|
+        - t.column :currency, class: 'col-xs-2'
+        - t.column :address, class: 'col-xs-12'
+        - t.column :balance, class: 'col-xs-4'
+        / - t.column :updated_at, class: 'col-xs-4' do |x|
+        /   = x.updated_at.to_date
+        - t.column '', class: 'col-xs-2' do |x|
+          = link_to I18n.t('actions.transfer'), admin_assets_proof_path(x) if x.currency == 'eth'
+
+      = paginate @proofs
+
+- if @proofs.empty?
+    h3.text-info.text-center = t('.empty')

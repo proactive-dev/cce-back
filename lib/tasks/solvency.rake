@@ -30,10 +30,26 @@ namespace :solvency do
   task :liability_proof => :environment do
     Proof.all.each do |proof|
       begin
-        continue if proof.address.nil? || proof.currency_obj.nil?
+        next if proof.address.blank? || proof.currency_obj.nil?
 
         balance = proof.currency_obj.api.load_balance_of!(proof.address)
         proof.update! balance: balance
+      rescue => e
+        puts e.inspect
+      end
+    end
+
+    puts "Complete."
+  end
+
+  desc "Sync balances of payment_addresses."
+  task :sync_balance => :environment do
+    PaymentAddress.all.each do |payment_address|
+      begin
+        next if payment_address.address.blank? || payment_address.currency_obj.nil?
+
+        balance = payment_address.currency_obj.api.load_balance_of!(payment_address.address)
+        payment_address.update! balance: balance
       rescue => e
         puts e.inspect
       end

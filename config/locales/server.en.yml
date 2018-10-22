@@ -1929,6 +1929,7 @@ en:
     withdraw: Withdraw
     affiliate: Affiliate
   admin_header:
+    assets: Assets
     deposits: Deposits
     withdraws: Withdraws
     statistics: Data Statistics
@@ -1961,6 +1962,7 @@ en:
     detail: Detail
     publish: Publish
     edit: Edit
+    transfer: Transfer
     preview: Preview
     close: Close
     cancel: Cancel
@@ -2082,7 +2084,8 @@ en:
           operating: Operations
         items:
           operating:
-            proofs: Proof
+            proofs: Admin addresses
+            payment_addresses: User addresses
             deposits: Deposits
             documents: Documents
             withdraws: Withdraws

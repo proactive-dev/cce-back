@@ -4,7 +4,6 @@ namespace :admin do
   resources :documents
   resources :id_documents,     only: [:index, :show, :update]
   resource  :currency_deposit, only: [:new, :create]
-  resources :proofs
   resources :markets, only: [:index]
   resources :tickets, only: [:index, :show] do
     member do
@@ -22,7 +21,10 @@ namespace :admin do
     resources :two_factors, only: [:destroy]
   end
 
-  resources :affiliations
+  namespace :assets do
+    resources :proofs
+    resources :payment_addresses
+  end
 
   namespace :deposits do
     Deposit.descendants.each do |d|

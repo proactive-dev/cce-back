@@ -38,6 +38,9 @@ while running
       client.each_deposit options do |deposit|
         break unless running
 
+        # Ignore deposits from admin addresses
+        next if AssetTransaction.where(tx_id: deposit[:id]).exists?
+
         received_at = deposit[:received_at]
         Rails.logger.debug { "Processing deposit received at #{received_at.to_s('%Y-%m-%d %H:%M %Z')}." } if received_at
 
