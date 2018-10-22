@@ -1,11 +1,11 @@
-- unless @accepted_ethereums.empty?
+- unless @pending_ethereums.empty?
   .panel.panel-primary
     .panel-heading: span = t('.one')
-    = render partial: 'table', locals: {ethereums: @accepted_ethereums}
+    = render partial: 'table', locals: {ethereums: @pending_ethereums}
 - unless @other_ethereums.empty?
   .panel.panel-success
     .panel-heading: span = t('.all')
     = render partial: 'table', locals: {ethereums: @other_ethereums}
 
-- if @other_ethereums.empty? and @accepted_ethereums.empty?
+- if @other_ethereums.empty? and @pending_ethereums.empty?
   h3.text-info.text-center = t('.empty')

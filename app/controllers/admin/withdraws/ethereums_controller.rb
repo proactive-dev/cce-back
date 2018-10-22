@@ -5,7 +5,7 @@ module Admin
 
       def index
         start_at = DateTime.now.ago(60 * 60 * 24 * 7)
-        @accepted_ethereums = @ethereums.with_aasm_state(:accepted).order("id DESC")
+        @pending_ethereums = @ethereums.with_aasm_state(:accepted).order("id DESC")
         @other_ethereums = @ethereums.without_aasm_state(:accepted).where('created_at > ?', start_at).order("id DESC")
       end
 

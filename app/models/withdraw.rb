@@ -1,5 +1,5 @@
 class Withdraw < ActiveRecord::Base
-  STATES = [:submitting, :submitted, :rejected, :accepted, :suspect, :processing,
+  STATES = [:submitting, :submitted, :rejected, :pending, :suspect, :processing,
             :done, :canceled, :almost_done, :failed]
   COMPLETED_STATES = [:done, :rejected, :canceled, :almost_done, :failed]
 
@@ -73,7 +73,7 @@ class Withdraw < ActiveRecord::Base
     state :submitting,  initial: true
     state :submitted,   after_commit: :send_email
     state :canceled,    after_commit: [:send_email]
-    state :accepted
+    state :pending
     state :suspect,     after_commit: :send_email
     state :rejected,    after_commit: :send_email
     state :processing,  after_commit: [:send_coins!, :send_email]
@@ -89,27 +89,27 @@ class Withdraw < ActiveRecord::Base
     end
 
     event :cancel do
-      transitions from: [:submitting, :submitted, :accepted], to: :canceled
+      transitions from: [:submitting, :submitted, :pending], to: :canceled
       after do
         after_cancel
       end
     end
 
     event :mark_suspect do
-      transitions from: [:submitted, :accepted, :processing], to: :suspect
+      transitions from: [:submitted, :pending, :processing], to: :suspect
     end
 
     event :accept do
-      transitions from: :submitted, to: :accepted
+      transitions from: :submitted, to: :pending
     end
 
     event :reject do
-      transitions from: [:submitted, :accepted, :suspect, :processing], to: :rejected
+      transitions from: [:submitted, :pending, :suspect, :processing], to: :rejected
       after :unlock_funds
     end
 
     event :process do
-      transitions from: [:accepted, :suspect], to: :processing
+      transitions from: [:pending, :suspect], to: :processing
     end
 
     event :call_rpc do
@@ -129,7 +129,7 @@ class Withdraw < ActiveRecord::Base
   end
 
   def cancelable?
-    submitting? or submitted? or accepted?
+    submitting? or submitted? or pending?
   end
 
   def quick?

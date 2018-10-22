@@ -24,7 +24,7 @@ describe Withdraw do
 
       it "should accept withdraw with clean history" do
         subject.audit!
-        subject.should be_accepted
+        subject.should be_pending
       end
 
       it "should mark withdraw with suspicious history" do
@@ -64,7 +64,7 @@ describe Withdraw do
       it "should accept withdraw with clean history" do
         CoinRPC.stubs(:[]).returns(mock('rpc', validateaddress: {isvalid: true}))
         subject.audit!
-        subject.should be_accepted
+        subject.should be_pending
       end
 
       it "should mark withdraw with suspicious history" do
@@ -229,7 +229,7 @@ describe Withdraw do
         expect(subject.account.locked).to eq 0
       end
 
-      it 'transitions from :accepted to :canceled after calling #cancel!' do
+      it 'transitions from :pending to :canceled after calling #cancel!' do
         subject.submit!
         subject.accept!
         subject.cancel!

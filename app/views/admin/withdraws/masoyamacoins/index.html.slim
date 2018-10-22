@@ -1,11 +1,11 @@
-- unless @accepted_masoyamacoins.empty?
+- unless @pending_masoyamacoins.empty?
   .panel.panel-primary
     .panel-heading: span = t('.one')
-    = render partial: 'table', locals: {masoyamacoins: @accepted_masoyamacoins}
+    = render partial: 'table', locals: {masoyamacoins: @pending_masoyamacoins}
 - unless @other_masoyamacoins.empty?
   .panel.panel-success
     .panel-heading: span = t('.all')
     = render partial: 'table', locals: {masoyamacoins: @other_masoyamacoins}
 
-- if @other_masoyamacoins.empty? and @accepted_masoyamacoins.empty?
+- if @other_masoyamacoins.empty? and @pending_masoyamacoins.empty?
   h3.text-info.text-center = t('.empty')

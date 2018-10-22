@@ -633,7 +633,7 @@ zh-CN:
           'false': "#%{id} 撤单失败"
     withdraws:
       update:
-        request_accepted: 提现申请提交成功
+        request_pending: 提现申请提交成功
       destroy:
         request_canceled: 提现申请已撤销
       index:
@@ -1751,7 +1751,7 @@ zh-CN:
         submitting: 受理中
         submitted: 已受理
         rejected: 已驳回
-        accepted: 已受理
+        pending: 已受理
         suspect: 异常
         processing: 受理中
         done: 完成
@@ -2295,7 +2295,7 @@ zh-CN:
       submitting: 待确认
       submitted: 待校验
       rejected: 已驳回
-      accepted: 已提交
+      pending: 已提交
       suspect: 异常
       processing: 受理中
       done: 提现成功
@@ -2307,7 +2307,7 @@ zh-CN:
       submitting: 待确认
       submitted: 待校验
       rejected: 已驳回
-      accepted: 已提交
+      pending: 已提交
       suspect: 异常
       processing: 受理中
       done: 提现成功
@@ -2319,7 +2319,7 @@ zh-CN:
       submitting: 待确认
       submitted: 待校验
       rejected: 已驳回
-      accepted: 已提交
+      pending: 已提交
       suspect: 异常
       processing: 受理中
       done: 提现成功
@@ -2331,7 +2331,7 @@ zh-CN:
       submitting: 待确认
       submitted: 待校验
       rejected: 已驳回
-      accepted: 已提交
+      pending: 已提交
       suspect: 异常
       processing: 受理中
       done: 提现成功
@@ -2343,7 +2343,7 @@ zh-CN:
       submitting: 待确认
       submitted: 待校验
       rejected: 已驳回
-      accepted: 已提交
+      pending: 已提交
       suspect: 异常
       processing: 受理中
       done: 提现成功
@@ -2355,7 +2355,7 @@ zh-CN:
       submitting: 待确认
       submitted: 待校验
       rejected: 已驳回
-      accepted: 已提交
+      pending: 已提交
       suspect: 异常
       processing: 受理中
       done: 提现成功

@@ -136,7 +136,7 @@ en:
         submitting: Submitting
         submitted: Submitted
         rejected: Rejected
-        accepted: Accepted
+        pending: Pending
         suspect: Suspect
         processing: Processing
         coin_ready: Coin Ready

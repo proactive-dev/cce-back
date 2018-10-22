@@ -5,7 +5,7 @@ module Admin
 
       def index
         start_at = DateTime.now.ago(60 * 60 * 24 * 7)
-        @accepted_sakurablooms = @sakurablooms.with_aasm_state(:accepted).order("id DESC")
+        @pending_sakurablooms = @sakurablooms.with_aasm_state(:accepted).order("id DESC")
         @other_sakurablooms = @sakurablooms.without_aasm_state(:accepted).where('created_at > ?', start_at).order("id DESC")
       end
 
