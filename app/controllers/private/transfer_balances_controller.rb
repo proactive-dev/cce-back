@@ -5,11 +5,11 @@ module Private
     before_action :two_factor_activated!
 
     def index
-      @currencies = Currency.all_enabled
+      @currencies = Currency.all
       @wallet_accounts = [['Exchange', 1], ['Lending', 2]]
       @all_balances = []
 
-      Currency.enabled_codes.each do |code|
+      Currency.codes.each do |code|
         exchange_balance = current_user.get_account(code).balance
         lending_balance = current_user.get_lending_account(code).balance
         total = exchange_balance + lending_balance
