@@ -852,22 +852,22 @@ en:
           system: System
           default: Default
     transfer_balances:
-      move_funds: Move Funds Between Your Exchange and Lending Accounts
+      move_funds: Move Funds Between Your Accounts
       manage: Transfer Balances
       amount: Amount
       transfer: Transfer
       from: from
       account_to: account to
       account: account
-      coin: Coin
+      currency: Currency
       exchange_account: Exchange
+      margin_account: Margin
       lending_account: Lending
       total: Total
-      please_set_amount: Please Set the Amount Correctly
-      please_select_different_account: Please Select the Accounts Differently
-      error_selected_account: Please Select the Accounts Correctly
-      not_enough_balance_exchange_account: Not Enough Balance in Exchange Account
-      not_enough_balance_lending_account: Not Enough Balance in Lending account
+      please_set_amount: Please set the amount correctly
+      please_select_different_account: Please select the accounts differently
+      error_selected_account: Please select the accounts correctly
+      not_enough_balance_source_account: Not enough balance in your source account
     id_documents:
       edit:
         state: State

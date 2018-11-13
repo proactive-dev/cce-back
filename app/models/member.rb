@@ -229,6 +229,7 @@ class Member < ActiveRecord::Base
 
     account
   end
+  alias :get_exchange_account :get_account
   alias :ac :get_account
 
   def get_margin_account(currency)
@@ -241,7 +242,6 @@ class Member < ActiveRecord::Base
 
     margin_account
   end
-  alias :mac :get_margin_account
 
   def get_lending_account(currency)
     lending_account = lending_accounts.with_currency(currency.to_sym).first
@@ -253,7 +253,6 @@ class Member < ActiveRecord::Base
 
     lending_account
   end
-  alias :lac :get_lending_account
 
   def touch_accounts
     less = Currency.codes - self.accounts.map(&:currency).map(&:to_sym)

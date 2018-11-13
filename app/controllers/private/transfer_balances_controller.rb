@@ -6,51 +6,38 @@ module Private
 
     def index
       @currencies = Currency.all
-      @wallet_accounts = [['Exchange', 1], ['Lending', 2]]
-      @all_balances = []
+      @account_types = ['exchange', 'margin', 'lending']
+      # @account_types = [['Exchange', 1], ['Margin', 2], ['Lending', 3]]
+      @all_accounts = []
 
       Currency.codes.each do |code|
         exchange_balance = current_user.get_account(code).balance
+        margin_balance = current_user.get_margin_account(code).balance
         lending_balance = current_user.get_lending_account(code).balance
-        total = exchange_balance + lending_balance
-        @all_balances << {coin: code, ex: exchange_balance, lx: lending_balance, total: total}
+        total = exchange_balance + margin_balance + lending_balance
+        @all_accounts << {currency: code, exchange: exchange_balance, margin: margin_balance, lending: lending_balance, total: total}
       end
 
       if params[:commit].present?
-        amount = params[:balance_transfer_amount].to_f
-        selected_currency = params[:currency_field]
-        from = params[:balance_transfer_from].to_f
-        to = params[:balance_transfer_to].to_f
+        amount = params[:amount_to_transfer].to_f
+        selected_currency = params[:currency]
+        from_account_type = params[:from_account_type]
+        to_account_type = params[:to_account_type]
+
+        redirect_to transfer_balances_path, notice: t('private.transfer_balances.please_set_amount') and return unless (amount.present? && amount > 0)
+        redirect_to transfer_balances_path, notice: t('private.transfer_balances.please_select_different_account') and return if from_account_type == to_account_type
 
         selected_currency_code = Currency.find_by_id(selected_currency).code
-        exchange = current_user.get_account(selected_currency_code)
-        lending = current_user.get_lending_account(selected_currency_code)
+        from_account = current_user.send("get_#{from_account_type}_account", selected_currency_code)
+        to_account = current_user.send("get_#{to_account_type}_account", selected_currency_code)
 
-        redirect_to transfer_balances_path, notice: t('private.transfer_balances.please_set_amount') and return unless amount.present?
-        redirect_to transfer_balances_path, notice: t('private.transfer_balances.please_set_amount') and return unless amount > 0
-        redirect_to transfer_balances_path, notice: t('private.transfer_balances.please_select_different_account') and return if from == to
+        redirect_to transfer_balances_path, notice: t('private.transfer_balances.not_enough_balance_source_account') and return if amount > from_account.balance
 
-        case from
-        when 1
-          redirect_to transfer_balances_path, notice: t('private.transfer_balances.not_enough_balance_exchange_account') and return if amount > exchange.balance
-        when 2
-          redirect_to transfer_balances_path, notice: t('private.transfer_balances.not_enough_balance_lending_account') and return if amount > lending.balance
-        else
-          redirect_to transfer_balances_path, alert: t('private.transfer_balances.error_selected_account') and return
-        end
+        from_account.balance -= amount
+        to_account.balance += amount
 
-        if from == 1 and to == 2
-          exchange.balance -= amount
-          lending.balance += amount
-        elsif from == 2 and to == 1
-          exchange.balance += amount
-          lending.balance -= amount
-        else
-          redirect_to transfer_balances_path, alert: t('private.transfer_balances.error_selected_account') and return
-        end
-
-        exchange.save # account
-        lending.save
+        from_account.save!
+        to_account.save!
 
         redirect_to transfer_balances_path
       end
