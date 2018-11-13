@@ -95,9 +95,7 @@
   @refreshBalance = (event, data) ->
     type = @panelType()
     currency = gon.market[type].currency
-    ba_amount = gon.accounts[currency]?.balance || 0
-    bo_amount = gon.accounts[currency]?.borrowed || 0
-    balance =  parseFloat(ba_amount) +  parseFloat(bo_amount)
+    balance = gon.accounts[currency]?.balance || 0
 
     @select('currentBalanceSel').data('balance', balance)
     @select('currentBalanceSel').text(formatter.fix(type, balance))

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180930020050) do
+ActiveRecord::Schema.define(version: 20181001022830) do
 
   create_table "account_versions", force: true do |t|
     t.integer  "member_id"
@@ -44,8 +44,6 @@ ActiveRecord::Schema.define(version: 20180930020050) do
     t.decimal  "in",                              precision: 32, scale: 16
     t.decimal  "out",                             precision: 32, scale: 16
     t.integer  "default_withdraw_fund_source_id"
-    t.decimal  "borrowed",                        precision: 32, scale: 16, default: 0.0
-    t.decimal  "borrow_locked",                   precision: 32, scale: 16, default: 0.0
   end
 
   add_index "accounts", ["member_id", "currency"], name: "index_accounts_on_member_id_and_currency", using: :btree
@@ -260,6 +258,20 @@ ActiveRecord::Schema.define(version: 20180930020050) do
 
   add_index "lending_accounts", ["member_id", "currency"], name: "index_lending_accounts_on_member_id_and_currency", using: :btree
   add_index "lending_accounts", ["member_id"], name: "index_lending_accounts_on_member_id", using: :btree
+
+  create_table "margin_accounts", force: true do |t|
+    t.integer  "member_id"
+    t.integer  "currency"
+    t.decimal  "balance",       precision: 32, scale: 16, default: 0.0
+    t.decimal  "locked",        precision: 32, scale: 16, default: 0.0
+    t.decimal  "borrowed",      precision: 32, scale: 16, default: 0.0
+    t.decimal  "borrow_locked", precision: 32, scale: 16, default: 0.0
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "margin_accounts", ["member_id", "currency"], name: "index_margin_accounts_on_member_id_and_currency", using: :btree
+  add_index "margin_accounts", ["member_id"], name: "index_margin_accounts_on_member_id", using: :btree
 
   create_table "members", force: true do |t|
     t.string   "sn"

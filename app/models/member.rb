@@ -6,6 +6,7 @@ class Member < ActiveRecord::Base
   has_many :open_loans
   has_many :accounts
   has_many :lending_accounts
+  has_many :margin_accounts
   has_many :payment_addresses, through: :accounts
   has_many :withdraws
   has_many :fund_sources
@@ -42,6 +43,7 @@ class Member < ActiveRecord::Base
 
   before_create :build_default_id_document
   after_create  :touch_accounts
+  after_create  :touch_margin_accounts
   after_create  :touch_lending_accounts
   after_update :resend_activation
   after_update :sync_update
@@ -128,7 +130,7 @@ class Member < ActiveRecord::Base
   def cancel_orders_from_lending
     self.orders.with_state(:wait).each do |order|
 
-      account = order.hold_account
+      account = order.hold_margin_account
       order   = Order.find(order.id).lock!
 
       if order.state == Order::WAIT
@@ -229,6 +231,18 @@ class Member < ActiveRecord::Base
   end
   alias :ac :get_account
 
+  def get_margin_account(currency)
+    margin_account = margin_accounts.with_currency(currency.to_sym).first
+
+    if margin_account.nil?
+      touch_margin_accounts
+      margin_account = margin_accounts.with_currency(currency.to_sym).first
+    end
+
+    margin_account
+  end
+  alias :mac :get_margin_account
+
   def get_lending_account(currency)
     lending_account = lending_accounts.with_currency(currency.to_sym).first
 
@@ -245,6 +259,13 @@ class Member < ActiveRecord::Base
     less = Currency.codes - self.accounts.map(&:currency).map(&:to_sym)
     less.each do |code|
       self.accounts.create(currency: code, balance: 0, locked: 0)
+    end
+  end
+
+  def touch_margin_accounts
+    less = Currency.codes - self.accounts.map(&:currency).map(&:to_sym)
+    less.each do |code|
+      self.margin_accounts.create(currency: code, balance: 0, locked: 0)
     end
   end
 
