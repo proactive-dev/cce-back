@@ -6,15 +6,19 @@ class LoanFormatter
     str = '0' unless $.isNumeric(str)
     @.round(str, gon.loan_market.precision)
 
-  mask_rate: (rate) ->
-    rate.replace(/\..*/, "<g>$&</g>")
+  capitalize: (str) ->
+    str = str[0].toUpperCase() + str[1..-1].toLowerCase()
+
+  mask_balance: (str) ->
+    str = @precision(str)
+    loan_formatter.t('place_loan')['lending_balance'].concat(str)
 
   mask_fixed_rate: (rate) ->
-    str = @mask_rate @precision(rate)
+    str = @precision(rate)
     str.concat("%")
 
   mask_fixed_amount: (amount) ->
-    @.precision(amount).replace(/\..*/, "<g>$&</g>")
+    @.precision(amount)
 
   mask_duration: (duration) ->
     days = if BigNumber(duration) > 1 then " Days" else " Day"

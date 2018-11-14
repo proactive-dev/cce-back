@@ -28,5 +28,5 @@
     @trigger 'lending_account::update', gon.lending_accounts
     @trigger 'order::wait::populate', orders: gon.my_orders if gon.my_orders
     @trigger 'trade::populate', trades: gon.my_trades if gon.my_trades
-    @trigger 'loan::wait::populate', loans: gon.my_open_loans if gon.my_open_loans
+    @trigger 'loan::wait::populate', loans: gon.my_open_loan_offers if gon.my_open_loan_offers
     @trigger 'active_loan::populate', active_loans: gon.my_active_loans if gon.my_active_loans

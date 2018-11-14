@@ -2,7 +2,7 @@
   <td class='currency col-xs-3'>
     <span style="text-transform: uppercase;"><%- @loan_market %></span>
   </td>
-  <td class='rate col-xs-3 <%= loan_formatter.trend @kind %>'>
+  <td class='rate col-xs-3'>
     <span><%- loan_formatter.mask_fixed_rate @rate %></span>
   </td>
   <td class='amount col-xs-4'>
@@ -14,13 +14,10 @@
   <td class='auto-renew col-xs-3'>
     <span class= "auto-renew" style="text-decoration: underline;"><%- loan_formatter.mask_auto_renew @auto_renew %></span>
   </td>
-  <td class='type col-xs-2'>
-    <span><%- loan_formatter.type @kind %></span>
-  </td>
   <td class='time col-xs-4'>
     <span><%- loan_formatter.fulltime @at %></span>
   </td>
-  <td class='action col-xs-2'>
+  <td class='action col-xs-4'>
      <span class= "cancel" style="text-decoration: underline;"><%= gon.i18n.cancel %></span>
   </td>
 </tr>

@@ -1,7 +1,7 @@
-@MyOpenLoansUI = flight.component ->
+@MyOpenLoanOffersUI = flight.component ->
   flight.compose.mixin @, [LoanListMixin]
 
-  @getTemplate = (loan) -> $(JST["templates/my_open_loan"](loan))
+  @getTemplate = (loan) -> $(JST["templates/my_open_loan_offer"](loan))
 
   @loanHandler = (event, loan) ->
     switch loan.state

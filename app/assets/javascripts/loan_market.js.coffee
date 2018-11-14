@@ -38,7 +38,7 @@ $ ->
 
   LoanBookUI.attachTo('#loan_book')
 
-  MyOpenLoansUI.attachTo('#my_open_loans')
+  MyOpenLoanOffersUI.attachTo('#my_open_loan_offers')
   MyActiveLoansUI.attachTo('#my_active_loans')
 
   GlobalLoanData.attachTo(document, {pusher: window.pusher})
@@ -55,4 +55,4 @@ $ ->
   @after 'initialize', ->
     loan_market = gon.loan_market
     @loan_markets = gon.loan_markets
-    @select('current_loan_market').text "#{loan_market.name.toUpperCase()}"
+    @select('current_loan_market').text "#{loan_formatter.capitalize(loan_market.name)}"

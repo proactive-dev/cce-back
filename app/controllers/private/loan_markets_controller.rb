@@ -54,7 +54,7 @@ module Private
 
     def set_member_data
       @member = current_user
-      @loans_wait = @member.open_loans.with_state(:wait)
+      @loan_offers_wait = @member.open_loans.with_state(:wait).where(type: 'LoanOffer')
       @loans_active = ActiveLoan.for_member(current_user, limit: 100, loan: 'id desc')
     end
 

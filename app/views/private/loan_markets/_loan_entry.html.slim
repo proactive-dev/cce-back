@@ -24,9 +24,7 @@
           = f.check_box :auto_renew, class: 'form-control'
           span.check = t('.auto_renew')
 
-      .form-group.col-md-2
-        button.btn.btn-success.btn-block.text-up type="submit" name="type" value="offer" = t('.offer')
-      .form-group.col-md-2
-        button.btn.btn-default.btn-block.text-up type="submit" name="type" value="demand" = t('.demand')
+      .form-group.col-md-4
+        button.btn.btn-success.btn-block type="submit" name="type" value="offer" = t('.offer')
 
     = render partial: 'mask'

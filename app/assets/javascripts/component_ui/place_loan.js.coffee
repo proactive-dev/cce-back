@@ -80,18 +80,16 @@
     balance = gon.lending_accounts[currency]?.balance || 0
 
     @select('currentBalanceSel').data('balance', balance)
-    @select('currentBalanceSel').text(loan_formatter.precision(balance))
+    @select('currentBalanceSel').text(loan_formatter.mask_balance(balance))
 
     @trigger 'place_loan::balance::change', balance: BigNumber(balance)
     @trigger 'place_loan::max::amount', max: BigNumber(balance)
 
   @updateAvailable = (event, loan) ->
-    node = @select('currentBalanceSel')
-
     loan['amount'] = 0 unless loan['amount']
-    available = loan_formatter.precision @getBalance().minus(loan['amount'])
+    available = loan_formatter.mask_balance @getBalance().minus(loan['amount'])
 
-    node.text(available)
+    @select('currentBalanceSel').text(available)
 
   @clear = (e) ->
     @resetForm(e)

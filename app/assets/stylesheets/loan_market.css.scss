@@ -95,7 +95,7 @@ header {
       color: rgba(255,255,255,.5);
       padding: 6px 2px;
       font-size: 12px;
-      background-color: $btn-danger-bg;
+      background-color: #333;
     }
 
   }
@@ -315,7 +315,7 @@ header {
   }
 }
 
-#my_open_loans, #my_active_loans {
+#my_open_loan_offers, #my_active_loans {
   .panel-body-content {
     height: $my-loans-height - $gutter-2x;
 
@@ -434,7 +434,7 @@ header {
 /* loan-book my-loans table
 ---------------------------------------------------*/
 
-#loan_book, #my_open_loans, #my_active_loans {
+#loan_book, #my_open_loan_offers, #my_active_loans {
   table {
     margin-bottom: 0px;
 

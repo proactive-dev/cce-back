@@ -1038,13 +1038,11 @@ en:
         my_open_loan: Open
         active_loans: Active Loan
         rate: Rate
-      account_balance:
-        title: Account Balance
-        available: Available %{currency}
+      lending_balance: "Your lending account balance: "
       loan_entry:
-        title: Place Loan
+        title: Place Loan Offer
         demand: "Demand"
-        offer: "Offer"
+        offer: "Offer Loan"
         rate: Rate
         amount: Amount
         duration: Duration
@@ -1066,10 +1064,10 @@ en:
         signout: Sign Out
         settings: Profile
         history: History
-      my_open_loans:
-        title: My Open Loans
-        no_open_loans: You have no open loans.
-        confirm_clear: Are you sure to cancel loan?
+      my_open_loan_offers:
+        title: My Open Loan Offers
+        no_open_loans: You have no open loan offers.
+        confirm_clear: Are you sure to cancel loan offer?
         cancel: Cancel
         currency: Currency
         rate: Rate

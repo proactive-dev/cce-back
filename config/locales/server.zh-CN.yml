@@ -886,14 +886,15 @@ zh-CN:
       account_to: 账户 到
       account: 账户
       coin: 暗号货币
-      exchange_account: Exchange账户余额
-      lending_account: Lending账户余额
+      exchange_account: 交易账户余额
+      margin_account: 杠杆账户余额
+      lending_account: 贷款账户余额
       total: 总额合计
       please_set_amount: 请设置暗号货币的数量
       please_select_different_account: 请选择不同的帐户
       error_selected_account: 请选择不同的帐户
-      not_enough_balance_exchange_account: 缺乏在Exchange账户资金
-      not_enough_balance_lending_account: 缺乏在Lending账户资金
+      not_enough_balance_exchange_account: 缺乏在交易账户资金
+      not_enough_balance_lending_account: 缺乏在贷款账户资金
     id_documents:
       edit:
         state: 验证状态
@@ -1064,11 +1065,9 @@ zh-CN:
         my_open_loan: 打开的
         active_loans: 贷款
         rate: 比率
-      account_balance:
-        title: 账户资产
-        available: 可用 %{currency}
+      lending_balance: "您的贷款账户余额: "
       loan_entry:
-        title: 贷款
+        title: 贷款提供
         demand: "需求"
         offer: "提供"
         rate: 比率
@@ -1092,10 +1091,10 @@ zh-CN:
         signout: "安全退出"
         settings: "账户设置"
         history: "历史记录"
-      my_open_loans:
-        title: 我打开的贷款
-        no_open_loans: 当前没有打开的贷款.
-        confirm_clear: 确定要撤销贷款吗?
+      my_open_loan_offers:
+        title: 我打开的贷款提供
+        no_open_loans: 当前没有打开的贷款提供.
+        confirm_clear: 确定要撤销贷款提供吗?
         cancel: 取消
         currency: 货币
         rate: 比率

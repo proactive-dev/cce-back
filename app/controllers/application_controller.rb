@@ -201,7 +201,8 @@ class ApplicationController < ActionController::Base
         confirm_submit: I18n.t('private.loan_markets.show.confirm'),
         confirm_cancel: I18n.t('private.loan_markets.show.cancel_confirm'),
         confirm_update: I18n.t('private.loan_markets.show.update_confirm'),
-        rate: I18n.t('private.loan_markets.show.rate')
+        rate: I18n.t('private.loan_markets.show.rate'),
+        lending_balance: I18n.t('private.loan_markets.lending_balance')
       }
     }
 
