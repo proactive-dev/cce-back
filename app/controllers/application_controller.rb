@@ -229,7 +229,7 @@ class ApplicationController < ActionController::Base
           currency: account.currency,
           balance: account.balance,
           locked: account.locked
-        } if account.currency_obj.try(:enable)
+        } if account.currency_obj.try(:visible)
         memo
       end
       gon.margin_accounts = current_user.margin_accounts.inject({}) do |memo, account|
@@ -239,7 +239,7 @@ class ApplicationController < ActionController::Base
           locked: account.locked,
           borrowed: account.borrowed,
           borrow_locked: account.borrow_locked
-        } if account.currency_obj.try(:enable)
+        } if account.currency_obj.try(:visible)
         memo
       end
       gon.lending_accounts = current_user.lending_accounts.inject({}) do |memo, account|
