@@ -1,0 +1,42 @@
+@import "bourbon";
+
+@import 'vars/bootstrap';
+@import 'vars/bootstrap_market';
+
+@import 'bootstrap';
+@import 'bootstrap-switch.min';
+
+@import 'vars/basic';
+@import 'vars/margin_market';
+
+@import "font-awesome-sprockets";
+@import 'font-awesome';
+@import 'csshake.min';
+
+@import 'layouts/basic';
+
+@import 'market';
+
+/* layout position
+----------------------------------------------- */
+#ask_entry, #bid_entry {
+  height: $margin-entry-height;
+}
+
+#ticker {
+  bottom: $gutter_4x + $margin-entry-height + $my-orders-height + $depths-height; right: $gutter;
+}
+
+#depths_wrapper {
+  bottom: $gutter-3x + $my-orders-height + $margin-entry-height; right: $gutter;
+}
+
+#my_orders_wrapper {
+  .dropdown-wrapper {
+    bottom: $gutter-2x + $margin-entry-height; right: $order-book-width + $gutter;
+  }
+}
+
+#my_orders {
+  bottom: $gutter-2x + $margin-entry-height; right: $gutter;
+}

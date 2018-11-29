@@ -15,14 +15,11 @@ class MarginAccount < ActiveRecord::Base
   FUNS = {:unlock_funds => 1, :lock_funds => 2, :plus_funds => 3, :sub_funds => 4, :unlock_and_sub_funds => 5}
 
   belongs_to :member
-  has_many :payment_addresses
   has_many :versions, class_name: "::AccountVersion"
   has_many :partial_trees
 
   # Suppose to use has_one here, but I want to store
   # relationship at account side. (Daniel)
-  belongs_to :default_withdraw_fund_source_id, class_name: 'FundSource'
-
   validates :member_id, uniqueness: { scope: :currency }
   validates_numericality_of :balance, :locked, greater_than_or_equal_to: ZERO
   validates_numericality_of :borrowed, :borrow_locked, greater_than_or_equal_to: ZERO
@@ -30,10 +27,6 @@ class MarginAccount < ActiveRecord::Base
   scope :enabled, -> { where("currency in (?)", Currency.ids) }
 
   after_commit :trigger, :sync_update
-
-  def payment_address
-    payment_addresses.last || payment_addresses.create(currency: self.currency)
-  end
 
   def self.after(*names)
     names.each do |name|
@@ -47,27 +40,27 @@ class MarginAccount < ActiveRecord::Base
   end
 
   def plus_funds(amount, fee: ZERO, reason: nil, ref: nil)
-    (amount <= ZERO or fee > amount) and raise AccountError, "cannot add funds (amount: #{amount})"
+    (amount <= ZERO or fee > amount) and raise MarginAccountError, "cannot add funds (amount: #{amount})"
     change_balance_and_locked amount, 0
   end
 
   def sub_funds(amount, fee: ZERO, reason: nil, ref: nil)
-    (amount <= ZERO or amount > self.balance) and raise AccountError, "cannot subtract funds (amount: #{amount})"
+    (amount <= ZERO or amount > self.balance) and raise MarginAccountError, "cannot subtract funds (amount: #{amount})"
     change_balance_and_locked -amount, 0
   end
 
   def lock_funds(amount, reason: nil, ref: nil)
-    (amount <= ZERO or amount > self.balance) and raise AccountError, "cannot lock funds (amount: #{amount})"
+    (amount <= ZERO or amount > self.balance) and raise MarginAccountError, "cannot lock funds (amount: #{amount})"
     change_balance_and_locked -amount, amount
   end
 
   def unlock_funds(amount, reason: nil, ref: nil)
-    (amount <= ZERO or amount > self.locked) and raise AccountError, "cannot unlock funds (amount: #{amount})"
+    (amount <= ZERO or amount > self.locked) and raise MarginAccountError, "cannot unlock funds (amount: #{amount})"
     change_balance_and_locked amount, -amount
   end
 
   def unlock_and_sub_funds(amount, locked: ZERO, fee: ZERO, reason: nil, ref: nil)
-    raise AccountError, "cannot unlock and subtract funds (amount: #{amount})" if ((amount <= 0) or (amount > locked))
+    raise MarginAccountError, "cannot unlock and subtract funds (amount: #{amount})" if ((amount <= 0) or (amount > locked))
     raise LockedError, "invalid lock amount" unless locked
     raise LockedError, "invalid lock amount (amount: #{amount}, locked: #{locked}, self.locked: #{self.locked})" if ((locked <= 0) or (locked > self.locked))
     change_balance_and_locked locked-amount, -locked
@@ -164,7 +157,7 @@ class MarginAccount < ActiveRecord::Base
   end
 
   def self.compute_locked_and_balance(fun, amount, opts)
-    raise AccountError, "invalid account operation" unless FUNS.keys.include?(fun)
+    raise MarginAccountError, "invalid account operation" unless FUNS.keys.include?(fun)
 
     case fun
     when :sub_funds then [ZERO, ZERO - amount]
@@ -175,7 +168,7 @@ class MarginAccount < ActiveRecord::Base
       locked = ZERO - opts[:locked]
       balance = opts[:locked] - amount
       [locked, balance]
-    else raise AccountError, "forbidden account operation"
+    else raise MarginAccountError, "forbidden account operation"
     end
   end
 
@@ -236,11 +229,11 @@ class MarginAccount < ActiveRecord::Base
   scope :borrowed_sum, -> (currency) { with_currency(currency).sum(:borrowed) }
   scope :borrow_locked_sum, -> (currency) { with_currency(currency).sum(:borrow_locked) }
 
-  class AccountError < RuntimeError; end
-  class LockedError < AccountError; end
-  class BalanceError < AccountError; end
-  class BorrowedError < AccountError; end
-  class BorrowLockedError < AccountError; end
+  class MarginAccountError < RuntimeError; end
+  class LockedError < MarginAccountError; end
+  class BalanceError < MarginAccountError; end
+  class BorrowedError < MarginAccountError; end
+  class BorrowLockedError < MarginAccountError; end
 
   def as_json(options = {})
     super(options).merge({

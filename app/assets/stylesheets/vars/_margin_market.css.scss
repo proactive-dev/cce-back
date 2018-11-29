@@ -1,0 +1,8 @@
+/* exchange site vars
+-------------------------------------------------------------- */
+
+@import 'vars/market';
+
+$margin-entry-height: 229px;
+
+$order-book-height: $min-height - $navbar-height - $margin-entry-height - $ticker-height - $depths-height - $my-orders-height - $gutter-6x;

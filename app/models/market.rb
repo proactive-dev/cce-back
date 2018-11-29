@@ -26,6 +26,10 @@ class Market < ActiveYamlBase
     all.select &:is_binance?
   end
 
+  def self.margin_markets
+    all.select &:is_margin?
+  end
+
   def self.enumerize
     all_with_invisible.inject({}) {|hash, i| hash[i.id.to_sym] = i.code; hash }
   end
@@ -85,8 +89,14 @@ class Market < ActiveYamlBase
     source.nil?
   end
 
+  def is_margin?
+    margin.present?
+  end
+
   def scope?(account_or_currency)
     code = if account_or_currency.is_a? Account
+             account_or_currency.currency
+           elsif account_or_currency.is_a? MarginAccount
              account_or_currency.currency
            elsif account_or_currency.is_a? Currency
              account_or_currency.code

@@ -303,6 +303,14 @@ zh-CN:
       ltc: LTC
       skb: SKB
       mas: MAS
+  margin_market:
+    currency:
+      usd: USD
+      btc: BTC
+      eth: ETH
+      ltc: LTC
+      skb: SKB
+      mas: MAS
   currency:
     dollar:
       key: USD
@@ -1048,6 +1056,145 @@ zh-CN:
         warning: 请 <a class=text-up href='/'>登录</a> 或者 <a class=text-up href='/'>注册</a> 后进行操作
       klime_chart:
         title: K线图
+      global:
+        global_orders_title: 十档盘口
+        global_trades_title: 成交记录
+      chat:
+        title: 聊天频道
+    margin_markets:
+      show:
+        error: 委托失败
+        success: 委托成功
+        analysis_panel: 分析面板
+        help_panel: 帮助面板
+        done: 成交
+        cancel: 撤单
+        cancel_confirm: 确认撤销此单吗？
+        confirm: 确认
+        ask_order: '卖 ##sn#'
+        bid_order: '买 ##sn#'
+        my_active_order: <v>有</v><v>效</v><v>委</v><v>单</v>
+        my_done_order: <v>成</v><v>交</v><v>委</v><v>单</v>
+        trades: <v>委</v><v>单</v><v>成</v><v>交</v>
+        chat: 聊天频道
+      market_list:
+        all: 全部交易对
+        all_html: "<i class='fa fa-check'></i><span>全部交易对</span>"
+        usd_html: "<i class='fa fa-check'></i><span>USD交易对</span>"
+        btc_html: "<i class='fa fa-check'></i><span>BTC交易对</span>"
+        eth_html: "<i class='fa fa-check'></i><span>ETH交易对</span>"
+        ltc_html: "<i class='fa fa-check'></i><span>LTC交易对</span>"
+        skb_html: "<i class='fa fa-check'></i><span>SKB交易对</span>"
+        mas_html: "<i class='fa fa-check'></i><span>MAS交易对</span>"
+        price: 最新价
+        change: "24h涨跌"
+#      range_switch:
+#        switch_1: 1m
+#        switch_5: 5m
+#        switch_15: 15m
+#        switch_30: 30m
+#        switch_60: 1h
+#        switch_120: 2h
+#        switch_240: 4h
+#        switch_360: 6h
+#        switch_720: 12h
+#        switch_1440: 1d
+#        switch_4320: 3d
+#        switch_10080: 1w
+#      depths:
+#        price: 价格
+#        amount: 数量
+#        buy: 买入
+#        sell: 卖出
+#        ask_orders: 卖出
+#        bid_orders: 买入
+#      ticker:
+#        last: 最新成交价
+#        ask: 卖一价
+#        bid: 买一价
+      account_balance:
+        title: 账户余额
+        available: 可用 %{currency}
+      bid_entry:
+        action: "买入%{currency}"
+        price: 价格
+        last_price: 最新价格
+        amount: 数量
+        total: 金额
+        fee: 手续费
+      ask_entry:
+        action: "卖出%{currency}"
+        price: 价格
+        last_price: 最新价格
+        amount: 数量
+        total: 金额
+        fee: 手续费
+      place_order:
+        price_high: 高
+        price_low: 低
+        price_min_limit: 最低
+        price_fixed: 固定
+        full_bid: 满
+        full_ask: 空
+#      order_book:
+#        title: 市场实时委单记录
+#        volume: 数量
+#        price: 价格
+#        amount: 总价
+#        ask: 卖出
+#        bid: 买入
+#        fade_toggle_depth: 市场深度
+#      trade_state:
+#        new: 未成交
+#        partial: 部分成交
+#      market_trades:
+#        all: 所有成交
+#        my: 我的成交
+#        all_html: "<i class='fa fa-check'></i><span>所有成交</span>"
+#        my_html: "<i class='fa fa-check'></i><span>我的成交</span>"
+#        time: 成交时间
+#        price: 成交价
+#        volume: 成交量
+      header:
+        network: 连接状态
+        vol: 24小时 成交量
+        high: 最高
+        low: 最低
+        change: 涨跌
+#      settings:
+#        sound: 音效
+#        notification: 通知
+#        funds: "资金管理"
+#        transfer_balances: "资金转移"
+#        signout: "安全退出"
+#        settings: "账户设置"
+#        history: "历史记录"
+      account_summary:
+        title: 总资产约
+        account: 账号
+        amount: 总计
+        locked: 冻结
+        view_all_accounts: "查看全部账户"
+        hide_all_accounts: "隐藏其他账户"
+      my_orders:
+        orders_wait: 挂单纪录
+        orders_done: 已完成订单
+        orders_cancel: 最新撤销
+        no_open_orders: 当前没有未完成委托
+        clear_all_html: "<i class='fa fa-trash'></i><span>撤销所有</span>"
+        clear_bids_html: "<i class='fa fa-trash'></i><span>撤销买入</span>"
+        clear_asks_html: "<i class='fa fa-trash'></i><span>撤销卖出</span>"
+        confirm_clear_all: 确定要撤销全部 [买卖委单] 吗?
+        confirm_clear_bids: 确定要撤销 [买入委单] 吗?
+        confirm_clear_asks: 确定要撤销 [卖出委单] 吗?
+        price: 委单价
+        volume: 委单量
+        amount: 总价
+        time: 创建时间
+#      mask:
+#        warning: 请 <a class=text-up href='/'>登录</a> 或者 <a class=text-up href='/'>注册</a> 后进行操作
+#      klime_chart:
+#        title: K线图
       global:
         global_orders_title: 十档盘口
         global_trades_title: 成交记录
