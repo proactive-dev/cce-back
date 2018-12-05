@@ -20,8 +20,8 @@ module LoanMatching
     private
 
     def valid?
-      return false if @demand.rate > @rate
-      return false if @offer.rate < @rate
+      return false if @demand.rate < @rate
+      return false if @offer.rate > @rate
       [@demand.amount, @offer.amount].min >= @amount
     end
 
@@ -58,7 +58,7 @@ module LoanMatching
 
       # TODO: temporary fix, can be removed after pusher -> polling refactoring
       if @active_loan.demand_member_id == @active_loan.offer_member_id
-        @demand.hold_lending_account.reload.trigger
+        @demand.hold_margin_account.reload.trigger
         @offer.hold_lending_account.reload.trigger
       end
     end

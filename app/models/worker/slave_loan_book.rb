@@ -65,14 +65,11 @@ module Worker
 
     def get_data(market, side)
       data = []
-      @managers[market.id].send("#{side}_loans").loans.each do |rate, loan_groups|
-        loan_groups.each do |duration, loans|
-          if side == :offer
-            data.push(*loans)
-          else
-            data.unshift(*loans)
-          end
-        end
+      loans = @managers[market.id].send("#{side}_loans").loans
+      if side == :offer
+        data.push(*loans)
+      else
+        data.unshift(*loans)
       end
 
       data

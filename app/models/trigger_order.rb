@@ -57,49 +57,20 @@ class TriggerOrder < ActiveRecord::Base
     json = Jbuilder.encode do |json|
       json.(self, *ATTRIBUTES)
     end
-    member.trigger('trigger_order', json)
+
+    member.trigger('order', json)
   end
 
-  # def strike(order)
-  #   raise "Cannot strike on cancelled or done order. id: #{id}, state: #{state}" unless state == Order::WAIT
-  #
-  #   real_sub, add = get_account_changes order
-  #   real_fee      = add * fee
-  #   real_add      = add - real_fee
-  #
-  #   hold_account.unlock_and_sub_funds \
-  #     real_sub, locked: real_sub,
-  #     reason: Account::STRIKE_SUB, ref: order
-  #
-  #   # hold_account.unlock_tradable_funds \
-  #   #   real_sub, reason: Account::STRIKE_SUB, ref: order
-  #   #
-  #   # hold_margin_account.sub_tradable_funds \
-  #   #   real_sub, reason: Account::STRIKE_SUB, ref: order
-  #
-  #   expect_account.plus_funds \
-  #     real_add, fee: real_fee,
-  #     reason: Account::STRIKE_ADD, ref: order
-  #
-  #   self.volume         -= order.volume
-  #   self.locked         -= real_sub
-  #   self.funds_received += add
-  #   self.orders_count   += 1
-  #
-  #   if volume.zero?
-  #     self.state = Order::DONE
-  #
-  #     # unlock not used funds
-  #     hold_account.unlock_funds locked,
-  #     # hold_account.unlock_tradable_funds locked,
-  #       reason: Account::ORDER_FULLFILLED, ref: order unless locked.zero?
-  #   elsif ord_type == 'market' && locked.zero?
-  #     # partially filled market order has run out its locked fund
-  #     self.state = Order::CANCEL
-  #   end
-  #
-  #   self.save!
-  # end
+  def fill(amount)
+    self.volume         -= amount
+    self.funds_received += amount
+
+    self.state = TriggerOrder::DONE if volume.zero?
+    self.save!
+
+    # TODO: create order from trigger order
+    # self.orders_count   += 1
+  end
 
   def kind
     type.underscore[-3, 3]

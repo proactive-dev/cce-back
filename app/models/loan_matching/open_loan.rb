@@ -11,19 +11,29 @@ module LoanMatching
       @type       = attrs[:type].to_sym
       @amount     = attrs[:amount].to_d
       @rate      = attrs[:rate].to_d
-      @duration  = attrs[:duration].to_i
-      @auto_renew  = attrs[:auto_renew]
-      @loan_market     = LoanMarket.find attrs[:loan_market]
+      @duration = attrs[:duration].to_i
+      @auto_renew = attrs[:auto_renew]
+      @loan_market = LoanMarket.find attrs[:loan_market]
 
       raise InvalidLoanError.new(attrs) unless valid?(attrs)
     end
 
     def lend_with(counter_loan)
       lending_amount = 0
-      if @rate == counter_loan.rate && @duration == counter_loan.duration
-        lending_amount = [@amount, counter_loan.amount.to_d].min
+      rate = 0
+
+      if @type == :demand
+        if @rate >= counter_loan.rate
+          lending_amount = [@amount, counter_loan.amount.to_d].min
+          rate = counter_loan.rate
+        end
+      else # offer
+        if @rate <= counter_loan.rate
+          lending_amount = [@amount, counter_loan.amount.to_d].min
+          rate = @rate
+        end
       end
-      lending_amount
+      [lending_amount, rate]
     end
 
     def fill(lending_amount)

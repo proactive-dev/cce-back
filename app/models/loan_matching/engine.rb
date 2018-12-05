@@ -60,8 +60,8 @@ module LoanMatching
     end
 
     def loans
-      { demand: demand_loans.loans,
-        offer: offer_loans.loans }
+      { demand: demand_loans,
+        offer: offer_loans }
     end
 
     def shift_gears(mode)
@@ -90,12 +90,13 @@ module LoanMatching
       counter_loan = counter_book.top(open_loan)
       return unless counter_loan
 
-      lending_amount = open_loan.lend_with(counter_loan)
-      if lending_amount > 0
-        counter_book.fill_top(counter_loan, lending_amount)
+      lending_amount, rate = open_loan.lend_with(counter_loan)
+
+      if lending_amount > 0 && rate > 0
+        counter_book.fill_top(open_loan, lending_amount)
         open_loan.fill lending_amount
 
-        publish open_loan, counter_loan, lending_amount
+        publish open_loan, counter_loan, lending_amount, rate
 
         match open_loan, counter_book
       end
@@ -107,10 +108,10 @@ module LoanMatching
         book.add(open_loan) : publish_cancel(open_loan, "fill or kill market open_loan")
     end
 
-    def publish(open_loan, counter_loan, lending_amount)
+    def publish(open_loan, counter_loan, lending_amount, rate)
       demand, offer = open_loan.type == :demand ? [open_loan, counter_loan] : [counter_loan, open_loan]
 
-      rate  = @market.fix_number_precision open_loan.rate
+      rate  = @market.fix_number_precision rate
       amount = @market.fix_number_precision lending_amount
       duration = open_loan.duration
 

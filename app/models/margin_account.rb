@@ -10,6 +10,8 @@ class MarginAccount < ActiveRecord::Base
   ORDER_CANCEL = :order_cancel
   ORDER_SUBMIT = :order_submit
   ORDER_FULLFILLED = :order_fullfilled
+  LOAN_MATCHED = :loan_matched
+  LENDING_DONE = :lending_done
   ZERO = 0.to_d
 
   FUNS = {:unlock_funds => 1, :lock_funds => 2, :plus_funds => 3, :sub_funds => 4, :unlock_and_sub_funds => 5}
@@ -210,7 +212,7 @@ class MarginAccount < ActiveRecord::Base
   def change_balance_and_locked(delta_b, delta_l)
     self.balance += delta_b
     self.locked  += delta_l
-    self.class.connection.execute "update accounts set balance = balance + #{delta_b}, locked = locked + #{delta_l} where id = #{id}"
+    self.class.connection.execute "update margin_accounts set balance = balance + #{delta_b}, locked = locked + #{delta_l} where id = #{id}"
     add_to_transaction # so after_commit will be triggered
     self
   end
@@ -218,7 +220,7 @@ class MarginAccount < ActiveRecord::Base
   def change_borrowed(delta_ba, delta_lo)
     self.borrowed  += delta_ba
     self.borrow_locked  += delta_lo
-    self.class.connection.execute "update accounts set borrowed = borrowed + #{delta_ba}, borrow_locked = borrow_locked + #{delta_lo} where id = #{id}"
+    self.class.connection.execute "update margin_accounts set borrowed = borrowed + #{delta_ba}, borrow_locked = borrow_locked + #{delta_lo} where id = #{id}"
     add_to_transaction # so after_commit will be triggered
     self
   end
