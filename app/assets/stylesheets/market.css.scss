@@ -501,7 +501,7 @@ header {
 
     .obsolete {
       color: #444;
-      .price, .amount, .volume, g { color: #444; }
+      .price, .amount, .volume, .rate, g { color: #444; }
     }
   }
 }
@@ -640,7 +640,7 @@ header {
   .panel-body-content {
     height: $my-orders-height - $gutter-2x;
 
-    .time, .price, .volume, .amount {
+    .time, .price, .volume, .amount, .rate {
       & > span { display: block; height: 16px; padding: 2px 0; }
     }
 
@@ -788,7 +788,7 @@ header {
     }
 
     td {
-      &.price, &.amount, &.volume, &.change {
+      &.price, &.amount, &.volume, &.rate, &.change {
         text-align: right;
       }
     }

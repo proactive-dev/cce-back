@@ -4,15 +4,16 @@
   @getTemplate = (loan) -> $(JST["templates/my_open_loan_offer"](loan))
 
   @loanHandler = (event, loan) ->
-    switch loan.state
-      when 'wait'
-        @addOrUpdateLoan loan
-      when 'cancel'
-        @removeLoan loan.id
-      when 'reject'
-        @removeLoan loan.id
-      when 'done'
-        @removeLoan loan.id
+    if loan.kind.search(/offer/) != -1 # accept offer only
+      switch loan.state
+        when 'wait'
+          @addOrUpdateLoan loan
+        when 'cancel'
+          @removeLoan loan.id
+        when 'reject'
+          @removeLoan loan.id
+        when 'done'
+          @removeLoan loan.id
 
   @cancelLoan = (tr) ->
     if confirm(loan_formatter.t('place_loan')['confirm_cancel'])

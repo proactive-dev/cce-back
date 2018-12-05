@@ -981,6 +981,7 @@ en:
       trade_state:
         new: New
         partial: Partial
+        loan_available: Loan available
       market_trades:
         all: All
         my: Mine

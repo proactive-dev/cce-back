@@ -19,9 +19,9 @@ module Private
       @trades = @market.trades
 
       # default to limit order
-      @loan_rate = 0
-      @margin_order_bid = OrderBid.new ord_type: 'limit'
-      @margin_order_ask = OrderAsk.new ord_type: 'limit'
+      @rate = 0
+      @trigger_bid = TriggerBid.new ord_type: 'limit'
+      @trigger_ask = TriggerAsk.new ord_type: 'limit'
 
       set_member_data if current_user
       gon.jbuilder
@@ -40,6 +40,7 @@ module Private
     def set_member_data
       @member = current_user
       @orders_wait = @member.orders.with_currency(@market).with_state(:wait)
+      @margin_orders_wait = @member.trigger_orders.with_currency(@market).with_state(:wait)
       @trades_done = Trade.for_member(@market.id, current_user, limit: 100, order: 'id desc')
     end
 

@@ -31,5 +31,5 @@ html lang="en"
         = render partial: 'private/markets/depths'
         = render partial: 'private/markets/ticker'
         = render partial: 'my_orders'
-        = render partial: 'ask_entry', locals: {margin_market: @market, margin_order: @margin_order_ask}
-        = render partial: 'bid_entry', locals: {margin_market: @market, margin_order: @margin_order_bid}
+        = render partial: 'ask_entry', locals: {margin_market: @market, trigger_order: @trigger_ask}
+        = render partial: 'bid_entry', locals: {margin_market: @market, trigger_order: @trigger_bid}

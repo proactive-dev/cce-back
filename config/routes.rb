@@ -121,18 +121,18 @@ Exchange::Application.routes.draw do
       end
     end
 
-    resources :margin_markets, :only => :show, :constraints => MarketConstraint do
-      resources :orders, :only => [:index, :destroy] do
+    resources :margin_markets, :only => :show, :constraints => MarginMarketConstraint do
+      resources :trigger_orders, :only => [:index, :destroy] do
         collection do
           post :clear
         end
       end
-      resources :order_bids, :only => [:create] do
+      resources :trigger_bids, :only => [:create] do
         collection do
           post :clear
         end
       end
-      resources :order_asks, :only => [:create] do
+      resources :trigger_asks, :only => [:create] do
         collection do
           post :clear
         end

@@ -18,6 +18,9 @@
     channel.bind 'order', (data) =>
       @trigger "order::#{data.state}", data
 
+    channel.bind 'margin_order', (data) =>
+      @trigger "margin_order::#{data.state}", data
+
     channel.bind 'trade', (data) =>
       @trigger 'trade', data
 
@@ -32,6 +35,7 @@
     @trigger 'margin_account::update', gon.margin_accounts
     @trigger 'lending_account::update', gon.lending_accounts
     @trigger 'order::wait::populate', orders: gon.my_orders if gon.my_orders
+    @trigger 'margin_order::wait::populate', orders: gon.my_margin_orders if gon.my_margin_orders
     @trigger 'trade::populate', trades: gon.my_trades if gon.my_trades
     @trigger 'loan::wait::populate', loans: gon.my_open_loan_offers if gon.my_open_loan_offers
     @trigger 'active_loan::populate', active_loans: gon.my_active_loans if gon.my_active_loans

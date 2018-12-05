@@ -3,6 +3,7 @@ class Member < ActiveRecord::Base
   acts_as_reader
 
   has_many :orders
+  has_many :trigger_orders
   has_many :open_loans
   has_many :accounts
   has_many :lending_accounts

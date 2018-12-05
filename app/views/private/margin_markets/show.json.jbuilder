@@ -5,4 +5,5 @@ json.trades @trades
 if @member
   json.my_trades @trades_done.map(&:for_notify)
   json.my_orders *([@orders_wait] + Order::ATTRIBUTES)
+  json.my_margin_orders *([@margin_orders_wait] + TriggerOrder::ATTRIBUTES)
 end

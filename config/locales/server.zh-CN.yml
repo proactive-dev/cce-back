@@ -1008,6 +1008,7 @@ zh-CN:
       trade_state:
         new: 未成交
         partial: 部分成交
+        loan_available: 贷款可用
       market_trades:
         all: 所有成交
         my: 我的成交

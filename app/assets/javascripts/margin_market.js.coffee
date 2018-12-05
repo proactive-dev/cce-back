@@ -48,7 +48,7 @@ $ ->
   OrderBookUI.attachTo('#order_book')
   DepthUI.attachTo('#depths_wrapper')
 
-  MyOrdersUI.attachTo('#my_orders')
+  MyMarginOrdersUI.attachTo('#my_orders')
   MarketTickerUI.attachTo('#ticker')
   MarketSwitchUI.attachTo('#market_list_wrapper')
   MarketTradesUI.attachTo('#market_trades_wrapper')

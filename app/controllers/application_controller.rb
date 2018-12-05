@@ -195,7 +195,8 @@ class ApplicationController < ActionController::Base
       },
       trade_state: {
         new: I18n.t('private.markets.trade_state.new'),
-        partial: I18n.t('private.markets.trade_state.partial')
+        partial: I18n.t('private.markets.trade_state.partial'),
+        loan_available: I18n.t('private.markets.trade_state.loan_available')
       },
       place_loan: {
         confirm_submit: I18n.t('private.loan_markets.show.confirm'),

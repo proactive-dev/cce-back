@@ -39,6 +39,12 @@ class Formatter
     else
       "/markets/#{market}"
 
+  margin_market_url: (market, order_id) ->
+    if order_id?
+      "/margin_markets/#{market}/trigger_orders/#{order_id}"
+    else
+      "/margin_markets/#{market}"
+
   trade: (ask_or_bid) ->
     gon.i18n[ask_or_bid]
 
@@ -96,6 +102,12 @@ class Formatter
   amount: (amount, price) ->
     val = (new BigNumber(amount)).times(new BigNumber(price))
     @.fixAsk(val).replace(/\..*/, "<g>$&</g>")
+
+  rate: (rate) ->
+    if rate?
+      rate
+    else
+      '-'
 
   trend: (type) ->
     if @.check_trend(type)

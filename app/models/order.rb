@@ -31,6 +31,8 @@ class Order < ActiveRecord::Base
   belongs_to :member
   attr_accessor :total
 
+  belongs_to :trigger_order
+
   scope :done, -> { with_state(:done) }
   scope :active, -> { with_state(:wait) }
   scope :position, -> { group("price").pluck(:price, 'sum(volume)') }
