@@ -55,7 +55,7 @@
       when 'fixed'
         @$node.val @getConfigPrice()
         @trigger 'place_order::input::price', {price: @getConfigPrice()}
-        @$node.attr('disabled', 'disabled')
+        @$node.attr('readonly', true)
       when 'min_limit'
         @$node.val @getConfigPrice()
         @trigger 'place_order::input::price', {price: @getConfigPrice()}
