@@ -75,19 +75,25 @@ class ActiveLoan < ActiveRecord::Base
     end
   end
 
+  def interest
+    loan_period = (Time.now.to_i - active_loan.created_at.to_i) / 86400
+    amount * loan_period * rate * 0.01
+  end
+
   def fee(kind)
     case kind || side
       when 'demand'
         ZERO
       when 'offer'
-        loan_market.fee * amount * rate * 0.01
+        loan_market.fee * interest
       else
         nil
     end
   end
 
-  def complete
-    raise "Cannot complete Lending. id: #{id}, state: #{state}" unless state == ActiveLoan::WAIT
+  def close
+    # close active loan
+    raise "Cannot close loan. id: #{id}, state: #{state}" unless state == ActiveLoan::WAIT
 
     ActiveRecord::Base.transaction do
       if demand.unstrike(self)
@@ -99,25 +105,26 @@ class ActiveLoan < ActiveRecord::Base
       end
     end
 
+    # TODO: auto renew
     if self.state == ActiveLoan::DONE
-      ActiveRecord::Base.transaction do
-        if demand_auto_renew && !demand_member.disabled?
-          @open_loan = LoanDemand.create!(member_id: demand_member_id, currency: currency,
-                                          amount: amount, origin_amount: amount,
-                                          auto_renew: demand_auto_renew, rate: rate, duration: duration,
-                                          state: OpenLoan::WAIT, source: 'Web')
-          Loaning.new(@open_loan).submit
-        end
-
-        if offer_auto_renew && !offer_member.disabled?
-          @open_loan = LoanOffer.create!(member_id: offer_member_id, currency: currency,
-                                         amount: amount, origin_amount: amount,
-                                         auto_renew: offer_auto_renew, rate: rate, duration: duration,
-                                         state: OpenLoan::WAIT, source: 'Web')
-          Loaning.new(@open_loan).submit
-        end
-
-      end
+      # ActiveRecord::Base.transaction do
+      #   if demand_auto_renew && !demand_member.disabled?
+      #     @open_loan = LoanDemand.create!(member_id: demand_member_id, currency: currency,
+      #                                     amount: amount, origin_amount: amount,
+      #                                     auto_renew: demand_auto_renew, rate: rate, duration: duration,
+      #                                     state: OpenLoan::WAIT, source: 'Web')
+      #     Loaning.new(@open_loan).submit
+      #   end
+      #
+      #   if offer_auto_renew && !offer_member.disabled?
+      #     @open_loan = LoanOffer.create!(member_id: offer_member_id, currency: currency,
+      #                                    amount: amount, origin_amount: amount,
+      #                                    auto_renew: offer_auto_renew, rate: rate, duration: duration,
+      #                                    state: OpenLoan::WAIT, source: 'Web')
+      #     Loaning.new(@open_loan).submit
+      #   end
+      #
+      # end
 
       trigger_notify
     end

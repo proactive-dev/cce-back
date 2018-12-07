@@ -46,6 +46,10 @@ class OpenLoan < ActiveRecord::Base
     member.get_account(currency)
   end
 
+  def hold_margin_account
+    member.get_margin_account(currency)
+  end
+
   def hold_lending_account
     member.get_lending_account(currency)
   end
@@ -82,24 +86,23 @@ class OpenLoan < ActiveRecord::Base
 
   def unstrike(active_loan)
     lending_amount = active_loan.amount
-    leverage = lending_amount * rate * 0.01
 
     case self.kind
-      when 'demand'
-        if hold_account.tradable_balance >= lending_amount + leverage
-          hold_account.return_borrowed \
-            lending_amount + leverage, reason: LendingAccount::LENDING_DONE, ref: active_loan
-        elsif hold_account.all_amount >= lending_amount + leverage
-          # cancel all open orders
-          member.cancel_orders_from_lending
-          return false
-        else
-          # disable member from invalid funds and borrowed
-          member.disable_from_lending if !member.disabled?
-        end
-      when 'offer'
-        hold_lending_account.plus_funds \
-          lending_amount + leverage, fee: fee * leverage, reason: LendingAccount::LENDING_DONE, ref: active_loan
+    when 'demand' # TODO: close loan when active loan closed
+      # if hold_margin_account.tradable_balance >= lending_amount + leverage
+      #   hold_margin_account.return_borrowed \
+      #       lending_amount + leverage, reason: LendingAccount::LENDING_DONE, ref: active_loan
+      # elsif hold_margin_account.all_amount >= lending_amount + leverage
+      #   # cancel all open orders
+      #   member.cancel_orders_from_lending
+      #   return false
+      # else
+      #   # disable member from invalid funds and borrowed
+      #   member.disable_from_lending if !member.disabled?
+      # end
+    when 'offer'
+      hold_lending_account.plus_funds \
+          lending_amount + active_loan.interest , fee: active_loan.fee, reason: LendingAccount::LENDING_DONE, ref: active_loan
     end
 
     true

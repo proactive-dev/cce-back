@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20181002000301) do
+ActiveRecord::Schema.define(version: 20181002010000) do
 
   create_table "account_versions", force: true do |t|
     t.integer  "member_id"
@@ -358,24 +358,25 @@ ActiveRecord::Schema.define(version: 20181002000301) do
     t.integer  "bid"
     t.integer  "ask"
     t.integer  "currency"
-    t.decimal  "price",                     precision: 32, scale: 16
-    t.decimal  "volume",                    precision: 32, scale: 16
-    t.decimal  "origin_volume",             precision: 32, scale: 16
+    t.decimal  "price",                       precision: 32, scale: 16
+    t.decimal  "volume",                      precision: 32, scale: 16
+    t.decimal  "origin_volume",               precision: 32, scale: 16
     t.integer  "state"
     t.datetime "done_at"
-    t.string   "type",           limit: 8
+    t.string   "type",             limit: 8
     t.integer  "member_id"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "sn"
-    t.string   "source",                                                            null: false
-    t.string   "ord_type",       limit: 10
-    t.decimal  "locked",                    precision: 32, scale: 16
-    t.decimal  "origin_locked",             precision: 32, scale: 16
-    t.decimal  "funds_received",            precision: 32, scale: 16, default: 0.0
-    t.integer  "trades_count",                                        default: 0
+    t.string   "source",                                                              null: false
+    t.string   "ord_type",         limit: 10
+    t.decimal  "locked",                      precision: 32, scale: 16
+    t.decimal  "origin_locked",               precision: 32, scale: 16
+    t.decimal  "funds_received",              precision: 32, scale: 16, default: 0.0
+    t.integer  "trades_count",                                          default: 0
     t.integer  "binance_id"
     t.string   "state_reason"
+    t.integer  "trigger_order_id"
   end
 
   add_index "orders", ["currency", "state"], name: "index_orders_on_currency_and_state", using: :btree
@@ -566,8 +567,6 @@ ActiveRecord::Schema.define(version: 20181002000301) do
     t.datetime "updated_at"
     t.string   "source",                                                            null: false
     t.string   "ord_type",       limit: 10
-    t.decimal  "locked",                    precision: 32, scale: 16
-    t.decimal  "origin_locked",             precision: 32, scale: 16
     t.decimal  "funds_received",            precision: 32, scale: 16, default: 0.0
     t.integer  "orders_count",                                        default: 0
   end

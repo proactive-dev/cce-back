@@ -68,8 +68,7 @@ class TriggerOrder < ActiveRecord::Base
     self.state = TriggerOrder::DONE if volume.zero?
     self.save!
 
-    # TODO: create order from trigger order
-    # self.orders_count   += 1
+    create_order(amount)
   end
 
   def kind
@@ -114,6 +113,32 @@ class TriggerOrder < ActiveRecord::Base
   end
 
   private
+
+  # create order from trigger order
+  def create_order(amount)
+    order_params = {
+      bid: bid,
+      ask: ask,
+      currency: currency,
+      price: price,
+      volume: amount,
+      origin_volume: amount,
+      member_id: member_id,
+      ord_type: ord_type,
+      state: Order::WAIT,
+      source: 'Web',
+      trigger_order_id: id
+    }
+    order = if kind == 'bid'
+              OrderBid.new(order_params)
+            else
+              OrderAsk.new(order_params)
+            end
+    Ordering.new(order).submit
+
+    self.orders_count += 1
+    self.save!
+  end
 
   # def market_order_validations
   #   errors.add(:price, 'must not be present') if price.present?
