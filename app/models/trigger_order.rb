@@ -6,18 +6,14 @@ class TriggerOrder < ActiveRecord::Base
   enumerize :currency, in: Market.enumerize, scope: true
   enumerize :state, in: {:wait => 100, :done => 200, :cancel => 0}, scope: true
 
-  # ORD_TYPES = %w(market limit)
   enumerize :ord_type, in: Order::ORD_TYPES, scope: true
-
-  # SOURCES = %w(Web APIv2 debug)
   enumerize :source, in: Order::SOURCES, scope: true
 
   after_commit :trigger
   before_validation :fix_number_precision, on: :create
 
-  validates_presence_of :ord_type, :volume, :origin_volume #, :locked, :origin_locked
+  validates_presence_of :ord_type, :volume, :origin_volume
   validates_numericality_of :origin_volume, :greater_than => 0
-
   validates_numericality_of :price, greater_than: 0, allow_nil: false,
     if: "ord_type == 'limit'"
   # validate :market_order_validations, if: "ord_type == 'market'"
@@ -38,10 +34,6 @@ class TriggerOrder < ActiveRecord::Base
   scope :active, -> { with_state(:wait) }
   # scope :position, -> { group("price").pluck(:price, 'sum(volume)') }
   # scope :best_price, ->(currency) { where(ord_type: 'limit').active.with_currency(currency).matching_rule.position }
-
-  # def funds_used
-  #   origin_locked - locked
-  # end
 
   def fee
     config[kind.to_sym]["fee"]
@@ -99,7 +91,6 @@ class TriggerOrder < ActiveRecord::Base
       volume: volume,
       price: price,
       rate: rate,
-      locked: locked,
       timestamp: created_at.to_i }
   end
 

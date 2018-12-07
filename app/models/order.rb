@@ -66,11 +66,9 @@ class Order < ActiveRecord::Base
     real_fee      = add * fee
     real_add      = add - real_fee
 
-    hold_account.unlock_tradable_funds \
-      real_sub, reason: Account::STRIKE_SUB, ref: trade
-
-    hold_account.sub_tradable_funds \
-      real_sub, reason: Account::STRIKE_SUB, ref: trade
+    hold_account.unlock_and_sub_funds \
+      real_sub, locked: real_sub,
+      reason: Account::STRIKE_SUB, ref: trade
 
     expect_account.plus_funds \
       real_add, fee: real_fee,
@@ -85,7 +83,7 @@ class Order < ActiveRecord::Base
       self.state = Order::DONE
 
       # unlock not used funds
-      hold_account.unlock_tradable_funds locked,
+      hold_account.unlock_funds locked,
         reason: Account::ORDER_FULLFILLED, ref: trade unless locked.zero?
     elsif ord_type == 'market' && locked.zero?
       # partially filled market order has run out its locked fund

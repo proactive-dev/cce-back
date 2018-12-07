@@ -68,34 +68,6 @@ class MarginAccount < ActiveRecord::Base
     change_balance_and_locked locked-amount, -locked
   end
 
-  def sub_tradable_funds(amount, reason: nil, ref: nil)
-    if balance >= amount
-      sub_funds(amount, reason: reason, ref: ref)
-    else
-      delta = amount - balance
-      sub_funds(balance, reason: reason, ref: ref)
-      sub_borrowed(delta, reason: reason, ref: ref)
-    end
-  end
-
-  def lock_tradable_funds(amount, reason: nil, ref: nil)
-    if balance >= amount
-      lock_funds(amount, reason: reason, ref: ref)
-    else
-      lock_funds(balance, reason: reason, ref: ref) if balance > 0
-      lock_borrowed(amount - balance, reason: reason, ref: ref)
-    end
-  end
-
-  def unlock_tradable_funds(amount, reason: nil, ref: nil)
-    if locked >= amount
-      unlock_funds(amount, reason: reason, ref: ref)
-    else
-      unlock_funds(locked, reason: reason, ref: ref) if locked > 0
-      unlock_borrowed(amount - locked, reason: reason, ref: ref)
-    end
-  end
-
   def plus_borrowed(amount, reason: nil, ref: nil)
     (amount <= ZERO) and raise BorrowedError, "cannot add borrowed (amount: #{amount})"
     change_borrowed amount, 0
