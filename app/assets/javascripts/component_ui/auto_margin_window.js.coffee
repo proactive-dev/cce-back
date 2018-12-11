@@ -19,13 +19,15 @@ BORDER_WIDTH = 1
       depths_h       = $('#depths_wrapper').height() + 2*BORDER_WIDTH
       my_orders_h    = $('#my_orders').height() + 2*BORDER_WIDTH
       ticker_h       = $('#ticker').height() + 2*BORDER_WIDTH
+      open_position_h = entry_h * 0.7
 
       # Adjust heights first. Because scrollbar may be removed after heights
       # adjustment, window width will be affected.
       window_h = $(@).height()
       $('.content').height(window_h - navbar_h)
 
-      $('#candlestick').height(window_h - navbar_h - entry_h - gutter_3x) # TODO
+      $('#candlestick').height(window_h - navbar_h - open_position_h - gutter_6x)
+      $('#open_positions').height(open_position_h)
 
       order_h = window_h - navbar_h - entry_h - depths_h - my_orders_h - ticker_h - gutter_6x - 2*BORDER_WIDTH
       $('#order_book').height(order_h)
@@ -41,5 +43,6 @@ BORDER_WIDTH = 1
       markets_w    = $('#market_list').width()
       order_book_w = $('#order_book').width()
       $('#candlestick').width(window_w - order_book_w - markets_w - gutter_4x - 20)
+      $('#open_positions').width(window_w - order_book_w - markets_w - gutter_4x - 20)
 
     @$node.resize()

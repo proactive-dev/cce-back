@@ -1,0 +1,24 @@
+#open_positions.panel.panel-default
+  .panel-heading
+    span = t('.title')
+  .panel-body.panel-body-head
+    table.table
+      thead: tr
+        th.col-xs-2.text-center #{t('.direction')}
+        th.col-xs-4.text-center #{t('.amount')}
+        th.col-xs-4.text-center #{t('.base_price')}
+        th.col-xs-4.text-center #{t('.est_liq_price')}
+        th.col-xs-4.text-center #{t('.unrealized_pnl')}
+        th.col-xs-4.text-center #{t('.unrealized_lending_fee')}
+        th.col-xs-2.text-center #{t('.action')}
+  .panel-body.panel-body-content
+    .empty-row = t('.no_open_positions')
+    .position
+      .direction.col-xs-2.text-center
+      .amount.col-xs-4.text-center
+      .base_price.col-xs-4.text-center
+      .est_liq_price.col-xs-4.text-center
+      .unrealized_pnl.col-xs-4.text-center
+      .unrealized_lending_fee.col-xs-4.text-center
+      .action.col-xs-2.text-center = t('.close')
+  = render partial: 'private/markets/mask'

@@ -28,7 +28,7 @@ class Formatter
     else if type == 'down' or type == "sell" or type == 'ask' or type == false
       false
     else
-      throw "unknown trend smybol #{type}"
+      throw "unknown trend symbol #{type}"
 
   market: (base, quote) ->
     "#{base.toUpperCase()}/#{quote.toUpperCase()}"
@@ -120,6 +120,43 @@ class Formatter
       "<i class='fa fa-caret-up text-up'></i>"
     else
       "<i class='fa fa-caret-down text-down'></i>"
+
+  check_direction: (direction) ->
+    if direction == 'long' or direction == 'Long' or direction == true
+      "text-up"
+    else if direction == 'short' or direction == 'Short' or direction == false
+      "text-down"
+    else
+      throw "unknown direction symbol #{direction}"
+
+  direction: (direction) ->
+    if direction == 'long' or direction == 'Long' or direction == true
+      @.t('position')['long']
+    else if direction == 'short' or direction == 'Short' or direction == false
+      @.t('position')['short']
+    else
+      'n/a'
+  round: (str, fixed) ->
+    BigNumber(str).round(fixed, BigNumber.ROUND_HALF_UP).toF(fixed)
+
+  fix: (type, str) ->
+    str = '0' unless $.isNumeric(str)
+    if type is 'ask'
+      @.round(str, gon.market.ask.fixed)
+    else if type is 'bid'
+      @.round(str, gon.market.bid.fixed)
+
+  check_sign: (str) ->
+    throw "Not numerical value: #{str}" unless $.isNumeric(str)
+    if BigNumber(str).greaterThanOrEqualTo(BigNumber(0))
+      "text-up"
+    else if BigNumber(str).lessThan(BigNumber(0))
+      "text-down"
+    else
+      throw "Not numerical value #{direction}"
+
+  position_url: (position_id) ->
+    "/positions/#{position_id}"
 
   t: (key) ->
     gon.i18n[key]

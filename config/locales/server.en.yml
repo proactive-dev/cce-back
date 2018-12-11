@@ -1167,6 +1167,24 @@ en:
         volume: Volume
         amount: Amount
         time: Place Time
+      open_positions:
+        title: Open Position
+        direction: Direction
+        amount: Amount
+        base_price: Base Price
+        est_liq_price: Est. Liquidation Price
+        unrealized_pnl: Unrealized P/L
+        unrealized_lending_fee: Unrealized Lending Fees
+        action: Action
+        short: Short
+        long: Long
+        close: Close
+        no_open_positions: You have no open positions.
+        prompt_close: Input the amount of your margin position to close with a order.
+        confirm_close: Confirm your order.
+        amount_close: Amount to close position
+        balance: Balance
+        invalid_value: Invalid input value!
 #      mask:
 #        warning: Please <a class=text-up href='/'>Sign up</a> or <a class=text-up href='/'>Sign in</a> for operation
 #      klime_chart:

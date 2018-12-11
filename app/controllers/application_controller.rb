@@ -204,6 +204,15 @@ class ApplicationController < ActionController::Base
         confirm_update: I18n.t('private.loan_markets.show.update_confirm'),
         rate: I18n.t('private.loan_markets.show.rate'),
         lending_balance: I18n.t('private.loan_markets.lending_balance')
+      },
+      position: {
+          short: I18n.t('private.margin_markets.open_positions.short'),
+          long: I18n.t('private.margin_markets.open_positions.long'),
+          prompt_close: I18n.t('private.margin_markets.open_positions.prompt_close'),
+          invalid_value: I18n.t('private.margin_markets.open_positions.invalid_value'),
+          amount_close: I18n.t('private.margin_markets.open_positions.amount_close'),
+          confirm_close: I18n.t('private.margin_markets.open_positions.confirm_close'),
+          balance: I18n.t('private.margin_markets.open_positions.balance')
       }
     }
 
@@ -251,6 +260,7 @@ class ApplicationController < ActionController::Base
         } if account.currency_obj.try(:visible)
         memo
       end
+      gon.positions = current_user.positions
     end
   end
 

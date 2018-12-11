@@ -19,6 +19,18 @@
 
 .label-loan_available { background-color: #ff9800; }
 
+/* panel
+------------------------------------------------ */
+.panel {
+  .panel-heading {
+    padding: 8px;
+    background-color: $panel-bg;
+    span {
+      font-size: 18px !important;
+    }
+  }
+}
+
 /* layout position
 ----------------------------------------------- */
 #ask_entry, #bid_entry {
@@ -41,4 +53,42 @@
 
 #my_orders {
   bottom: $gutter-2x + $margin-entry-height; right: $gutter;
+}
+
+#open_positions {
+  left: $market-list-width + $gutter-2x;
+  bottom: $gutter;
+  right: $gutter;
+
+  table {
+    margin-bottom: 0;
+
+    td, th {
+      padding: 0 2px;
+      border: none;
+    }
+
+    tr.highlight {
+      background-color: #333;
+    }
+  }
+
+  .action {
+    text-decoration: underline;
+    text-shadow: none;
+    &:focus, &:hover {
+      text-shadow: white 0 0 2px;
+    }
+  }
+  .empty-row {
+    position: absolute;
+    top: 70%;
+    width: 99%;
+    height: 0;
+    padding: 0;
+    color: $gray-light;
+    text-align: center;
+  }
+
+  .panel-body-head { border-bottom: 1px solid #333; }
 }

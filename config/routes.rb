@@ -139,6 +139,8 @@ Exchange::Application.routes.draw do
       end
     end
 
+    resources :positions, :only => [:update]
+
     resources :loan_markets, :only => [:show, :update] do
       resources :open_loans, :only => [:index, :create, :update, :destroy] do
         collection do

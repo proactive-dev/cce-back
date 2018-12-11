@@ -57,6 +57,8 @@ $ ->
   GlobalData.attachTo(document, {pusher: window.pusher})
   MemberData.attachTo(document, {pusher: window.pusher}) if gon.margin_accounts
 
+  OpenPositionsUI.attachTo('#open_positions')
+
   CandlestickUI.attachTo('#candlestick')
   SwitchUI.attachTo('#range_switch, #indicator_switch, #main_indicator_switch, #type_switch')
 

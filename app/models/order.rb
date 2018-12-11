@@ -91,6 +91,8 @@ class Order < ActiveRecord::Base
     end
 
     self.save!
+
+    create_or_update_position(trade.volume) if trigger_order
   end
 
   def kind
@@ -162,4 +164,21 @@ class Order < ActiveRecord::Base
     required_funds
   end
 
+  def create_or_update_position(trade_volume)
+    position = Position.find_or_create_by(member_id: member_id, currency: currency)
+    if position.state == Position::OPEN
+      if kind == 'ask'
+        position.amount -= trade.volume
+      else # 'bid'
+        position.amount += trade.volume
+      end
+    else # Position::CLOSE
+      position.amount = trade_volume
+      position.state = Position::OPEN
+    end
+    position.direction = position.amount >= 0 ? 'long' : 'short'
+    # TODO: calculate base price
+
+    position.save!
+  end
 end

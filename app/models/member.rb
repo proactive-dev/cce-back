@@ -5,6 +5,7 @@ class Member < ActiveRecord::Base
   has_many :orders
   has_many :trigger_orders
   has_many :open_loans
+  has_many :positions
   has_many :accounts
   has_many :lending_accounts
   has_many :margin_accounts

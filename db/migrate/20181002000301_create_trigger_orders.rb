@@ -9,18 +9,14 @@ class CreateTriggerOrders < ActiveRecord::Migration
       t.decimal  "origin_volume", precision: 32, scale: 16
       t.decimal  "rate", precision: 32, scale: 16
       t.integer  "state"
-      t.datetime "done_at"
       t.string   "type", limit: 10
       t.integer  "member_id"
       t.integer  "loan_demand_id"
-      t.datetime "created_at"
-      t.datetime "updated_at"
       t.string   "source", null: false
       t.string   "ord_type", limit: 10
-      t.decimal  "locked", precision: 32, scale: 16
-      t.decimal  "origin_locked", precision: 32, scale: 16
       t.decimal  "funds_received", precision: 32, scale: 16, default: 0.0
       t.integer  "orders_count", default: 0
+      t.timestamps
     end
     add_index :trigger_orders, [:currency, :state], using: :btree
     add_index :trigger_orders, [:member_id, :state]

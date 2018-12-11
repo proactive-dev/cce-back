@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20181002010000) do
+ActiveRecord::Schema.define(version: 20181002010301) do
 
   create_table "account_versions", force: true do |t|
     t.integer  "member_id"
@@ -422,6 +422,22 @@ ActiveRecord::Schema.define(version: 20181002010000) do
 
   add_index "payment_transactions", ["txid", "txout"], name: "index_payment_transactions_on_txid_and_txout", using: :btree
   add_index "payment_transactions", ["type"], name: "index_payment_transactions_on_type", using: :btree
+
+  create_table "positions", force: true do |t|
+    t.string   "direction",  limit: 5,                                         null: false
+    t.decimal  "amount",               precision: 32, scale: 16, default: 0.0, null: false
+    t.decimal  "base_price",           precision: 32, scale: 16, default: 0.0, null: false
+    t.integer  "currency",                                                     null: false
+    t.integer  "member_id",                                                    null: false
+    t.integer  "state"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "positions", ["currency", "state"], name: "index_positions_on_currency_and_state", using: :btree
+  add_index "positions", ["member_id", "state"], name: "index_positions_on_member_id_and_state", using: :btree
+  add_index "positions", ["member_id"], name: "index_positions_on_member_id", using: :btree
+  add_index "positions", ["state"], name: "index_positions_on_state", using: :btree
 
   create_table "prices", force: true do |t|
     t.string   "market_id"
