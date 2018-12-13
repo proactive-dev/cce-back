@@ -242,16 +242,6 @@ class ApplicationController < ActionController::Base
         } if account.currency_obj.try(:visible)
         memo
       end
-      gon.margin_accounts = current_user.margin_accounts.inject({}) do |memo, account|
-        memo[account.currency] = {
-          currency: account.currency,
-          balance: account.balance,
-          locked: account.locked,
-          borrowed: account.borrowed,
-          borrow_locked: account.borrow_locked
-        } if account.currency_obj.try(:visible)
-        memo
-      end
       gon.lending_accounts = current_user.lending_accounts.inject({}) do |memo, account|
         memo[account.currency] = {
             currency: account.currency,

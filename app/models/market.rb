@@ -42,6 +42,14 @@ class Market < ActiveYamlBase
     @markets_hash
   end
 
+  def self.last_price(base_unit, quote_unit)
+    if base_unit == quote_unit
+      1
+    else
+      Global["#{base_unit}#{quote_unit}"].ticker[:last]
+    end
+  end
+
   def initialize(*args)
     super
 

@@ -7,10 +7,6 @@
       gon.accounts[data.currency] = data
       @trigger 'account::update', gon.accounts
 
-    channel.bind 'margin_account', (data) =>
-      gon.margin_accounts[data.currency] = data
-      @trigger 'margin_account::update', gon.margin_accounts
-
     channel.bind 'lending_account', (data) =>
       gon.lending_accounts[data.currency] = data
       @trigger 'lending_account::update', gon.lending_accounts
@@ -38,7 +34,6 @@
 
     # Initializing at bootstrap
     @trigger 'account::update', gon.accounts
-    @trigger 'margin_account::update', gon.margin_accounts
     @trigger 'lending_account::update', gon.lending_accounts
     @trigger 'order::wait::populate', orders: gon.my_orders if gon.my_orders
     @trigger 'margin_order::wait::populate', orders: gon.my_margin_orders if gon.my_margin_orders

@@ -18,7 +18,6 @@ header.navbar.navbar-default.navbar-static-top role = "navigation"
 
     ul.nav.navbar-nav.navbar-right
       - if current_user
-        = render partial: 'account_summary'
         = render partial: 'private/markets/settings'
       - else
         p.navbar-text

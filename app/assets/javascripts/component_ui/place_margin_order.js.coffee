@@ -93,27 +93,17 @@
         @trigger 'place_order::input::total', {total: @getBalance()}
 
   @refreshBalance = (event, data) ->
-    baseCurrency = gon.market['quote_unit']
-    symbol = gon.currencies[baseCurrency]
-    available_margin_balance = 0
-
-    for currency, account of gon.margin_accounts
-      if currency is baseCurrency
-        available_margin_balance += +account.balance
-      else if ticker = @tickers["#{currency}#{baseCurrency}"]
-        available_margin_balance += +account.balance * +ticker.last
+    quoteCurrency = gon.market['quote_unit']
+    available_margin_balance = @margin_info['net_value']
 
     type = @panelType()
     currency = gon.market[type].currency
-    
-    unless currency is baseCurrency
-      ticker = @tickers["#{currency}#{baseCurrency}"]
-      if ticker
-        available_margin_balance = available_margin_balance * +ticker.last
+    unless currency is @margin_info['quote_unit']
+      unless currency is quoteCurrency
+        available_margin_balance = available_margin_balance * +@ticker.last
       else
-        ticker = @tickers["#{baseCurrency}#{currency}"]
         unless BigNumber(ticker.last).equals(0)
-          available_margin_balance = available_margin_balance / +ticker.last unless BigNumber(ticker.last).equals(0)
+          available_margin_balance = available_margin_balance / +@ticker.last unless BigNumber(@ticker.last).equals(0)
 
     leverage = 100 / (gon.market['margin'].initial || 100)
     available_margin_balance = available_margin_balance * leverage
@@ -150,7 +140,16 @@
     @trigger 'place_order::focus::price'
 
   @after 'initialize', ->
-    @tickers  = gon.tickers
+    @ticker = gon.ticker
+    @margin_info = {
+      total_margin: 0,
+      unrealized_pnl: 0,
+      unrealized_lending_fee: 0,
+      net_value: 0,
+      total_borrowed: 0,
+      current_margin: 0,
+      quote_unit: 'btc'
+    }
     type = @panelType()
 
     if type == 'ask'
@@ -168,10 +167,13 @@
     @on 'place_order::order::updated', @updateAvailable
     @on 'place_order::clear', @clear
 
-    @on document, 'margin_account::update', @refreshBalance
-    @on document, 'market::tickers', (event, data) =>
-      @tickers = data.raw
-      @refreshBalance
+    @on document, 'margin_info::update', (event, data) =>
+      @margin_info = data
+      @refreshBalance()
+
+    @on document, 'market::ticker', (event, data) =>
+      @ticker = data
+      @refreshBalance()
 
     @on @select('formSel'), 'ajax:beforeSend', @beforeSend
     @on @select('formSel'), 'ajax:success', @handleSuccess

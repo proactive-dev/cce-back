@@ -176,10 +176,7 @@ class MarginAccount < ActiveRecord::Base
   def trigger
     return unless member
 
-    json = Jbuilder.encode do |json|
-      json.(self, :balance, :locked, :borrowed, :borrow_locked, :currency)
-    end
-    member.trigger('account', json)
+    member.sync_margin_info('btc')
   end
 
   def change_balance_and_locked(delta_b, delta_l)

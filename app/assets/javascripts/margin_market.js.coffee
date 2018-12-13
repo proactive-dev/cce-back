@@ -37,7 +37,6 @@ $ ->
   BigNumber.config(ERRORS: false)
 
   HeaderUI.attachTo('header')
-  MarginAccountSummaryUI.attachTo('#account_summary')
 
   FloatUI.attachTo('.float')
   KeyBindUI.attachTo(document)
@@ -55,7 +54,7 @@ $ ->
 
   MarketData.attachTo(document)
   GlobalData.attachTo(document, {pusher: window.pusher})
-  MemberData.attachTo(document, {pusher: window.pusher}) if gon.margin_accounts
+  MemberData.attachTo(document, {pusher: window.pusher})
 
   OpenPositionsUI.attachTo('#open_positions')
   MarginInfoUI.attachTo('#margin_info')
