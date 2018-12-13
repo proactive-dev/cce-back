@@ -46,7 +46,7 @@
   bid: {fee: 0, currency: mas, fixed: 8}
   ask: {fee: 0, currency: btc, fixed: 8}
   sort_order: 1
-  margin: {leverage: 2}
+  margin: {initial: 40, maintenance: 20}
   #visible: false     # default to true
 
 - id: ethmas
@@ -58,7 +58,7 @@
   bid: {fee: 0, currency: mas, fixed: 8}
   ask: {fee: 0, currency: eth, fixed: 8}
   sort_order: 1
-  margin: {leverage: 2}
+  margin: {initial: 40, maintenance: 20}
   #visible: false     # default to true
 
 - id: ltcmas
@@ -70,7 +70,7 @@
   bid: {fee: 0, currency: mas, fixed: 8}
   ask: {fee: 0, currency: ltc, fixed: 8}
   sort_order: 1
-  margin: {leverage: 2}
+  margin: {initial: 40, maintenance: 20}
   #visible: false     # default to true
 
 - id: btcskb
@@ -82,7 +82,7 @@
   bid: {fee: 0, currency: skb, fixed: 8}
   ask: {fee: 0, currency: btc, fixed: 8}
   sort_order: 1
-  margin: {leverage: 2}
+  margin: {initial: 40, maintenance: 20}
   #visible: false     # default to true
 
 - id: ethskb
@@ -94,7 +94,7 @@
   bid: {fee: 0, currency: skb, fixed: 8}
   ask: {fee: 0, currency: eth, fixed: 8}
   sort_order: 1
-  margin: {leverage: 2}
+  margin: {initial: 40, maintenance: 20}
   #visible: false     # default to true
 
 - id: ltcskb
@@ -106,7 +106,7 @@
   bid: {fee: 0, currency: skb, fixed: 8}
   ask: {fee: 0, currency: ltc, fixed: 8}
   sort_order: 1
-  margin: {leverage: 2}
+  margin: {initial: 40, maintenance: 20}
   #visible: false     # default to true
 
 - id: masskb
@@ -118,5 +118,5 @@
   bid: {fee: 0, currency: skb, fixed: 8}
   ask: {fee: 0, currency: mas, fixed: 8}
   sort_order: 1
-  margin: {leverage: 2}
+  margin: {initial: 40, maintenance: 20}
   #visible: false     # default to true

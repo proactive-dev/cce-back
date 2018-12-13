@@ -115,7 +115,7 @@
         unless BigNumber(ticker.last).equals(0)
           available_margin_balance = available_margin_balance / +ticker.last unless BigNumber(ticker.last).equals(0)
 
-    leverage = gon.market['margin'].leverage || 0
+    leverage = 100 / (gon.market['margin'].initial || 100)
     available_margin_balance = available_margin_balance * leverage
 
     @select('currentBalanceSel').data('balance', available_margin_balance)

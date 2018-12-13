@@ -148,10 +148,12 @@ class Formatter
 
   check_sign: (str) ->
     throw "Not numerical value: #{str}" unless $.isNumeric(str)
-    if BigNumber(str).greaterThanOrEqualTo(BigNumber(0))
+    if BigNumber(str).greaterThan(BigNumber(0))
       "text-up"
     else if BigNumber(str).lessThan(BigNumber(0))
       "text-down"
+    else if BigNumber(str).isZero()
+      ""
     else
       throw "Not numerical value #{direction}"
 

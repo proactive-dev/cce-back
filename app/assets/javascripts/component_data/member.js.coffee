@@ -33,6 +33,9 @@
     channel.bind 'active_loan', (data) =>
       @trigger 'active_loan', data
 
+    channel.bind 'margin_info', (data) =>
+      @trigger 'margin_info::update', data
+
     # Initializing at bootstrap
     @trigger 'account::update', gon.accounts
     @trigger 'margin_account::update', gon.margin_accounts

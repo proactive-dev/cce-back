@@ -27,6 +27,7 @@ class MarginAccount < ActiveRecord::Base
   validates_numericality_of :borrowed, :borrow_locked, greater_than_or_equal_to: ZERO
 
   scope :enabled, -> { where("currency in (?)", Currency.ids) }
+  scope :non_zero, -> { where("balance > ?", ZERO) }
 
   after_commit :trigger, :sync_update
 

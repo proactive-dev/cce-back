@@ -21,9 +21,6 @@
   @update = (selector, value) ->
     selector.html(value)
 
-  @updateWithNumberFormat = (selector, value) ->
-    @update(selector, value)
-
   @updateWithCurrency = (selector, value, currency) ->
     @update(selector, "#{value} #{currency.toUpperCase()}")
 
@@ -65,12 +62,7 @@
     @refreshData()
 
   @refreshTicker = (event, ticker) ->
-    @ticker['last'] = ticker.last
-    @ticker['buy'] = ticker.buy
-    @ticker['sell'] = ticker.sell
-    @ticker['base_unit'] = ticker.base_unit
-    @ticker['quote_unit'] = ticker.quote_unit
-
+    @ticker = ticker
     @refreshData()
 
   @promptDialogMsg = ->
@@ -110,8 +102,8 @@
     json = JSON.parse(data.responseText)
 
   @after 'initialize', ->
+    @ticker = gon.ticker
     @position = {id: null, direction: null, amount: null, base_price: null, est_liq_price: null, unrealized_pnl: null, unrealized_lending_fee: null, state: null}
-    @ticker = {last: null, buy: null, sell: null, base_unit: null, quote_unit: null}
 
     @on document, 'market::ticker', @refreshTicker
     @on document, 'position::update', @refreshPosition

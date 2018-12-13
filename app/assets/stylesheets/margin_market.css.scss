@@ -92,3 +92,29 @@
 
   .panel-body-head { border-bottom: 1px solid #333; }
 }
+
+#market_list {
+  height: $margin-market-list-height;
+  .panel-body-content {
+    height: $margin-market-list-height - $panel_table_header_high;
+  }
+}
+
+#margin_info {
+  position: absolute;
+  top: $margin-market-list-height + $gutter_2x;
+  left: $gutter;
+  width: $market-list-width;
+  height: $market-list-height;
+  z-index: 999;
+  .panel-body-head { border-bottom: 1px solid #333; }
+}
+
+#market_trades_wrapper {
+  .dropdown-wrapper {
+    top: $margin-market-list-height + $market-list-height + $gutter-4x;
+  }
+}
+
+#open_positions > .mask { padding-top: 40px; }
+#margin_info > .mask { padding-top: 50px; }

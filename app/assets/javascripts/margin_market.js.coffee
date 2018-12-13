@@ -58,6 +58,7 @@ $ ->
   MemberData.attachTo(document, {pusher: window.pusher}) if gon.margin_accounts
 
   OpenPositionsUI.attachTo('#open_positions')
+  MarginInfoUI.attachTo('#margin_info')
 
   CandlestickUI.attachTo('#candlestick')
   SwitchUI.attachTo('#range_switch, #indicator_switch, #main_indicator_switch, #type_switch')

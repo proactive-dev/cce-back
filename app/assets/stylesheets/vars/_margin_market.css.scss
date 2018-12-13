@@ -4,5 +4,6 @@
 @import 'vars/market';
 
 $margin-entry-height: 229px;
+$margin-market-list-height: $entry-height * 0.9;
 
 $order-book-height: $min-height - $navbar-height - $margin-entry-height - $ticker-height - $depths-height - $my-orders-height - $gutter-6x;
