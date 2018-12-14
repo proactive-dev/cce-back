@@ -98,28 +98,39 @@ class ActiveLoan < ActiveRecord::Base
 
         self.state = ActiveLoan::DONE
         self.save!
-
       end
     end
+    trigger_notify
 
-    if self.state == ActiveLoan::DONE
-      ActiveRecord::Base.transaction do
-        if auto_renew
-          @open_loan = LoanOffer.create!(member_id: offer_member_id, currency: currency,
-                                         amount: amount, origin_amount: amount,
-                                         auto_renew: auto_renew, rate: rate, duration: duration,
-                                         state: OpenLoan::WAIT, source: 'Web')
-          Loaning.new(@open_loan).submit
-        end
+    renew_offer
+  end
 
-        @open_loan = LoanDemand.create!(member_id: demand_member_id, currency: currency,
-                                        amount: amount, origin_amount: amount,
-                                        rate: ENV['LOAN_MAX_RATE'], duration: duration,
-                                        state: OpenLoan::WAIT, source: 'Web', trigger_offer: trigger_order)
-        Loaning.new(@open_loan).submit
-      end
+  def expire
+    # expire active loan
+    self.close
 
-      trigger_notify
+    renew_demand
+  end
+
+  def renew_offer
+    return unless auto_renew
+
+    ActiveRecord::Base.transaction do
+      open_loan = LoanOffer.create!(member_id: offer_member_id, currency: currency,
+                                     amount: amount, origin_amount: amount,
+                                     auto_renew: auto_renew, rate: rate, duration: duration,
+                                     state: OpenLoan::WAIT, source: 'Web')
+      Loaning.new(open_loan).submit
+    end
+  end
+
+  def renew_demand
+    ActiveRecord::Base.transaction do
+      open_loan = LoanDemand.create!(member_id: demand_member_id, currency: currency,
+                                     amount: amount, origin_amount: amount,
+                                     rate: ENV['LOAN_MAX_RATE'], duration: duration,
+                                     state: OpenLoan::WAIT, source: 'Web', trigger_offer: trigger_order)
+      Loaning.new(open_loan).submit
     end
   end
 

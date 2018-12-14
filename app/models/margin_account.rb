@@ -23,8 +23,8 @@ class MarginAccount < ActiveRecord::Base
   # Suppose to use has_one here, but I want to store
   # relationship at account side. (Daniel)
   validates :member_id, uniqueness: { scope: :currency }
-  validates_numericality_of :balance, :locked, greater_than_or_equal_to: ZERO
-  validates_numericality_of :borrowed, :borrow_locked, greater_than_or_equal_to: ZERO
+  # validates_numericality_of :balance, :borrowed, greater_than_or_equal_to: ZERO
+  validates_numericality_of :locked, :borrow_locked, greater_than_or_equal_to: ZERO
 
   scope :enabled, -> { where("currency in (?)", Currency.ids) }
   scope :non_zero, -> { where("balance > ?", ZERO) }
@@ -89,13 +89,9 @@ class MarginAccount < ActiveRecord::Base
     change_borrowed amount, -amount
   end
 
-  def return_borrowed(amount, reason: nil, ref: nil)
-    if borrowed >= amount
-      sub_borrowed amount, reason:reason, ref: ref
-    else
-      sub_borrowed borrowed, reason:reason, ref: ref
-      sub_funds amount-borrowed, fee: ZERO, reason: reason, ref: ref
-    end
+  def return_borrowed(amount, interest, reason: nil, ref: nil)
+    sub_borrowed amount, reason:reason, ref: ref
+    sub_funds interest, fee: ZERO, reason: reason, ref: ref
   end
 
   after(*FUNS.keys) do |account, fun, changed, opts|

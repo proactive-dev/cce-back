@@ -15,7 +15,7 @@ while running
   ActiveLoan.all.with_state(:wait).each do |active_loan|
     delta_date = active_loan.created_at.to_i + active_loan.duration.days - Time.now.to_i
     if delta_date <= 0
-      active_loan.close
+      active_loan.expire
     end
   end
 

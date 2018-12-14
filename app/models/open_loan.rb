@@ -88,18 +88,9 @@ class OpenLoan < ActiveRecord::Base
     lending_amount = active_loan.amount
 
     case self.kind
-    when 'demand' # TODO: close loan when active loan closed
-      # if hold_margin_account.tradable_balance >= lending_amount + leverage
-      #   hold_margin_account.return_borrowed \
-      #       lending_amount + leverage, reason: LendingAccount::LENDING_DONE, ref: active_loan
-      # elsif hold_margin_account.all_amount >= lending_amount + leverage
-      #   # cancel all open orders
-      #   member.cancel_orders_from_lending
-      #   return false
-      # else
-      #   # disable member from invalid funds and borrowed
-      #   member.disable_from_lending if !member.disabled?
-      # end
+    when 'demand'
+      hold_margin_account.return_borrowed \
+            lending_amount, active_loan.interest, reason: LendingAccount::LENDING_DONE, ref: active_loan
     when 'offer'
       hold_lending_account.plus_funds \
           lending_amount + active_loan.interest , fee: active_loan.fee, reason: LendingAccount::LENDING_DONE, ref: active_loan
