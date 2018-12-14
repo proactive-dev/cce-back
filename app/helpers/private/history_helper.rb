@@ -20,7 +20,12 @@ module Private::HistoryHelper
   end
 
   def loan_auto_renew(active_loan)
-    active_loan.auto_renew(loan_type(active_loan))
+    case loan_type(active_loan)
+    when 'offer'
+      t(".#{active_loan.auto_renew}")
+    else
+      '-'
+    end
   end
 
   def loan_fee(active_loan)

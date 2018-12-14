@@ -48,11 +48,14 @@ class LoanFormatter
     else
       "/loan_markets/#{loan_market}"
 
-  mask_auto_renew: (auto_renew) ->
-    if auto_renew == true
-      loan_formatter.t('on')
+  mask_auto_renew: (auto_renew, type) ->
+    if type == 'offer'
+      if auto_renew == true
+        loan_formatter.t('on')
+      else
+        loan_formatter.t('off')
     else
-      loan_formatter.t('off')
+      '-'
 
   type: (type) ->
     if type == 'offer'

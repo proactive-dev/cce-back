@@ -32,7 +32,7 @@
     tr = $(event.target).parents('tr')
     if context.className == "cancel"
       @cancelLoan(tr)
-    else if context.className == "auto-renew"
+    else if context.className == "auto-renew offer"
       @updateLoan(tr)
 
   @.after 'initialize', ->

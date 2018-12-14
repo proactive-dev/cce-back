@@ -25,15 +25,14 @@ module Private
 
     def update
       active_loan_id = params[:active_loan_id]
-      kind = params[:kind]
       active_loan = ActiveLoan.find_by_id(active_loan_id)
-      auto_renew = active_loan.send("#{kind}_auto_renew")
+      auto_renew = active_loan.auto_renew
 
       ActiveRecord::Base.transaction do
-        eval "active_loan.#{kind}_auto_renew = #{!auto_renew}"
+        active_loan.auto_renew = !auto_renew
 
         if active_loan.save!
-          active_loan.trigger_active_loan(kind)
+          active_loan.trigger_offer
 
           render status: 200, nothing: true
         else

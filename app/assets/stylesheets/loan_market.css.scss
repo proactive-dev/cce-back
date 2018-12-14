@@ -323,6 +323,14 @@ header {
       & > span { display: block; height: 16px; padding: 2px 0; }
     }
 
+    .auto-renew {
+      & > span.offer { text-decoration: underline; }
+    }
+
+    .action {
+      & > span { text-decoration: underline; }
+    }
+
     .empty-row {
       position: absolute;
       top: 44%;

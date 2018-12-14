@@ -14,11 +14,11 @@ module Admin
           state = active_loan.state == ::ActiveLoan::WAIT ? OpenLoan::MATCHED : OpenLoan::DONE
           offer = LoanOffer.new(member_id: active_loan.offer_member_id, currency: active_loan.currency,
                                 amount: active_loan.amount, origin_amount: active_loan.amount,
-                                auto_renew: active_loan.offer_auto_renew, rate: active_loan.rate, duration: active_loan.duration,
+                                auto_renew: active_loan.auto_renew, rate: active_loan.rate, duration: active_loan.duration,
                                 created_at: active_loan.created_at, state: state)
           demand = LoanDemand.new(member_id: active_loan.demand_member_id, currency: active_loan.currency,
                                   amount: active_loan.amount, origin_amount: active_loan.amount,
-                                  auto_renew: active_loan.demand_auto_renew, rate: active_loan.rate, duration: active_loan.duration,
+                                  rate: active_loan.rate, duration: active_loan.duration,
                                   created_at: active_loan.created_at, state: state)
           @matched_offers << offer
           @matched_demands << demand

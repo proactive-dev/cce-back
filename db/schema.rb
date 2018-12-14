@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20181002010301) do
+ActiveRecord::Schema.define(version: 20181003190156) do
 
   create_table "account_versions", force: true do |t|
     t.integer  "member_id"
@@ -50,8 +50,8 @@ ActiveRecord::Schema.define(version: 20181002010301) do
   add_index "accounts", ["member_id"], name: "index_accounts_on_member_id", using: :btree
 
   create_table "active_loans", force: true do |t|
-    t.decimal  "rate",              precision: 32, scale: 16
-    t.decimal  "amount",            precision: 32, scale: 16
+    t.decimal  "rate",             precision: 32, scale: 16
+    t.decimal  "amount",           precision: 32, scale: 16
     t.integer  "duration"
     t.integer  "state"
     t.integer  "demand_id"
@@ -61,8 +61,7 @@ ActiveRecord::Schema.define(version: 20181002010301) do
     t.datetime "updated_at"
     t.integer  "demand_member_id"
     t.integer  "offer_member_id"
-    t.boolean  "demand_auto_renew"
-    t.boolean  "offer_auto_renew"
+    t.boolean  "auto_renew"
   end
 
   add_index "active_loans", ["created_at"], name: "index_active_loans_on_created_at", using: :btree

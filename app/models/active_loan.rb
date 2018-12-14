@@ -50,9 +50,8 @@ class ActiveLoan < ActiveRecord::Base
     end
   end
 
-  def trigger_active_loan(kind)
-    loan = eval "#{kind}"
-    loan.member.notify 'active_loan', for_notify(kind)
+  def trigger_offer
+    offer.member.notify 'active_loan', for_notify('offer')
   end
 
   def trigger_notify
@@ -64,14 +63,12 @@ class ActiveLoan < ActiveRecord::Base
     demand_member_id == member_id ? 'demand' : 'offer'
   end
 
-  def auto_renew(kind)
+  def loan_auto_renew(kind)
     case kind || side
-      when 'demand'
-        demand_auto_renew
-      when 'offer'
-        offer_auto_renew
-      else
-        nil
+    when 'offer'
+      auto_renew
+    else
+      nil
     end
   end
 
@@ -139,7 +136,7 @@ class ActiveLoan < ActiveRecord::Base
         amount: amount.to_s || ZERO,
         duration: duration,
         at:     created_at.to_i,
-        auto_renew: auto_renew(kind),
+        auto_renew: loan_auto_renew(kind),
         fee: fee(kind),
         state: state
     }

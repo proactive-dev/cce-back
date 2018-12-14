@@ -4,8 +4,8 @@ module Admin
       skip_load_and_authorize_resource
 
       def index
-        @demands = OpenLoan.all.with_state(:wait).where('type = ?', 'LoanOffer').order("id DESC")
-        @offers = OpenLoan.all.with_state(:wait).where('type = ?', 'LoanDemand').order("id DESC")
+        @offers = OpenLoan.all.with_state(:wait).where('type = ?', 'LoanOffer').order("id DESC")
+        @demands = OpenLoan.all.with_state(:wait).where('type = ?', 'LoanDemand').order("id DESC")
       end
 
       def destroy

@@ -11,7 +11,10 @@
   - t.column :duration, class: 'col-xs-2' do |x|
     code.text-info = x.duration
   - t.column :auto_renew, class: 'col-xs-2' do |x|
-    = yesno x.auto_renew
+    - if x.kind == 'offer'
+      = yesno x.auto_renew
+    - else
+      = "-"
   - t.column :created_at, class: 'col-xs-3'
   - t.column :state, class: 'col-xs-2' do |x|
     = x.state.capitalize

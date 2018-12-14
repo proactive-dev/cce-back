@@ -12,12 +12,12 @@
     <span><%- loan_formatter.mask_duration @duration %></span>
   </td>
   <td class='auto-renew col-xs-3'>
-    <span class= "auto-renew" style="text-decoration: underline;"><%- loan_formatter.mask_auto_renew @auto_renew %></span>
+    <span class= "auto-renew <%= @kind %>"><%- loan_formatter.mask_auto_renew @auto_renew, @kind %></span>
   </td>
   <td class='time col-xs-4'>
     <span><%- loan_formatter.fulltime @at %></span>
   </td>
   <td class='action col-xs-4'>
-     <span class= "cancel" style="text-decoration: underline;"><%= gon.i18n.cancel %></span>
+     <span class= "cancel"><%= gon.i18n.cancel %></span>
   </td>
 </tr>

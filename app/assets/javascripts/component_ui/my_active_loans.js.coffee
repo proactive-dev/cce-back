@@ -22,12 +22,12 @@
       $.ajax
         url: loan_formatter.loan_market_url tr.data('loan_market')
         method: 'put'
-        data: {active_loan_id: tr.data('id'), kind: tr.data('kind')}
+        data: {active_loan_id: tr.data('id')}
 
   @actionActiveLoan = (event) ->
     context = $(event.target).context
     tr = $(event.target).parents('tr')
-    if context.className == "auto-renew"
+    if context.className == "auto-renew offer"
       @updateActiveLoan(tr)
 
   @removeActiveLoan = (id) ->
