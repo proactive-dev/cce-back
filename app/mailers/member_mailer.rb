@@ -28,14 +28,6 @@ class MemberMailer < BaseMailer
     set_mail(member_id)
   end
 
-  def notify_cancel_orders(member_id)
-    set_mail(member_id)
-  end
-
-  def notify_disabled_from_lending(member_id)
-    set_mail(member_id)
-  end
-
   private
 
   def set_mail(member_id)

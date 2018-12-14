@@ -129,31 +129,6 @@ class Member < ActiveRecord::Base
     ActiveLoan.where('demand_member_id = ? OR offer_member_id = ?', id, id)
   end
 
-  def cancel_orders_from_lending
-    # self.orders.with_state(:wait).each do |order|
-    #
-    #   account = order.hold_margin_account
-    #   order   = Order.find(order.id).lock!
-    #
-    #   if order.state == Order::WAIT
-    #     order.state = Order::CANCEL
-    #     order.state_reason = "invalid lending balance"
-    #     account.unlock_tradable_funds(order.locked, reason: Account::ORDER_CANCEL, ref: order)
-    #     order.save!
-    #   else
-    #     raise CancelOrderError, "Only active order can be cancelled. id: #{order.id}, state: #{order.state}"
-    #   end
-    # end
-    #
-    # MemberMailer.notify_cancel_orders(self.id).deliver
-  end
-
-  def disable_from_lending
-    self.disabled = true
-    self.save
-    MemberMailer.notify_disabled_from_lending(self.id).deliver
-  end
-
   def active!
     update activated: true
   end
