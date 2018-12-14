@@ -12,12 +12,16 @@ class OrderBid < Order
     member.get_account(bid)
   end
 
+  def expect_account
+    member.get_account(ask)
+  end
+
   def hold_margin_account
     member.get_margin_account(bid)
   end
 
-  def expect_account
-    member.get_account(ask)
+  def expect_margin_account
+    member.get_margin_account(ask)
   end
 
   def avg_price

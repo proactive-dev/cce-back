@@ -66,13 +66,15 @@ class Order < ActiveRecord::Base
     real_fee      = add * fee
     real_add      = add - real_fee
 
-    hold_account.unlock_and_sub_funds \
-      real_sub, locked: real_sub,
-      reason: Account::STRIKE_SUB, ref: trade
-
-    expect_account.plus_funds \
-      real_add, fee: real_fee,
-      reason: Account::STRIKE_ADD, ref: trade
+    if order.trigger_order_id.blank?
+      # normal order
+      hold_account.unlock_and_sub_funds real_sub, locked: real_sub,  reason: Account::STRIKE_SUB, ref: trade
+      expect_account.plus_funds real_add, fee: real_fee, reason: Account::STRIKE_ADD, ref: trade
+    else
+      # margin order
+      hold_margin_account.unlock_and_sub_borrowed real_sub, locked: real_sub,  reason: MarginAccount::STRIKE_SUB, ref: trade
+      expect_margin_account.plus_borrowed real_add-real_fee, reason: MarginAccount::STRIKE_ADD, ref: trade
+    end
 
     self.volume         -= trade.volume
     self.locked         -= real_sub
@@ -83,8 +85,16 @@ class Order < ActiveRecord::Base
       self.state = Order::DONE
 
       # unlock not used funds
-      hold_account.unlock_funds locked,
-        reason: Account::ORDER_FULLFILLED, ref: trade unless locked.zero?
+      if order.trigger_order_id.blank?
+        # normal order
+        hold_account.unlock_funds locked,
+                                  reason: Account::ORDER_FULLFILLED, ref: trade unless locked.zero?
+      else
+        # margin order
+        hold_margin_account.unlock_borrowed locked,
+                                  reason: MarginAccount::ORDER_FULLFILLED, ref: trade unless locked.zero?
+      end
+
     elsif ord_type == 'market' && locked.zero?
       # partially filled market order has run out its locked fund
       self.state = Order::CANCEL

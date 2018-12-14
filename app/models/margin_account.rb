@@ -89,6 +89,13 @@ class MarginAccount < ActiveRecord::Base
     change_borrowed amount, -amount
   end
 
+  def unlock_and_sub_borrowed(amount, locked: ZERO, fee: ZERO, reason: nil, ref: nil)
+    raise MarginAccountError, "cannot unlock and subtract funds (amount: #{amount})" if ((amount <= 0) or (amount > locked))
+    raise LockedError, "invalid lock amount" unless locked
+    raise LockedError, "invalid lock amount (amount: #{amount}, locked: #{locked}, self.locked: #{self.locked})" if ((locked <= 0) or (locked > self.borrow_locked))
+    change_borrowed locked-amount, -locked
+  end
+
   def return_borrowed(amount, interest, reason: nil, ref: nil)
     sub_borrowed amount, reason:reason, ref: ref
     sub_funds interest, fee: ZERO, reason: reason, ref: ref
