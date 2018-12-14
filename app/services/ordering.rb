@@ -90,7 +90,7 @@ class Ordering
         # cancel margin order
         account = order.hold_margin_account
         account.unlock_borrowed(order.locked, reason: Account::ORDER_CANCEL, ref: order)
-        order.trigger_order.loan_demand.close_loans
+        order.trigger_order.loan_demands.each { |demand| demand.close_loans }
       end
       order.save!
     else

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20181003190156) do
+ActiveRecord::Schema.define(version: 20181003190205) do
 
   create_table "account_versions", force: true do |t|
     t.integer  "member_id"
@@ -346,6 +346,7 @@ ActiveRecord::Schema.define(version: 20181003190156) do
     t.decimal  "funds_received",     precision: 32, scale: 16, default: 0.0
     t.integer  "active_loans_count",                           default: 0
     t.string   "source"
+    t.integer  "trigger_order_id"
   end
 
   add_index "open_loans", ["currency", "state"], name: "index_open_loans_on_currency_and_state", using: :btree
@@ -577,7 +578,6 @@ ActiveRecord::Schema.define(version: 20181003190156) do
     t.datetime "done_at"
     t.string   "type",           limit: 10
     t.integer  "member_id"
-    t.integer  "loan_demand_id"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "source",                                                            null: false

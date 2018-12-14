@@ -29,7 +29,7 @@ class ActiveLoan < ActiveRecord::Base
   class << self
     def latest_rate(currency)
       with_currency(currency).order(:id).reverse_order
-        .limit(1).first.try(:rate) || "0.0".to_d
+          .limit(1).first.try(:rate) || "0.0".to_d
     end
 
     def filter(timestamp, from, to, limit, order)
@@ -79,12 +79,12 @@ class ActiveLoan < ActiveRecord::Base
 
   def fee(kind)
     case kind || side
-      when 'demand'
-        ZERO
-      when 'offer'
-        loan_market.fee * interest
-      else
-        nil
+    when 'demand'
+      ZERO
+    when 'offer'
+      loan_market.fee * interest
+    else
+      nil
     end
   end
 
@@ -102,26 +102,22 @@ class ActiveLoan < ActiveRecord::Base
       end
     end
 
-    # TODO: auto renew
     if self.state == ActiveLoan::DONE
-      # ActiveRecord::Base.transaction do
-      #   if demand_auto_renew && !demand_member.disabled?
-      #     @open_loan = LoanDemand.create!(member_id: demand_member_id, currency: currency,
-      #                                     amount: amount, origin_amount: amount,
-      #                                     auto_renew: demand_auto_renew, rate: rate, duration: duration,
-      #                                     state: OpenLoan::WAIT, source: 'Web')
-      #     Loaning.new(@open_loan).submit
-      #   end
-      #
-      #   if offer_auto_renew && !offer_member.disabled?
-      #     @open_loan = LoanOffer.create!(member_id: offer_member_id, currency: currency,
-      #                                    amount: amount, origin_amount: amount,
-      #                                    auto_renew: offer_auto_renew, rate: rate, duration: duration,
-      #                                    state: OpenLoan::WAIT, source: 'Web')
-      #     Loaning.new(@open_loan).submit
-      #   end
-      #
-      # end
+      ActiveRecord::Base.transaction do
+        if auto_renew
+          @open_loan = LoanOffer.create!(member_id: offer_member_id, currency: currency,
+                                         amount: amount, origin_amount: amount,
+                                         auto_renew: auto_renew, rate: rate, duration: duration,
+                                         state: OpenLoan::WAIT, source: 'Web')
+          Loaning.new(@open_loan).submit
+        end
+
+        @open_loan = LoanDemand.create!(member_id: demand_member_id, currency: currency,
+                                        amount: amount, origin_amount: amount,
+                                        rate: ENV['LOAN_MAX_RATE'], duration: duration,
+                                        state: OpenLoan::WAIT, source: 'Web', trigger_offer: trigger_order)
+        Loaning.new(@open_loan).submit
+      end
 
       trigger_notify
     end

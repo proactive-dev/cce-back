@@ -61,6 +61,12 @@ defaults: &defaults
   TWILIO_SID: YOUR_TWILIO_SID
   TWILIO_TOKEN: YOUR_TWILIO_TOKEN
 
+  # margin trading and loan setting
+  # --------------------------------------------------------------
+  #
+  LOAN_MAX_RATE: '100'
+
+
 development:
   <<: *defaults
   # sites hosts

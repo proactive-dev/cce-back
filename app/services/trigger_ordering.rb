@@ -39,18 +39,14 @@ class TriggerOrdering
 
     loan_demand = LoanDemand.create!(member_id: trigger_order.member_id, currency: currency,
                                      amount: amount, origin_amount: amount, duration: duration,
-                                     rate: trigger_order.rate, state: OpenLoan::WAIT, source: 'Web')
+                                     rate: trigger_order.rate, state: OpenLoan::WAIT, source: 'Web', trigger_order: trigger_order)
     Loaning.new(loan_demand).submit
-
-    trigger_order.loan_demand_id = loan_demand.id
-
-    trigger_order.save!
   end
 
   def do_cancel!(trigger_order)
-    if trigger_order.loan_demand.present?
+    if trigger_order.loan_demands.present?
       ActiveRecord::Base.transaction do
-        loaning = Loaning.new(trigger_order.loan_demand)
+        loaning = Loaning.new(trigger_order.loan_demands)
 
         if loaning.cancel
           trigger_order.state = TriggerOrder::CANCEL

@@ -25,7 +25,7 @@ class TriggerOrder < ActiveRecord::Base
   ATTRIBUTES = %w(id at market kind price state state_text volume origin_volume rate)
 
   belongs_to :member
-  belongs_to :loan_demand
+  has_many :loan_demands
   has_many :orders
 
   attr_accessor :total
