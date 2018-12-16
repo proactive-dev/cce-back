@@ -6,9 +6,12 @@ module Private
         position = current_user.positions.find(params[:id])
         amount = params[:amount]
 
-        # TODO: Close position
-
-        render status: 200, nothing: true
+        if position.present?
+          position.close(amount)
+          render status: 200, nothing: true
+        else
+          render status: 500, nothing: true
+        end
       end
     end
   end

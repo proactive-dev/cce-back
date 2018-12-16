@@ -65,7 +65,7 @@ defaults: &defaults
   # --------------------------------------------------------------
   #
   LOAN_MAX_RATE: '100'
-
+  MARGIN_MAINTENANCE: '20'
 
 development:
   <<: *defaults

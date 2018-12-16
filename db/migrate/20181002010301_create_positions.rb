@@ -3,7 +3,8 @@ class CreatePositions < ActiveRecord::Migration
     create_table :positions do |t|
       t.string   "direction", limit: 5, null: false
       t.decimal  "amount", precision: 32, scale: 16, null: false, default: 0.0
-      t.decimal  "base_price", precision: 32, scale: 16, null: false, default: 0.0
+      t.decimal  "volume", precision: 32, scale: 16, null: false, default: 0.0
+      t.decimal  "lending_fees", precision: 32, scale: 16, null: false, default: 0.0
       t.integer  "currency", null: false
       t.integer  "member_id", null: false
       t.integer  "state"

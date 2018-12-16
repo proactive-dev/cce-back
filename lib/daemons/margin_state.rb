@@ -16,11 +16,11 @@ end
 while($running) do
   Member.enabled.all.each do |member|
     current_margin = member.sync_margin_info('btc')
-    # TODO: check margin and force liquidation
-    # if current_margin <
+    if current_margin < ENV['MARGIN_MAINTENANCE'].to_d
+      member.force_liquidation
+    end
 
   end
 
-  # Rails.logger.debug "margin_state timestamp: #{Time.now.to_i}"
-  # sleep 1
+  sleep 1
 end

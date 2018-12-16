@@ -32,9 +32,6 @@
     @select('directionSel').removeClass('text-up').removeClass('text-down').addClass(formatter.check_direction(direction))
     @select('directionSel').html(formatter.direction(direction))
 
-  @updateUnrealizedPnL = (est_liq_price) ->
-    @select('estLiqPriceSel').html(est_liq_price)
-
   @refresh = (event, data) ->
     @updateDirection(@position['direction']) if @position['direction']
     @updateWithCurrency(@select('amountSel'), @position['amount'], @ticker['base_unit']) if @position['direction'] && @ticker['base_unit']
@@ -45,25 +42,33 @@
 
     @checkEmpty()
 
-  @refreshData = (event, data) ->
+  @refreshWithTicker = (event, data) ->
     if @position && @position['direction'] && @ticker && @ticker['last']
-      @position['est_liq_price'] = formatter.fixBid(if @position['direction'] == 'long' then @ticker['buy'] else @ticker['sell'])
-      @position['unrealized_pnl'] = formatter.fixBid(-0.1) # TODO: REPLACE
-      @position['unrealized_lending_fee'] = formatter.fixBid(0.1) # TODO: REPLACE
+      price = if @position['direction'] == 'long' then @ticker['buy'] else @ticker['sell']
+      @position['unrealized_pnl'] = formatter.fixBid(@position['volume'] - price * @position['amount'] -  @position['lending_fee'])
+      @position['unrealized_lending_fee'] = formatter.fixBid(@position['unrealized_lending_fees'][0] * price + @position['unrealized_lending_fees'][1])
+      @refresh()
 
-    @refresh()
+  @refreshWithMarginInfo = (event, data) ->
+    if BigNumber(@position['amount']).isZero()
+      @position['est_liq_price'] = @net_value / @position['amount']
+      @refresh()
 
   @refreshPosition = (event, position) ->
     @position['id'] = position.id
     @position['direction'] = position.direction
     @position['amount'] = formatter.fixAsk(position.amount)
     @position['base_price'] = formatter.fixBid(position.base_price)
+    @position['unrealized_lending_fees'] = position.unrealized_lending_fees
+    @position['volume'] = position.volume
+    @position['lending_fee'] = position.lending_fees
 
-    @refreshData()
+    @refreshWithTicker()
+    @refreshWithMarginInfo()
 
   @refreshTicker = (event, ticker) ->
     @ticker = ticker
-    @refreshData()
+    @refreshWithTicker()
 
   @promptDialogMsg = ->
     """
@@ -103,10 +108,15 @@
 
   @after 'initialize', ->
     @ticker = gon.ticker
-    @position = {id: null, direction: null, amount: null, base_price: null, est_liq_price: null, unrealized_pnl: null, unrealized_lending_fee: null, state: null}
+    @net_value = 0
+    @position = {id: null, direction: null, amount: null, volume: null, base_price: null, est_liq_price: null, unrealized_pnl: null, unrealized_lending_fee: null, unrealized_lending_fees: null, lending_fee: null, state: null}
 
     @on document, 'market::ticker', @refreshTicker
     @on document, 'position::update', @refreshPosition
+
+    @on document, 'margin_info::update', (event, data) =>
+      @net_value = data['net_value']
+      @refreshWithTicker()
 
     @on @select('positionSel'), 'ajax:success', @handleSuccess
     @on @select('positionSel'), 'ajax:error', @handleError

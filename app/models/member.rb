@@ -261,6 +261,16 @@ class Member < ActiveRecord::Base
 
     total_borrowed = 0
     unrealized_lending_fee = 0
+    realized_lending_fee = 0
+    unrealized_pnl = 0
+
+    positions.open.each do |position|
+      ticker = Global[position,currency].ticker
+      price = position.direction == 'long' ? ticker['buy'] : ticker['sell']
+      unrealized_pnl += position.volume - price * position.amount
+      realized_lending_fee += position.lending_fees
+    end
+
     ActiveLoan.where(demand_member_id: id, state: ActiveLoan::WAIT).each do |active_loan|
       base_unit = active_loan.currency_obj.code
       price = Market.last_price(base_unit, quote_unit)
@@ -268,9 +278,9 @@ class Member < ActiveRecord::Base
       unrealized_lending_fee -= active_loan.interest * price
     end
 
-    unrealized_pnl = 0 # TODO: calculate unrealized P/L
-
+    unrealized_pnl -= realized_lending_fee
     net_value = total_margin + unrealized_lending_fee + unrealized_pnl
+
     current_margin = if total_borrowed > 0
                        net_value / total_borrowed * 100
                      else
@@ -289,6 +299,10 @@ class Member < ActiveRecord::Base
     trigger('margin_info', margin_info)
 
     current_margin
+  end
+
+  def force_liquidation
+    positions.open.each { |position| position.complete_close }
   end
 
   def identity

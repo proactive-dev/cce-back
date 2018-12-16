@@ -424,14 +424,15 @@ ActiveRecord::Schema.define(version: 20181003190205) do
   add_index "payment_transactions", ["type"], name: "index_payment_transactions_on_type", using: :btree
 
   create_table "positions", force: true do |t|
-    t.string   "direction",  limit: 5,                                         null: false
-    t.decimal  "amount",               precision: 32, scale: 16, default: 0.0, null: false
-    t.decimal  "base_price",           precision: 32, scale: 16, default: 0.0, null: false
-    t.integer  "currency",                                                     null: false
-    t.integer  "member_id",                                                    null: false
+    t.string   "direction",    limit: 5,                                         null: false
+    t.decimal  "amount",                 precision: 32, scale: 16, default: 0.0, null: false
+    t.decimal  "volume",                 precision: 32, scale: 16, default: 0.0, null: false
+    t.integer  "currency",                                                       null: false
+    t.integer  "member_id",                                                      null: false
     t.integer  "state"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.decimal  "lending_fees",           precision: 32, scale: 16, default: 0.0, null: false
   end
 
   add_index "positions", ["currency", "state"], name: "index_positions_on_currency_and_state", using: :btree

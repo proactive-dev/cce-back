@@ -11,7 +11,6 @@ class CreateTriggerOrders < ActiveRecord::Migration
       t.integer  "state"
       t.string   "type", limit: 10
       t.integer  "member_id"
-      t.integer  "loan_demand_id"
       t.string   "source", null: false
       t.string   "ord_type", limit: 10
       t.decimal  "funds_received", precision: 32, scale: 16, default: 0.0

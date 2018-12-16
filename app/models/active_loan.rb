@@ -72,8 +72,16 @@ class ActiveLoan < ActiveRecord::Base
     end
   end
 
+  def market
+    demand.trigger_order.currency
+  end
+
+  def position
+    member.positions.find_by(currency: market.id)
+  end
+
   def interest
-    loan_period = (Time.now.to_i - active_loan.created_at.to_i) / 86400
+    loan_period = (Time.now.to_i - created_at.to_i) / 86400
     amount * loan_period * rate * 0.01
   end
 
@@ -86,6 +94,11 @@ class ActiveLoan < ActiveRecord::Base
     else
       nil
     end
+  end
+
+  def fill_volume(amount)
+    self.volume -= amount
+    self.save!
   end
 
   def close

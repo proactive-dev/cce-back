@@ -14,7 +14,7 @@ class Position < ActiveRecord::Base
   OPEN = 'open'
   CLOSE = 'close'
 
-  ATTRIBUTES = %w(id market member_id direction base_price amount at state)
+  ATTRIBUTES = %w(id market member_id direction base_price amount volume lending_fees unrealized_lending_fees at state)
 
   belongs_to :member
 
@@ -35,6 +35,106 @@ class Position < ActiveRecord::Base
 
   def market
     currency
+  end
+
+  def base_price
+    self.amount == 0 ? 0 : (self.volume / self.amount).abs
+  end
+
+  def active_loans
+    member.active_loans.select { |active_loan| active_loan.market == currency && active_loan.state == ActiveLoan::WAIT}
+  end
+
+  def unrealized_lending_fees
+    total_base = 0
+    total_quote = 0
+    active_loans.each do |active_loan|
+      if active_loan.currency == market_obj.quote_unit
+        total_quote += active_loan.interest
+      else
+        total_base += active_loan.interest
+      end
+    end
+    [total_base, total_quote]
+  end
+
+  def update_lending_fee(lending_fee)
+    self.lending_fees += lending_fee
+    self.save!
+  end
+
+  def update(trade)
+    # initialize first when closed
+    if state == Position::CLOSE
+      self.amount = 0
+      self.volume = 0
+      self.lending_fees = 0
+      self.state = Position::OPEN
+    end
+
+    # calculate attributes
+    if kind == 'ask'
+      self.amount -= trade.volume
+      self.volume += trade.volume * trade.price * (1 - market_obj.ask.fee)
+    else # 'bid'
+      self.amount += trade.volume * (1 - market_obj.bid.fee)
+      self.volume -= trade.volume * trade.price
+    end
+    self.direction = self.amount >= 0 ? 'long' : 'short'
+
+    # close position
+    if self.positions.blank?
+      self.state = Position::CLOSE
+
+      # TODO: calculate settlement
+    end
+    self.save!
+  end
+
+  def complete_close
+    close(self.amount)
+  end
+
+  # request for closing position
+  def close(amount)
+
+    # place market order
+    bid = market_obj.quote_unit
+    ask = market_obj.base_unit
+    fee = direction == 'short' ? market_obj.bid.fee : market_obj.ask.fee
+    vol =  amount / (1 - fee)
+    order_params = {
+        bid: bid,
+        ask: ask,
+        currency: currency,
+        volume: vol,
+        origin_volume: vol,
+        member_id: member_id,
+        ord_type: 'market',
+        state: Order::WAIT,
+        source: 'Web'
+    }
+    order = if kind == 'bid'
+              OrderBid.new(order_params)
+            else
+              OrderAsk.new(order_params)
+            end
+    Ordering.new(order).submit
+
+    # close active loans
+    remain_amount = amount
+    active_loans.each do |active_loan|
+      if remain_amount >= active_loan.volume
+        active_loan.close
+        remain_amount -= active_loan.volume
+        self.update_lending_fee(active_loan.interest)
+      else
+        active_loan.fill_volume(remain_amount)
+        remain_amount = 0
+        break
+      end
+
+    end
   end
 
   def trigger

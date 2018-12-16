@@ -39,23 +39,29 @@ class MarginAccount < ActiveRecord::Base
     end
   end
 
+  def sub_funds(amount, reason: nil, ref: nil)
+    amount <= ZERO and raise BorrowedError, "cannot sub borrowed (amount: #{amount})"
+    self.balance -= amount
+    self.save!
+  end
+
   def plus_borrowed(amount, reason: nil, ref: nil)
-    (amount <= ZERO) and raise BorrowedError, "cannot add borrowed (amount: #{amount})"
+    amount <= ZERO and raise BorrowedError, "cannot add borrowed (amount: #{amount})"
     change_borrowed amount, 0
   end
 
   def sub_borrowed(amount, reason: nil, ref: nil)
-    (amount <= ZERO or amount > self.borrowed) and raise BorrowedError, "cannot sub borrowed (amount: #{amount})"
+    amount <= ZERO and raise BorrowedError, "cannot sub borrowed (amount: #{amount})"
     change_borrowed -amount, 0
   end
 
   def lock_borrowed(amount, reason: nil, ref: nil)
-    (amount < ZERO or amount > self.borrowed) and raise BorrowedError, "cannot lock borrowed (amount: #{amount})"
+    amount < ZERO and raise BorrowedError, "cannot lock borrowed (amount: #{amount})"
     change_borrowed -amount, amount
   end
 
   def unlock_borrowed(amount, reason: nil, ref: nil)
-    (amount < ZERO or amount > self.borrow_locked) and raise BorrowedError, "cannot unlock borrowed (amount: #{amount})"
+    amount < ZERO and raise BorrowedError, "cannot unlock borrowed (amount: #{amount})"
     change_borrowed amount, -amount
   end
 
@@ -68,7 +74,7 @@ class MarginAccount < ActiveRecord::Base
 
   def return_borrowed(amount, interest, reason: nil, ref: nil)
     sub_borrowed amount, reason:reason, ref: ref
-    sub_funds interest, fee: ZERO, reason: reason, ref: ref
+    sub_funds interest, reason: reason, ref: ref
   end
 
   def tradable_balance
