@@ -1996,12 +1996,6 @@ en:
     phone_number_verified:
       subject: "[Rabbit] Your phone number verified"
       verified: 'Your phone number verified: %{phone_number}'
-    notify_cancel_orders:
-      subject: "[Rabbit] Your orders are canceled"
-      orders_canceled: Your orders are canceled. Because they are using borrowed assets and duration of them expired.
-    notify_disabled_from_lending:
-      subject: "[Rabbit] Your account are disabled"
-      member_disabled: Your account are disabled because of not enough amounts to return borrowed.
   system_mailer:
     daily_stats:
       member_stats: Member Stats
@@ -2134,7 +2128,7 @@ en:
     signout: Exit
     signup: Sign Up
     funds: Funds
-    transfer_balances: Transfer Balances
+    transfer_balances: Move Funds
     getstart: Get Started
     assets: Solvency
     history: History

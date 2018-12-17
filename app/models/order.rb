@@ -19,7 +19,7 @@ class Order < ActiveRecord::Base
   validates_numericality_of :origin_volume, :greater_than => 0
 
   validates_numericality_of :price, greater_than: 0, allow_nil: false,
-    if: "ord_type == 'limit'"
+                            if: "ord_type == 'limit'"
   validate :market_order_validations, if: "ord_type == 'market'"
 
   WAIT = 'wait'
@@ -66,7 +66,7 @@ class Order < ActiveRecord::Base
     real_fee      = add * fee
     real_add      = add - real_fee
 
-    if order.trigger_order_id.blank?
+    if self.trigger_order_id.blank?
       # normal order
       hold_account.unlock_and_sub_funds real_sub, locked: real_sub,  reason: Account::STRIKE_SUB, ref: trade
       expect_account.plus_funds real_add, fee: real_fee, reason: Account::STRIKE_ADD, ref: trade
@@ -85,14 +85,14 @@ class Order < ActiveRecord::Base
       self.state = Order::DONE
 
       # unlock not used funds
-      if order.trigger_order_id.blank?
+      if self.trigger_order_id.blank?
         # normal order
         hold_account.unlock_funds locked,
                                   reason: Account::ORDER_FULLFILLED, ref: trade unless locked.zero?
       else
         # margin order
         hold_margin_account.unlock_borrowed locked,
-                                  reason: MarginAccount::ORDER_FULLFILLED, ref: trade unless locked.zero?
+                                            reason: MarginAccount::ORDER_FULLFILLED, ref: trade unless locked.zero?
       end
 
     elsif ord_type == 'market' && locked.zero?

@@ -95,6 +95,11 @@
 
 #market_list {
   height: $margin-market-list-height;
+
+  .panel {
+    padding-bottom: $gutter*0.5;
+  }
+
   .panel-body-content {
     height: $margin-market-list-height - $panel_table_header_high;
   }
