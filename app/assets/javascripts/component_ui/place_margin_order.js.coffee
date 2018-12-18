@@ -100,10 +100,9 @@
     currency = gon.market[type].currency
     unless currency is @margin_info['quote_unit']
       unless currency is quoteCurrency
-        available_margin_balance = available_margin_balance * +@ticker.last
+        available_margin_balance = available_margin_balance / +@ticker.last unless BigNumber(@ticker.last).equals(0)
       else
-        unless BigNumber(ticker.last).equals(0)
-          available_margin_balance = available_margin_balance / +@ticker.last unless BigNumber(@ticker.last).equals(0)
+        available_margin_balance = available_margin_balance * +@ticker.last
 
     leverage = 100 / (gon.market['margin'].initial || 100)
     available_margin_balance = available_margin_balance * leverage

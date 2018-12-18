@@ -122,3 +122,5 @@
     @on @select('positionSel'), 'ajax:error', @handleError
 
     @on @select('actionSel'), 'click', @closePosition
+
+    @refresh()

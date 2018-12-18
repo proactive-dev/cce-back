@@ -32,10 +32,12 @@
       unrealized_lending_fee: 0,
       net_value: 0,
       total_borrowed: 0,
-      current_margin: 0,
+      current_margin: 100,
       quote_unit: 'btc'
     }
 
     @on document, 'margin_info::update', (event, data) =>
       @margin_info = data
       @refresh()
+
+    @refresh()
