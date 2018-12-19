@@ -40,18 +40,18 @@ class MarginAccount < ActiveRecord::Base
   end
 
   def sub_funds(amount, reason: nil, ref: nil)
-    amount <= ZERO and raise BorrowedError, "cannot sub borrowed (amount: #{amount})"
+    amount < ZERO and raise BorrowedError, "cannot sub borrowed (amount: #{amount})"
     self.balance -= amount
     self.save!
   end
 
   def plus_borrowed(amount, reason: nil, ref: nil)
-    amount <= ZERO and raise BorrowedError, "cannot add borrowed (amount: #{amount})"
+    amount < ZERO and raise BorrowedError, "cannot add borrowed (amount: #{amount})"
     change_borrowed amount, 0
   end
 
   def sub_borrowed(amount, reason: nil, ref: nil)
-    amount <= ZERO and raise BorrowedError, "cannot sub borrowed (amount: #{amount})"
+    amount < ZERO and raise BorrowedError, "cannot sub borrowed (amount: #{amount})"
     change_borrowed -amount, 0
   end
 

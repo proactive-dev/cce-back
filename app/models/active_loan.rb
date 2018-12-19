@@ -12,6 +12,7 @@ class ActiveLoan < ActiveRecord::Base
 
   belongs_to :demand_member, class_name: 'Member', foreign_key: 'demand_member_id'
   belongs_to :offer_member, class_name: 'Member', foreign_key: 'offer_member_id'
+  belongs_to :order
 
   validates_presence_of :rate, :amount
 
@@ -142,7 +143,7 @@ class ActiveLoan < ActiveRecord::Base
       open_loan = LoanDemand.create!(member_id: demand_member_id, currency: currency,
                                      amount: amount, origin_amount: amount,
                                      rate: ENV['LOAN_MAX_RATE'], duration: duration,
-                                     state: OpenLoan::WAIT, source: 'Web', trigger_offer: trigger_order)
+                                     state: OpenLoan::WAIT, source: 'Web', trigger_order: trigger_order, order_id: order_id)
       Loaning.new(open_loan).submit
     end
   end

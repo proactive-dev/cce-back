@@ -38,6 +38,6 @@
     @trigger 'order::wait::populate', orders: gon.my_orders if gon.my_orders
     @trigger 'margin_order::wait::populate', orders: gon.my_margin_orders if gon.my_margin_orders
     @trigger 'trade::populate', trades: gon.my_trades if gon.my_trades
-    @trigger 'position::populate', positions: gon.positions if gon.positions
+    @trigger 'position::update', gon.my_position if gon.my_position
     @trigger 'loan::wait::populate', loans: gon.my_open_loan_offers if gon.my_open_loan_offers
     @trigger 'active_loan::populate', active_loans: gon.my_active_loans if gon.my_active_loans

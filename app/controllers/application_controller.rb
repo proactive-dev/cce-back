@@ -250,7 +250,6 @@ class ApplicationController < ActionController::Base
         } if account.currency_obj.try(:visible)
         memo
       end
-      gon.positions = current_user.positions
     end
   end
 

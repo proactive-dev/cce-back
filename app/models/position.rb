@@ -10,6 +10,7 @@ class Position < ActiveRecord::Base
   after_commit :trigger
 
   validates_presence_of :direction
+  validates :member_id, uniqueness: { scope: :currency }
 
   OPEN = 'open'
   CLOSE = 'close'
@@ -65,7 +66,7 @@ class Position < ActiveRecord::Base
 
   def update(trade)
     # initialize first when closed
-    if state == Position::CLOSE
+    if state == Position::CLOSE || state.blank?
       self.amount = 0
       self.volume = 0
       self.lending_fees = 0
@@ -73,17 +74,17 @@ class Position < ActiveRecord::Base
     end
 
     # calculate attributes
-    if kind == 'ask'
+    if trade.side == 'ask' # 'ask'
       self.amount -= trade.volume
-      self.volume += trade.volume * trade.price * (1 - market_obj.ask.fee)
+      self.volume += trade.volume * trade.price * (1 - market_obj.ask['fee'])
     else # 'bid'
-      self.amount += trade.volume * (1 - market_obj.bid.fee)
+      self.amount += trade.volume * (1 - market_obj.bid['fee'])
       self.volume -= trade.volume * trade.price
     end
     self.direction = self.amount >= 0 ? 'long' : 'short'
 
-    # close position
-    if self.positions.blank?
+    # close active loans
+    if self.active_loans.blank?
       self.state = Position::CLOSE
 
       # TODO: calculate settlement
@@ -101,7 +102,7 @@ class Position < ActiveRecord::Base
     # place market order
     bid = market_obj.quote_unit
     ask = market_obj.base_unit
-    fee = direction == 'short' ? market_obj.bid.fee : market_obj.ask.fee
+    fee = direction == 'short' ? market_obj.bid['fee'] : market_obj.ask['fee']
     vol =  amount / (1 - fee)
     order_params = {
         bid: bid,

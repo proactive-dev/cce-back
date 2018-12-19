@@ -19,7 +19,7 @@ class Order < ActiveRecord::Base
   validates_numericality_of :origin_volume, :greater_than => 0
 
   validates_numericality_of :price, greater_than: 0, allow_nil: false,
-                            if: "ord_type == 'limit'"
+    if: "ord_type == 'limit'"
   validate :market_order_validations, if: "ord_type == 'market'"
 
   WAIT = 'wait'
@@ -32,6 +32,8 @@ class Order < ActiveRecord::Base
   attr_accessor :total
 
   belongs_to :trigger_order
+
+  has_many :active_loans
 
   scope :done, -> { with_state(:done) }
   scope :active, -> { with_state(:wait) }
@@ -92,7 +94,7 @@ class Order < ActiveRecord::Base
       else
         # margin order
         hold_margin_account.unlock_borrowed locked,
-                                            reason: MarginAccount::ORDER_FULLFILLED, ref: trade unless locked.zero?
+                                  reason: MarginAccount::ORDER_FULLFILLED, ref: trade unless locked.zero?
       end
 
     elsif ord_type == 'market' && locked.zero?
@@ -102,7 +104,7 @@ class Order < ActiveRecord::Base
 
     self.save!
 
-    create_or_update_position(trade.volume) if trigger_order
+    create_or_update_position(trade) if trigger_order
   end
 
   def kind

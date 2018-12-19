@@ -42,6 +42,8 @@ module Private
       @orders_wait = @member.orders.with_currency(@market).with_state(:wait)
       @margin_orders_wait = @member.trigger_orders.with_currency(@market).with_state(:wait)
       @trades_done = Trade.for_member(@market.id, current_user, limit: 100, order: 'id desc')
+      positions = @member.positions.with_currency(@market).with_state(Position::OPEN)
+      @position = positions.first if positions.present?
     end
 
   end

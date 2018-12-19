@@ -265,8 +265,8 @@ class Member < ActiveRecord::Base
     unrealized_pnl = 0
 
     positions.open.each do |position|
-      ticker = Global[position,currency].ticker
-      price = position.direction == 'long' ? ticker['buy'] : ticker['sell']
+      ticker = Global[position.market_obj.id].ticker
+      price = position.direction == 'long' ? ticker[:buy] : ticker[:sell]
       unrealized_pnl += position.volume - price * position.amount
       realized_lending_fee += position.lending_fees
     end

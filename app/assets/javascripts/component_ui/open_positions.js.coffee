@@ -51,10 +51,12 @@
 
   @refreshWithMarginInfo = (event, data) ->
     if BigNumber(@position['amount']).isZero()
-      @position['est_liq_price'] = @net_value / @position['amount']
-      @refresh()
+      @position['est_liq_price'] = formatter.fixBid(0)
+    else
+      @position['est_liq_price'] = formatter.fixBid(Math.abs(@net_value / @position['amount']))
+    @refresh()
 
-  @refreshPosition = (event, position) ->
+  @refreshPosition = (position) ->
     @position['id'] = position.id
     @position['direction'] = position.direction
     @position['amount'] = formatter.fixAsk(position.amount)
@@ -111,12 +113,15 @@
     @net_value = 0
     @position = {id: null, direction: null, amount: null, volume: null, base_price: null, est_liq_price: null, unrealized_pnl: null, unrealized_lending_fee: null, unrealized_lending_fees: null, lending_fee: null, state: null}
 
+    @refreshPosition(gon.my_position) if gon.my_position
+
     @on document, 'market::ticker', @refreshTicker
-    @on document, 'position::update', @refreshPosition
+    @on document, 'position::update', (event, data) =>
+      @refreshPosition(data)
 
     @on document, 'margin_info::update', (event, data) =>
       @net_value = data['net_value']
-      @refreshWithTicker()
+      @refreshWithMarginInfo()
 
     @on @select('positionSel'), 'ajax:success', @handleSuccess
     @on @select('positionSel'), 'ajax:error', @handleError

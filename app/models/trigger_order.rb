@@ -53,14 +53,14 @@ class TriggerOrder < ActiveRecord::Base
     member.trigger('order', json)
   end
 
-  def fill(amount)
-    self.volume         -= amount
-    self.funds_received += amount
+  def fill(active_loan)
+    self.volume         -= active_loan.amount
+    self.funds_received += active_loan.amount
 
     self.state = TriggerOrder::DONE if volume.zero?
     self.save!
 
-    create_order(amount)
+    create_order(active_loan) unless active_loan.order_id
   end
 
   def kind
@@ -106,7 +106,8 @@ class TriggerOrder < ActiveRecord::Base
   private
 
   # create order from trigger order
-  def create_order(amount)
+  def create_order(active_loan)
+    amount = active_loan.amount
     order_params = {
       bid: bid,
       ask: ask,
@@ -126,6 +127,9 @@ class TriggerOrder < ActiveRecord::Base
               OrderAsk.new(order_params)
             end
     Ordering.new(order).submit
+
+    active_loan.order_id = order.id
+    active_loan.save!
 
     self.orders_count += 1
     self.save!

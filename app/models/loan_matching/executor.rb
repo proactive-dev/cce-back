@@ -48,7 +48,7 @@ module LoanMatching
 
         raise LendingExecutionError.new({demand: @demand, offer: @offer, rate: @rate, amount: @amount}) unless valid?
 
-        @active_loan = ActiveLoan.create!(demand_id: @demand.id, demand_member_id: @demand.member_id,
+        @active_loan = ActiveLoan.create!(demand_id: @demand.id, demand_member_id: @demand.member_id, order_id: @demand.order_id,
                                offer_id: @offer.id, offer_member_id: @offer.member_id, auto_renew: @offer.auto_renew,
                                rate: @rate, amount: @amount, currency: @market.id.to_sym, duration: @duration, state: ActiveLoan::WAIT)
 

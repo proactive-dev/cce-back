@@ -70,7 +70,7 @@ class OpenLoan < ActiveRecord::Base
     case self.kind
       when 'demand'
         hold_margin_account.plus_borrowed lending_amount, reason: MarginAccount::LOAN_MATCHED, ref: active_loan
-        trigger_order.fill(lending_amount) if trigger_order
+        trigger_order.fill(active_loan) if trigger_order
       when 'offer'
         hold_lending_account.unlock_funds lending_amount, reason: LendingAccount::LOAN_MATCHED, ref: active_loan
     end
@@ -93,7 +93,7 @@ class OpenLoan < ActiveRecord::Base
             lending_amount, active_loan.interest, reason: LendingAccount::LENDING_DONE, ref: active_loan
     when 'offer'
       hold_lending_account.plus_funds \
-          lending_amount + active_loan.interest , fee: active_loan.fee, reason: LendingAccount::LENDING_DONE, ref: active_loan
+          lending_amount + active_loan.interest , fee: active_loan.fee('offer'), reason: LendingAccount::LENDING_DONE, ref: active_loan
     end
 
     true
