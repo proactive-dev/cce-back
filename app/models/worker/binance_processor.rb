@@ -61,7 +61,7 @@ module Worker
 
     def fetch_depth
       Market.from_binance.each do |market|
-        data = @binance_api_client.depth symbol: market.id.upcase, limit: 200
+        data = @binance_api_client.depth symbol: market.id.upcase, limit: 100
         last_update_id = data.fetch('lastUpdateId')
         Rails.cache.write("exchange:#{market.id}:last_update_id", last_update_id, force: true)
 

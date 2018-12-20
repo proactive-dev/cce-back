@@ -1,6 +1,6 @@
 - id: ethbtc
   code: 2
-  name: ETH/BTC      
+  name: ETH/BTC
   base_unit: eth
   quote_unit: btc
   #price_group_fixed: 1 # aggregate price levels in orderbook
