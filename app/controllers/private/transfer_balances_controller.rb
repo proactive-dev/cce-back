@@ -6,23 +6,23 @@ module Private
 
     def index
       @currencies = Currency.all
-      @account_types = ['exchange', 'margin', 'lending']
-      # @account_types = [['Exchange', 1], ['Margin', 2], ['Lending', 3]]
+      @account_types = ['exchange', 'margin', 'lending'].map(&:capitalize)
       @all_accounts = []
 
-      Currency.codes.each do |code|
+      Currency.all.each do |currency|
+        code = currency.code
         exchange_balance = current_user.get_account(code).balance
         margin_balance = current_user.get_margin_account(code).balance
         lending_balance = current_user.get_lending_account(code).balance
         total = exchange_balance + margin_balance + lending_balance
-        @all_accounts << {currency: code, exchange: exchange_balance, margin: margin_balance, lending: lending_balance, total: total}
+        @all_accounts << {currency: code, exchange: exchange_balance, margin: margin_balance, lending: lending_balance, total: total, precision: currency.precision}
       end
 
       if params[:commit].present?
         amount = params[:amount_to_transfer].to_f
         selected_currency = params[:currency]
-        from_account_type = params[:from_account_type]
-        to_account_type = params[:to_account_type]
+        from_account_type = params[:from_account_type].downcase
+        to_account_type = params[:to_account_type].downcase
 
         redirect_to transfer_balances_path, notice: t('private.transfer_balances.please_set_amount') and return unless (amount.present? && amount > 0)
         redirect_to transfer_balances_path, notice: t('private.transfer_balances.please_select_different_account') and return if from_account_type == to_account_type

@@ -861,7 +861,7 @@ en:
           default: Default
     transfer_balances:
       move_funds: Move Funds Between Your Accounts
-      manage: Transfer Balances
+      manage: Move Funds
       amount: Amount
       transfer: Transfer
       from: from
@@ -1000,7 +1000,7 @@ en:
         sound: Sound
         notification: Notify
         funds: "Funds"
-        transfer_balances: "Transfer Balances"
+        transfer_balances: "Move Funds"
         signout: "Sign Out"
         settings: "Profile"
         history: "History"
@@ -1027,7 +1027,7 @@ en:
         amount: Amount
         time: Place Time
       mask:
-        warning: Please <a class=text-up href='/'>Sign up</a> or <a class=text-up href='/'>Sign in</a> for operation
+        warning: Please <a class=text-up href='/signup'>Sign up</a> or <a class=text-up href='/signin'>Sign in</a> for operation
       klime_chart:
         title: Candlestick Charts
       global:
@@ -1178,6 +1178,7 @@ en:
         signout: Sign Out
         settings: Profile
         history: History
+        move_funds: Move Funds
       my_open_loan_offers:
         title: My Open Loan Offers
         no_open_loans: You have no open loan offers.
@@ -1203,8 +1204,8 @@ en:
         type: Type
         fee: Fee
       mask:
-        warning: Please <a class=text-up href='/'>Sign up</a> or <a class=text-up
-          href='/'>Sign in</a> for operation
+        warning: Please <a class=text-up href='/signup'>Sign up</a> or <a class=text-up
+          href='/signin'>Sign in</a> for operation
       global:
         global_loans_title: LOANS
     settings:
@@ -2121,7 +2122,7 @@ en:
     home: Home
     dashboard: Dashboard
     admin: Admin Panel
-    market: Trade
+    market: Trading
     margin_market: Margin Trading
     settings: Profile
     signin: Sign In

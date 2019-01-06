@@ -62,6 +62,10 @@ class Currency < ActiveYamlBase
     self.try(:default_decimal_digit) || (fiat? ? 2 : 4)
   end
 
+  def upcase_code
+    code.upcase
+  end
+
   def refresh_balance
     Rails.cache.write(balance_cache_key, api.load_balance || 'N/A') if coin?
   end

@@ -1054,7 +1054,7 @@ zh-CN:
         amount: 总价
         time: 创建时间
       mask:
-        warning: 请 <a class=text-up href='/'>登录</a> 或者 <a class=text-up href='/'>注册</a> 后进行操作
+        warning: 请 <a class=text-up href='/signin'>登录</a> 或 <a class=text-up href='/signup'>注册</a> 后进行操作
       klime_chart:
         title: K线图
       global:
@@ -1264,7 +1264,7 @@ zh-CN:
         type: 类型
         fee: 手续费
       mask:
-        warning: 请 <a class=text-up href='/'>登录</a> 或 <a class=text-up href='/'>注册</a> 后进行操作
+        warning: 请 <a class=text-up href='/signin'>登录</a> 或 <a class=text-up href='/signup'>注册</a> 后进行操作
       global:
         global_loans_title: 贷款
     settings:

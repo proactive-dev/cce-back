@@ -2,6 +2,7 @@ header.navbar.navbar-default.navbar-static-top role = "navigation"
   .container
     ul#menu.nav.navbar-nav.navbar-left
       a.navbar-brand href=root_path #{t('brand')}
+      = top_nav_link(t('header.margin_market'), margin_market_path(current_market.id), 'exchange', target: true)
       li#loan_markets.dropdown
         a.dropdown-toggle href="#" data-toggle="dropdown"
           span#current_loan_market
@@ -14,9 +15,7 @@ header.navbar.navbar-default.navbar-static-top role = "navigation"
               span = loan_market.name.capitalize
 
     ul.nav.navbar-nav.navbar-right
-      = top_nav_link(t('header.margin_market'), margin_market_path(current_market.id), 'exchange', target: true)
       - if current_user
-        = top_nav_link(t('header.transfer_balances'), transfer_balances_path, 'retweet', controllers: ['history'])
         = render partial: 'settings'
       - else
         p.navbar-text

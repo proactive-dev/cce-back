@@ -300,6 +300,12 @@ header {
 #loan_book {
   .panel-body-content {
     height: $loan-book-height;
+    .row {
+      height: 100%;
+      .col-xs-12 {
+        height: 100%;
+      }
+    }
   }
 
   table.demands, table.offers {
@@ -312,6 +318,9 @@ header {
       color: #444;
       .rate, .amount, .duration, g { color: #444; }
     }
+  }
+  .with_right_border {
+    border-right: 1px solid #ccc;
   }
 }
 
