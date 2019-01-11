@@ -54,8 +54,9 @@ class TriggerOrder < ActiveRecord::Base
   end
 
   def fill(active_loan)
-    self.volume         -= active_loan.amount
-    self.funds_received += active_loan.amount
+    amount = active_loan.amount / self.price if kind == 'bid'
+    self.volume         -= amount
+    self.funds_received += amount
 
     self.state = TriggerOrder::DONE if volume.zero?
     self.save!
@@ -107,7 +108,11 @@ class TriggerOrder < ActiveRecord::Base
 
   # create order from trigger order
   def create_order(active_loan)
-    amount = active_loan.amount
+    amount = if kind == 'bid'
+               active_loan.amount / self.price
+             else
+               active_loan.amount
+             end
     order_params = {
       bid: bid,
       ask: ask,

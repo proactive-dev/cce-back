@@ -113,9 +113,9 @@ class Position < ActiveRecord::Base
         member_id: member_id,
         ord_type: 'market',
         state: Order::WAIT,
-        source: 'Web'
+        source: 'Position'
     }
-    order = if kind == 'bid'
+    order = if direction == 'short'
               OrderBid.new(order_params)
             else
               OrderAsk.new(order_params)
@@ -125,9 +125,9 @@ class Position < ActiveRecord::Base
     # close active loans
     remain_amount = amount
     active_loans.each do |active_loan|
-      if remain_amount >= active_loan.volume
+      if remain_amount >= active_loan.amount
         active_loan.close
-        remain_amount -= active_loan.volume
+        remain_amount -= active_loan.amount
         self.update_lending_fee(active_loan.interest)
       else
         active_loan.fill_volume(remain_amount)

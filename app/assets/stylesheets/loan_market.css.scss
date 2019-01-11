@@ -18,9 +18,9 @@ $gutter-6x: $gutter * 6;
 
 $entry-height: 200px;
 
-$my-loans-height: 200px;
+$my-loans-height: 160px;
 
-$loan-book-height: $min-height - $navbar-height - $entry-height - $my-loans-height - $gutter-3x;
+$loan-book-height: $min-height - $navbar-height - $entry-height - $my-loans-height - $gutter-4x;
 
 $up-text: rgb(77, 215, 16);
 $down-text: rgb(208, 0, 23);
@@ -103,22 +103,11 @@ header {
 
 #wrap {
   box-sizing: border-box;
-  margin-top: 0px - $navbar-height;
 }
 
 .container-fluid {
   padding-left: 10px;
   padding-right: 10px;
-}
-
-.content {
-  top: $navbar-height;
-  min-width: $min-width;
-  min-height: $min-height - $navbar-height;
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  font-size: 14px !important;
 }
 
 .mask {
@@ -137,13 +126,10 @@ header {
 
 /* --------　panel　-------- */
 .panel {
-  position: relative;
   margin-top: $gutter;
   margin-bottom: $gutter;
-  margin-left: $gutter-2x;
-  margin-right: $gutter-2x;
 
-  &.panel-default {
+  &.panel-primary {
     .panel-body {
       padding-top: 2px;
       padding-bottom: 4px;
@@ -152,146 +138,6 @@ header {
     }
   }
 
-  &.panel-with-dropdown {
-    .panel-heading {
-      -moz-user-select: none;
-      -webkit-user-select: none;
-      -ms-user-select: none;
-
-      .btn-group.open .dropdown-toggle {
-        box-shadow: none;
-        -moz-box-shadow: none;
-        -webkit-box-shadow: none;
-      }
-
-      .btn-group {
-        margin-right: 5px;
-        cursor: pointer;
-        span.caret { margin-left: 2px; }
-        a:hover, a:focus { text-decoration: none; }
-      }
-    }
-  }
-
-  .panel-body.panel-fixed-table-head {
-    table { margin-bottom: 0px; }
-    padding-bottom: 0px;
-  }
-
-  .panel-body.panel-fixed-table-body {
-    table { margin-bottom: 0px;}
-    overflow-y: auto;
-  }
-}
-
-.has-left-dropdown {
-  .dropdown-wrapper {
-    .dropdown-menu {
-      display: block;
-      z-index: 0;
-      position: relative;
-      top: 0;
-      left: 100%;
-      -webkit-transition: left .1s linear;
-      transition: left .1s linear;
-      min-width: 0;
-      margin: 0;
-      font-size: 11px;
-      background-color: $panel-bg;
-      border: 1px solid $panel-default-border;
-      border-right: 0;
-      border-top-right-radius: 0;
-      border-bottom-right-radius: 0;
-
-      a {
-        display: none;
-        padding: 3px 12px 3px 11px;
-        background-color: $panel-bg;
-      }
-
-      a:hover {
-        color: white;
-        background-color: $panel-bg;
-        text-shadow: white 0 0 2px;
-        text-decoration: none;
-      }
-
-      a:focus {
-        color: $text-color;
-        text-shadow: none;
-      }
-    }
-  }
-}
-
-.has-left-dropdown:hover {
-  .dropdown-wrapper {
-    .dropdown-menu {
-      left: 1px;
-      -webkit-transition: left .1s linear;
-      transition: left .1s linear;
-
-      a { display: block; }
-    }
-  }
-}
-
-.has-right-dropdown {
-  .dropdown-wrapper {
-    .dropdown-menu {
-      display: block;
-      position: relative;
-      top: 0;
-      left: 0;
-      -webkit-transition: margin-left .1s linear;
-      transition: margin-left .1s linear;
-      min-width: 0;
-      padding-left: 6px;
-      margin: 0 0 0 -100%;
-      font-size: 11px;
-      background-color: $panel-bg;
-      border: 1px solid $panel-default-border;
-      border-left: 0;
-      border-left-right-radius: 0;
-
-      a {
-        padding: 3px 8px;
-        background-color: $panel-bg;
-        i { color: $panel-bg; }
-      }
-
-      a.active {
-        i {
-          color: white;
-          text-shadow: white 0 0 2px;
-        }
-      }
-
-      a:hover {
-        color: white;
-        background-color: $panel-bg;
-        text-shadow: white 0 0 2px;
-        text-decoration: none;
-        i { text-shadow: none; }
-      }
-
-      a:focus {
-        color: $text-color;
-      }
-    }
-  }
-}
-
-.has-right-dropdown:hover {
-  .dropdown-wrapper {
-    .dropdown-menu {
-      margin-left: -1px;
-      -webkit-transition: margin-left .1s linear;
-      transition: margin-left .1s linear;
-
-      a { display: block; }
-    }
-  }
 }
 
 
@@ -341,8 +187,7 @@ header {
     }
 
     .empty-row {
-      position: absolute;
-      top: 44%;
+      top: 50%;
       width: 99%;
       height: 0;
       padding: 0;
@@ -351,10 +196,6 @@ header {
     }
 
     .label { margin: 0 1px; padding: 2px; }
-    //.label-demand { background-color: $down-text-fade; }
-    //.label-offer { background-color: $up-text-fade; }
-    .label-new { background-color: $gray-light; }
-    .label-partial { background-color: #2b90de; }
   }
 }
 
@@ -453,7 +294,7 @@ header {
 
 #loan_book, #my_open_loan_offers, #my_active_loans {
   table {
-    margin-bottom: 0px;
+    margin-bottom: 0;
 
     thead {
       tr {

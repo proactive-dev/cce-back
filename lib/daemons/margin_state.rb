@@ -22,5 +22,5 @@ while($running) do
 
   end
 
-  sleep 1
+  sleep 5
 end

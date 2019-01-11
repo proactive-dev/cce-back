@@ -55,7 +55,7 @@ class Ordering
     order.locked = order.origin_locked = order.compute_locked
     order.save!
 
-    if order.trigger_order_id.blank?
+    if order.trigger_order_id.blank? && order.source != 'Position'
       # submit normal order
       account = order.hold_account
       account.lock_funds(order.locked, reason: Account::ORDER_SUBMIT, ref: order)
@@ -82,7 +82,7 @@ class Ordering
 
     if order.state == Order::WAIT
       order.state = Order::CANCEL
-      if order.trigger_order_id.blank?
+      if order.trigger_order_id.blank? && order.source != 'Position'
         # cancel normal order
         account = order.hold_account
         account.unlock_funds(order.locked, reason: Account::ORDER_CANCEL, ref: order)

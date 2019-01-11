@@ -9,7 +9,7 @@ class Order < ActiveRecord::Base
   ORD_TYPES = %w(market limit)
   enumerize :ord_type, in: ORD_TYPES, scope: true
 
-  SOURCES = %w(Web APIv2 debug)
+  SOURCES = %w(Web APIv2 Position debug)
   enumerize :source, in: SOURCES, scope: true
 
   after_commit :trigger
@@ -68,7 +68,7 @@ class Order < ActiveRecord::Base
     real_fee      = add * fee
     real_add      = add - real_fee
 
-    if self.trigger_order_id.blank?
+    if self.trigger_order_id.blank? && self.source != 'Position'
       # normal order
       hold_account.unlock_and_sub_funds real_sub, locked: real_sub,  reason: Account::STRIKE_SUB, ref: trade
       expect_account.plus_funds real_add, fee: real_fee, reason: Account::STRIKE_ADD, ref: trade
@@ -87,7 +87,7 @@ class Order < ActiveRecord::Base
       self.state = Order::DONE
 
       # unlock not used funds
-      if self.trigger_order_id.blank?
+      if self.trigger_order_id.blank? && self.source != 'Position'
         # normal order
         hold_account.unlock_funds locked,
                                   reason: Account::ORDER_FULLFILLED, ref: trade unless locked.zero?
@@ -104,7 +104,7 @@ class Order < ActiveRecord::Base
 
     self.save!
 
-    create_or_update_position(trade) if trigger_order
+    create_or_update_position(trade) if trigger_order || source == 'Position'
   end
 
   def kind
@@ -177,7 +177,7 @@ class Order < ActiveRecord::Base
   end
 
   def create_or_update_position(trade)
-    position = Position.find_or_create_by(member_id: member_id, currency: currency)
+    position = Position.find_or_create_by(member_id: member_id, currency: market_obj.code)
     position.update(trade)
   end
 end

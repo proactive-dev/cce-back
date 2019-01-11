@@ -1127,6 +1127,7 @@ en:
         amount_close: Amount to close position
         balance: Balance
         invalid_value: Invalid input value!
+        empty_value: Input value empty!
       margin_info:
         title: Margin Account
         total: Total

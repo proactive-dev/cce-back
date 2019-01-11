@@ -81,26 +81,28 @@
     #{formatter.t('position')['amount_close']}:
     """
 
-  @confirmDialogMsg = ->
+  @confirmDialogMsg = (amount) ->
     """
     #{formatter.t('position')['confirm_close']}
 
-    #{formatter.t('position')['amount_close']}: #{@position['amount']} #{@ticker['base_unit'].toUpperCase()}
+    #{formatter.t('position')['amount_close']}: #{amount} #{@ticker['base_unit'].toUpperCase()}
     """
 
   @closePosition = (event) ->
     amount = prompt(@promptDialogMsg())
     if amount
       if $.isNumeric(amount) && BigNumber(amount).lessThanOrEqualTo(BigNumber(@position['amount']))
-        if confirm(@confirmDialogMsg())
+        if confirm(@confirmDialogMsg(amount))
           $.ajax
             url: formatter.position_url(@position['id'])
             method: 'put'
             data: {
               amount: amount
             }
-          return
-      alert formatter.t('position')['invalid_value']
+      else
+        alert formatter.t('position')['invalid_value']
+    else
+      alert formatter.t('position')['empty_value']
 
   @handleSuccess = (event, data) ->
     json = JSON.parse(data.message)

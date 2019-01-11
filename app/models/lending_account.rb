@@ -51,6 +51,11 @@ class LendingAccount < ActiveRecord::Base
 
   def unlock_funds(amount, reason: nil, ref: nil)
     (amount < ZERO or amount > self.locked) and raise LockedError, "cannot unlock funds (amount: #{amount})"
+    change_balance amount, -amount
+  end
+
+  def unlock_and_sub_funds(amount, reason: nil, ref: nil)
+    (amount < ZERO or amount > self.locked) and raise LockedError, "cannot unlock and sub funds (amount: #{amount})"
     change_balance 0, -amount
   end
 

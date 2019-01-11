@@ -1,10 +1,10 @@
-#loan_book.panel.panel-default
+#loan_book.panel.panel-primary
   .panel-heading
     .row
-      .col-xs-12.with_right_border
-        h2.panel-title style="text-align:center" = t('.title_offer')
       .col-xs-12
-        h2.panel-title style="text-align:center" = t('.title_demand')
+        span = t('.title_offer')
+      .col-xs-12
+        span = t('.title_demand')
   .panel-body.panel-body-head
     .row
       .col-xs-12.with_right_border: table.table

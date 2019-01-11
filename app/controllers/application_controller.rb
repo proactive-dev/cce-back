@@ -210,6 +210,7 @@ class ApplicationController < ActionController::Base
           long: I18n.t('private.margin_markets.open_positions.long'),
           prompt_close: I18n.t('private.margin_markets.open_positions.prompt_close'),
           invalid_value: I18n.t('private.margin_markets.open_positions.invalid_value'),
+          empty_value: I18n.t('private.margin_markets.open_positions.empty_value'),
           amount_close: I18n.t('private.margin_markets.open_positions.amount_close'),
           confirm_close: I18n.t('private.margin_markets.open_positions.confirm_close'),
           balance: I18n.t('private.margin_markets.open_positions.balance')

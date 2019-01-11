@@ -11,9 +11,9 @@ html lang="en"
     = csrf_meta_tags
 
   body id='#{body_id}' data-lang="#{locale_name}"
-    = render partial: 'private/loan_markets/header'
     #wrap
-      .content
+      = render partial: 'private/loan_markets/header'
+      .container
         = render partial: 'loan_entry', locals: {loan_market: @loan_market, loan: @loan}
         = render partial: 'loan_book'
 

@@ -72,7 +72,7 @@ class OpenLoan < ActiveRecord::Base
         hold_margin_account.plus_borrowed lending_amount, reason: MarginAccount::LOAN_MATCHED, ref: active_loan
         trigger_order.fill(active_loan) if trigger_order
       when 'offer'
-        hold_lending_account.unlock_funds lending_amount, reason: LendingAccount::LOAN_MATCHED, ref: active_loan
+        hold_lending_account.unlock_and_sub_funds lending_amount, reason: LendingAccount::LOAN_MATCHED, ref: active_loan
     end
 
     self.amount         -= lending_amount

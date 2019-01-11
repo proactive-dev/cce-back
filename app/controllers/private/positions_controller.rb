@@ -4,7 +4,7 @@ module Private
     def update
       ActiveRecord::Base.transaction do
         position = current_user.positions.find(params[:id])
-        amount = params[:amount]
+        amount = params[:amount].to_f
 
         if position.present?
           position.close(amount)

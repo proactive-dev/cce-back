@@ -1,6 +1,6 @@
-#loan_entry.panel.panel-default
+#loan_entry.panel.panel-primary
   .panel-heading
-    h2.panel-title = t('.title')
+    span = t('.title')
   .panel-body
     = form_for [loan_market, loan], :remote => true do |f|
       = render partial: 'balance', locals: {currency: t(loan_market.id)}

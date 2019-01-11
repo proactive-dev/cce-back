@@ -271,8 +271,8 @@ class Member < ActiveRecord::Base
       realized_lending_fee += position.lending_fees
     end
 
-    ActiveLoan.where(demand_member_id: id, state: ActiveLoan::WAIT).each do |active_loan|
-      base_unit = active_loan.currency_obj.code
+    ActiveLoan.where(demand_member_id: id, state: 100).each do |active_loan| # ActiveLoan::WAIT
+      base_unit = active_loan.currency
       price = Market.last_price(base_unit, quote_unit)
       total_borrowed += active_loan.amount * price
       unrealized_lending_fee -= active_loan.interest * price
@@ -286,6 +286,7 @@ class Member < ActiveRecord::Base
                      else
                        100
                      end
+    current_margin = 100 if current_margin > 100
 
     margin_info = {
         total_margin: total_margin,
