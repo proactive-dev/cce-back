@@ -21,7 +21,7 @@
       @trigger 'trade', data
 
     channel.bind 'position', (data) =>
-      @trigger 'position', data
+      @trigger 'position::update', data
 
     channel.bind 'open_loan', (data) =>
       @trigger "loan::#{data.state}", data

@@ -11,7 +11,7 @@
     empty: '.empty-row'
 
   @checkEmpty = (event, data) ->
-    if @position['direction']
+    if @position['state'] == 'open'
       @select('empty').fadeOut()
       @select('positionSel').fadeIn()
     else
@@ -64,6 +64,7 @@
     @position['unrealized_lending_fees'] = position.unrealized_lending_fees
     @position['volume'] = position.volume
     @position['lending_fee'] = position.lending_fees
+    @position['state'] = position.state
 
     @refreshWithTicker()
     @refreshWithMarginInfo()
