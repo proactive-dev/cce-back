@@ -77,14 +77,14 @@ html lang="en"
             li class = check_active(Proof)
               = link_to t(".menus.items.operating.tickets"), admin_tickets_path
 
-          li.dropdown class = check_active('statistic')
-            = link_to 'javascript:;', class: 'dropdown-toggle', 'data-toggle' => 'dropdown' do
-              span = t('admin_header.statistics')
-              span.caret
-            ul.dropdown-menu
-              - if can? :stat, Member
-                li class = check_active(Member)
-                  = link_to Member.model_name.human, admin_statistic_members_path
+          / li.dropdown class = check_active('statistic')
+          /   = link_to 'javascript:;', class: 'dropdown-toggle', 'data-toggle' => 'dropdown' do
+          /     span = t('admin_header.statistics')
+          /     span.caret
+          /   ul.dropdown-menu
+          /     - if can? :stat, Member
+          /       li class = check_active(Member)
+          /         = link_to Member.model_name.human, admin_statistic_members_path
 
         ul.nav.navbar-nav.navbar-right
           li = link_to t('actions.back'), main_app.root_path
