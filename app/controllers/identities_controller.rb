@@ -1,5 +1,9 @@
 class IdentitiesController < ApplicationController
-  before_filter :auth_anybody!, only: :new
+
+  layout false
+
+  skip_before_action :verify_authenticity_token
+  # before_filter :auth_anybody!, only: :new
 
   def new
     @identity = env['omniauth.identity'] || Identity.new
@@ -13,20 +17,30 @@ class IdentitiesController < ApplicationController
     @identity = current_user.identity
 
     unless @identity.authenticate(params[:identity][:old_password])
-      redirect_to edit_identity_path, alert: t('.auth-error') and return
+      render_json(IdentityUpdateError.new(t('.auth-error')))
+      return
     end
 
     if @identity.authenticate(params[:identity][:password])
-      redirect_to edit_identity_path, alert: t('.auth-same') and return
+      render_json(IdentityUpdateError.new(t('.auth-same')))
+      return
     end
 
     if @identity.update_attributes(identity_params)
       current_user.send_password_changed_notification
       clear_all_sessions current_user.id
       reset_session
-      redirect_to signin_path, notice: t('.notice')
+      render_json(SetupPasswordSuccess.new(t('.notice')))
     else
-      render :edit
+      render_json(AuthError.new)
+    end
+  end
+
+  def failure
+    if env['omniauth.identity'].present? && env['omniauth.identity'].errors.present?
+      render_json(SignUpFailure.new(env['omniauth.identity'].errors))
+    else
+      render_json(SignUpFailure.new('Signup Failed'))
     end
   end
 

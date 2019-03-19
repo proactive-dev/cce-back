@@ -4,13 +4,14 @@ class ApplicationController < ActionController::Base
   helper_method :current_user, :is_admin?, :current_market, :gon, :current_loan_market
   before_action :set_timezone, :set_gon
   after_action :allow_iframe
-  after_action :set_csrf_cookie_for_ng
+  # after_action :set_csrf_cookie_for_ng
   rescue_from CoinAPI::ConnectionRefusedError, with: :coin_rpc_connection_refused
 
   private
 
   include SimpleCaptcha::ControllerHelpers
   include TwoFactorHelper
+  include Concerns::Response
 
   def currency
     "#{params[:ask]}#{params[:bid]}".to_sym
@@ -25,14 +26,9 @@ class ApplicationController < ActionController::Base
         LoanMarket.find_by_id(cookies[:loan_market_id]) || LoanMarket.first
   end
 
-  def redirect_back_or_settings_page
-    if cookies[:redirect_to].present?
-      redirect_to cookies[:redirect_to]
-      cookies[:redirect_to] = nil
-    else
-      redirect_to settings_path
-    end
-  end
+  # def redirect_back_or_settings_page
+  #   render_json(SignInSuccess.new)
+  # end
 
   def current_user
     @current_user ||= Member.current = Member.enabled.where(id: session[:member_id]).first
@@ -41,17 +37,17 @@ class ApplicationController < ActionController::Base
   def auth_member!
     unless current_user
       set_redirect_to
-      redirect_to root_path, alert: t('activations.new.login_required')
+      render_json(LogInRequired.new)
     end
   end
 
   def auth_activated!
-    redirect_to settings_path, alert: t('private.settings.index.auth-activated') unless current_user.activated?
+    render_json(SettingsAlert.new(t('private.settings.index.auth-activated'))) unless current_user.activated?
   end
 
   def auth_verified!
     unless current_user and current_user.id_document and current_user.id_document_verified?
-      redirect_to settings_path, alert: t('private.settings.index.auth-verified')
+      render_json(SettingsAlert.new(t('private.settings.index.auth-verified')))
     end
   end
 
@@ -59,11 +55,11 @@ class ApplicationController < ActionController::Base
   end
 
   def auth_anybody!
-    redirect_to root_path if current_user
+    render_json(LogInRequired.new) if current_user
   end
 
   def auth_admin!
-    redirect_to main_app.root_path unless is_admin?
+    render_json(AdminRoleRequired.new) unless is_admin?
   end
 
   def is_admin?
@@ -72,7 +68,7 @@ class ApplicationController < ActionController::Base
 
   def two_factor_activated!
     if not current_user.two_factors.activated?
-      redirect_to settings_path, alert: t('two_factors.auth.please_active_two_factor')
+      render_json(TFAError.new(t('two_factors.auth.please_active_two_factor')))
     end
   end
 
@@ -126,14 +122,6 @@ class ApplicationController < ActionController::Base
     gon.price_config = current_market.price_config
     gon.market_limit = current_market.source_limit
     gon.loan_market = current_loan_market.attributes
-
-    gon.pusher = {
-      key:       ENV['PUSHER_KEY'],
-      wsHost:    'ws-us2.pusher.com', #ENV['PUSHER_HOST']      || 'ws.pusherapp.com',
-      wsPort:    ENV['PUSHER_WS_PORT']   || '80',
-      wssPort:   ENV['PUSHER_WSS_PORT']  || '443',
-      encrypted: ENV['PUSHER_ENCRYPTED'] == 'true'
-    }
 
     gon.clipboard = {
       :click => I18n.t('actions.clipboard.click'),
@@ -274,12 +262,12 @@ class ApplicationController < ActionController::Base
     response.headers.except! 'X-Frame-Options' if Rails.env.development?
   end
 
-  def set_csrf_cookie_for_ng
-    cookies['XSRF-TOKEN'] = form_authenticity_token if protect_against_forgery?
-  end
+  # def set_csrf_cookie_for_ng
+  #   cookies['XSRF-TOKEN'] = form_authenticity_token if protect_against_forgery?
+  # end
 
-  def verified_request?
-    super || form_authenticity_token == request.headers['X-XSRF-TOKEN']
-  end
+  # def verified_request?
+  #   super || form_authenticity_token == request.headers['X-XSRF-TOKEN']
+  # end
 
 end

@@ -57,10 +57,8 @@ module LoanMatching
       end
 
       # TODO: temporary fix, can be removed after pusher -> polling refactoring
-      if @active_loan.demand_member_id == @active_loan.offer_member_id
-        @demand.hold_margin_account.reload.trigger
-        @offer.hold_lending_account.reload.trigger
-      end
+      # if @active_loan.demand_member_id == @active_loan.offer_member_id
+      # end
     end
 
     def publish_lending

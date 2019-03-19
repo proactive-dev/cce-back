@@ -28,10 +28,6 @@ class Withdraw < ActiveRecord::Base
   before_validation :set_account
   after_create :generate_sn
 
-  after_update :sync_update
-  after_create :sync_create
-  after_destroy :sync_destroy
-
   validates_with WithdrawBlacklistValidator
 
   validates :fund_uid, :amount, :fee, :account, :currency, :member, presence: true
@@ -234,18 +230,5 @@ class Withdraw < ActiveRecord::Base
   def self.resource_name
     name.demodulize.underscore.pluralize
   end
-
-  def sync_update
-    ::Pusher["private-#{member.sn}"].trigger_async('withdraws', { type: 'update', id: self.id, attributes: self.changes_attributes_as_json })
-  end
-
-  def sync_create
-    ::Pusher["private-#{member.sn}"].trigger_async('withdraws', { type: 'create', attributes: self.as_json })
-  end
-
-  def sync_destroy
-    ::Pusher["private-#{member.sn}"].trigger_async('withdraws', { type: 'destroy', id: self.id })
-  end
-
 
 end

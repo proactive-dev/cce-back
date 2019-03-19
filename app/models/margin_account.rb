@@ -15,18 +15,13 @@ class MarginAccount < ActiveRecord::Base
   ZERO = 0.to_d
 
   belongs_to :member
-  has_many :versions, class_name: "::AccountVersion"
 
-  # Suppose to use has_one here, but I want to store
-  # relationship at account side. (Daniel)
   validates :member_id, uniqueness: { scope: :currency }
   # validates_numericality_of :balance, :borrowed, greater_than_or_equal_to: ZERO
   validates_numericality_of :locked, :borrow_locked, greater_than_or_equal_to: ZERO
 
   scope :enabled, -> { where("currency in (?)", Currency.ids) }
   scope :non_zero, -> { where("balance > ?", ZERO) }
-
-  after_commit :trigger, :sync_update
 
   def self.after(*names)
     names.each do |name|
@@ -89,21 +84,11 @@ class MarginAccount < ActiveRecord::Base
     self.balance + self.locked
   end
 
-  def last_version
-    versions.last
-  end
-
-  def trigger
-    return unless member
-
-    member.sync_margin_info('btc')
-  end
-
   def change_borrowed(delta_ba, delta_lo)
     self.borrowed  += delta_ba
     self.borrow_locked  += delta_lo
     self.class.connection.execute "update margin_accounts set borrowed = borrowed + #{delta_ba}, borrow_locked = borrow_locked + #{delta_lo} where id = #{id}"
-    add_to_transaction # so after_commit will be triggered
+    add_to_transaction
     self
   end
 
@@ -120,9 +105,5 @@ class MarginAccount < ActiveRecord::Base
   class BorrowLockedError < MarginAccountError; end
 
   private
-
-  def sync_update
-    ::Pusher["private-#{member.sn}"].trigger_async('margin_accounts', { type: 'update', id: self.id, attributes: {balance: balance, locked: locked, borrowed: borrowed, borrow_locked: borrow_locked} })
-  end
 
 end

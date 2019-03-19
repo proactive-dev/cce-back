@@ -48,7 +48,6 @@ class Member < ActiveRecord::Base
   after_create  :touch_margin_accounts
   after_create  :touch_lending_accounts
   after_update :resend_activation
-  after_update :sync_update
 
   class << self
     def from_auth(auth_hash)
@@ -176,14 +175,6 @@ class Member < ActiveRecord::Base
     authentications.build_auth(auth_hash).save
   end
 
-  def trigger(event, data)
-    AMQPQueue.enqueue(:pusher_member, {member_id: id, event: event, data: data})
-  end
-
-  def notify(event, data)
-    ::Pusher["private-#{sn}"].trigger_async event, data
-  end
-
   def to_s
     "#{name || email} - #{sn}"
   end
@@ -206,7 +197,7 @@ class Member < ActiveRecord::Base
 
     account
   end
-  alias :get_exchange_account :get_account
+  alias :get_main_account :get_account
   alias :ac :get_account
 
   def get_margin_account(currency)
@@ -252,7 +243,8 @@ class Member < ActiveRecord::Base
     end
   end
 
-  def sync_margin_info(quote_unit)
+  def get_margin_info(quote_unit)
+
     total_margin = 0
     margin_accounts.non_zero.each do |margin_account|
       base_unit = margin_account.currency_obj.code
@@ -265,41 +257,39 @@ class Member < ActiveRecord::Base
     unrealized_pnl = 0
 
     positions.open.each do |position|
-      ticker = Global[position.market_obj.id].ticker
-      price = position.direction == 'long' ? ticker[:buy] : ticker[:sell]
-      unrealized_pnl += position.volume - price * position.amount
+      unrealized_pnl += position.unrealized_pnl
       realized_lending_fee += position.lending_fees
+      unrealized_lending_fee += position.unrealized_lending_fee
     end
 
     ActiveLoan.where(demand_member_id: id, state: 100).each do |active_loan| # ActiveLoan::WAIT
       base_unit = active_loan.currency
       price = Market.last_price(base_unit, quote_unit)
       total_borrowed += active_loan.amount * price
-      unrealized_lending_fee -= active_loan.interest * price
     end
 
-    unrealized_pnl -= realized_lending_fee
-    net_value = total_margin + unrealized_lending_fee + unrealized_pnl
+    net_value = total_margin - unrealized_lending_fee + unrealized_pnl
 
     current_margin = if total_borrowed > 0
                        net_value / total_borrowed * 100
                      else
                        100
                      end
-    current_margin = 100 if current_margin > 100
 
-    margin_info = {
-        total_margin: total_margin,
-        unrealized_pnl: unrealized_pnl,
-        unrealized_lending_fee: unrealized_lending_fee,
-        net_value: net_value,
-        total_borrowed: total_borrowed,
-        current_margin: current_margin,
-        quote_unit: quote_unit
-    }.to_json
-    trigger('margin_info', margin_info)
+    {
+      total_margin: total_margin,
+      unrealized_pnl: unrealized_pnl,
+      unrealized_lending_fee: -unrealized_lending_fee,
+      net_value: net_value,
+      total_borrowed: total_borrowed,
+      current_margin: current_margin,
+      quote_unit: quote_unit
+    }
+  end
 
-    current_margin
+  def sync_margin_info(quote_unit)
+    margin_info = get_margin_info(quote_unit)
+    margin_info[:current_margin]
   end
 
   def force_liquidation
@@ -385,7 +375,4 @@ class Member < ActiveRecord::Base
     self.send_activation if self.email_changed?
   end
 
-  def sync_update
-    ::Pusher["private-#{sn}"].trigger_async('members', { type: 'update', id: self.id, attributes: self.changes_attributes_as_json })
-  end
 end

@@ -2,7 +2,6 @@
 
 @import 'vars/bootstrap';
 
-@import "bootstrap-sprockets";
 @import 'bootstrap';
 @import 'bootstrap-switch.min';
 
@@ -12,23 +11,12 @@
 @import "font-awesome-sprockets";
 @import 'font-awesome';
 
-@import 'ngDialog/ngDialog';
-@import 'ngDialog/ngDialog-theme-default';
-
 @import 'layouts/basic';
 @import 'layouts/header';
 
-@import 'features/welcome';
-@import 'features/market';
-@import 'features/market_chart';
-@import 'features/assets';
-@import 'features/id_document';
-@import 'features/history';
-@import 'features/funds';
 @import 'features/affiliate';
 @import 'features/documents';
 @import 'features/simple_captcha';
-@import 'features/custom';
 
 
 /* layouts
@@ -120,25 +108,6 @@ footer {
   background-color: #1A1D22;
 }
 
-/* ticker
-------------------------------------------- */
-.dl-horizontal.dl-ticker {
-  margin-bottom: 10px;
-  line-height: 40px;
-
-  dt {
-    width: 38px;
-    cursor: pointer;
-    color: $gray-light;
-  }
-
-  dd {
-    margin-top: -4px;
-    font-size: 20px;
-    margin-left: 42px;
-    font-family: monospace;
-  }
-}
 
 /* simple_form mix
 ------------------------------------------------------- */
@@ -163,5 +132,3 @@ form.simple_form {
   margin-bottom: 4px;
   h5 i.fa { margin-right: 10px; }
 }
-
-@import 'layouts/custom';

@@ -9,7 +9,6 @@ class TriggerOrder < ActiveRecord::Base
   enumerize :ord_type, in: Order::ORD_TYPES, scope: true
   enumerize :source, in: Order::SOURCES, scope: true
 
-  after_commit :trigger
   before_validation :fix_number_precision, on: :create
 
   validates_presence_of :ord_type, :volume, :origin_volume
@@ -43,16 +42,6 @@ class TriggerOrder < ActiveRecord::Base
     @config ||= Market.find(currency)
   end
 
-  def trigger
-    return unless member
-
-    json = Jbuilder.encode do |json|
-      json.(self, *ATTRIBUTES)
-    end
-
-    member.trigger('order', json)
-  end
-
   def fill(active_loan)
     amount = active_loan.amount / self.price if kind == 'bid'
     self.volume         -= amount
@@ -82,6 +71,21 @@ class TriggerOrder < ActiveRecord::Base
 
   def market
     currency
+  end
+
+  def for_notify
+    {
+        id:     id,
+        market: market,
+        kind:   type,#kind,
+        at:     at,
+        rate: rate,
+        price:  price,
+        volume: volume,
+        origin_volume: origin_volume,
+        ord_type: ord_type,
+        state: state
+    }
   end
 
   def to_matching_attributes

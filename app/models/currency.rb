@@ -58,6 +58,10 @@ class Currency < ActiveYamlBase
     Rails.cache.read(balance_cache_key) || 0
   end
 
+  def confirmation
+    self.try(:max_confirmation) || 3
+  end
+
   def decimal_digit
     self.try(:default_decimal_digit) || (fiat? ? 2 : 4)
   end
@@ -86,10 +90,18 @@ class Currency < ActiveYamlBase
 
   def as_json(options = {})
     {
-      key: key,
-      code: code,
-      coin: coin?,
-      blockchain: blockchain
+        id: id,
+        key: key,
+        name: name,
+        code: code,
+        symbol: symbol,
+        coin: coin?,
+        info_url: info_url,
+        precision: precision,
+        confirmation: confirmation,
+        case_sensitive: case_sensitive,
+        withdraw: withdraw,
+        visible: visible
     }
   end
 

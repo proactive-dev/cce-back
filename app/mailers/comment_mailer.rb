@@ -2,7 +2,7 @@ class CommentMailer < BaseMailer
 
   def user_notification(comment_id)
     comment = Comment.find comment_id
-    @ticket_url = ticket_url(comment.ticket)
+    @ticket_url = "#{ENV['URL_SCHEMA']}://#{ENV['URL_UI']}/tickets/#{comment.ticket.id}"
 
     mail to: comment.ticket.author.email
   end

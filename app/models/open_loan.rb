@@ -7,7 +7,6 @@ class OpenLoan < ActiveRecord::Base
   SOURCES = %w(Web APIv2 debug)
   enumerize :source, in: SOURCES, scope: true
 
-  after_commit :trigger
   before_validation :fix_number_precision, on: :create
 
   validates_presence_of :amount, :origin_amount
@@ -52,15 +51,6 @@ class OpenLoan < ActiveRecord::Base
 
   def hold_lending_account
     member.get_lending_account(currency)
-  end
-
-  def trigger
-    return unless member
-
-    json = Jbuilder.encode do |json|
-      json.(self, *ATTRIBUTES)
-    end
-    member.trigger('open_loan', json)
   end
 
   def strike(active_loan)
@@ -113,6 +103,19 @@ class OpenLoan < ActiveRecord::Base
 
   def loan_market
     currency
+  end
+
+  def for_notify
+    {
+        id: id,
+        currency: currency,
+        # type: type[4..-1].downcase.to_sym,
+        rate: rate,
+        amount: amount,
+        duration: duration,
+        auto_renew: auto_renew,
+        at: at
+    }
   end
 
   def to_matching_attributes

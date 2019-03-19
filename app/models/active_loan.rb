@@ -51,15 +51,6 @@ class ActiveLoan < ActiveRecord::Base
     end
   end
 
-  def trigger_offer
-    offer.member.notify 'active_loan', for_notify('offer')
-  end
-
-  def trigger_notify
-    demand.member.notify 'active_loan', for_notify('demand')
-    offer.member.notify 'active_loan', for_notify('offer')
-  end
-
   def type_of(member_id)
     demand_member_id == member_id ? 'demand' : 'offer'
   end
@@ -114,7 +105,6 @@ class ActiveLoan < ActiveRecord::Base
         self.save!
       end
     end
-    trigger_notify
 
     renew_offer
   end

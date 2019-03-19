@@ -1,33 +1,35 @@
 module Verify
   class GoogleAuthsController < ApplicationController
+    layout false
+
+    skip_before_action :verify_authenticity_token
     before_action :auth_member!
     before_action :find_google_auth
-    before_action :google_auth_activated?,   only: [:show, :create]
     before_action :google_auth_inactivated?, only: [:edit, :destroy]
-    before_action :two_factor_required!,     only: [:show]
 
     def show
-      @google_auth.refresh! if params[:refresh]
-    end
-
-    def edit
+      if @google_auth.activated?
+        render_json(GoogleAuthError.new(t(".notice.already_activated")))
+       else
+        render json: @google_auth, status: :ok
+      end
     end
 
     def update
       if one_time_password_verified?
         @google_auth.active! and unlock_two_factor!
-        redirect_to settings_path, notice: t('.notice')
+        render_json(GoogleAuthSuccess.new( t('.notice')))
       else
-        redirect_to verify_google_auth_path, alert: t('.alert')
+        render_json(GoogleAuthError.new(t(".alert")))
       end
     end
 
     def destroy
       if two_factor_auth_verified?
         @google_auth.deactive!
-        redirect_to settings_path, notice: t('.notice')
+        render_json(GoogleAuthSuccess.new( t('.notice')))
       else
-        redirect_to edit_verify_google_auth_path, alert: t('.alert')
+        render_json(GoogleAuthError.new(t(".alert")))
       end
     end
 
@@ -44,10 +46,6 @@ module Verify
     def one_time_password_verified?
       @google_auth.assign_attributes(google_auth_params)
       @google_auth.verify?
-    end
-
-    def google_auth_activated?
-      redirect_to settings_path, notice: t('.notice.already_activated') if @google_auth.activated?
     end
 
     def google_auth_inactivated?

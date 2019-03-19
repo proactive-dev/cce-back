@@ -106,17 +106,3 @@ header #languages {
   min-width: 64px;
   li > a{ padding-top: 8px; }
 }
-
-/* languages selector with header
------------------------------------------------------- */
-header #loan_markets {
-  width: 180px;
-  min-width: 100px;
-  li > a{
-    padding-top: 8px;
-    img {
-      max-height: 24px;
-      margin-right: 12px;
-    }
-  }
-}

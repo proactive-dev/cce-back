@@ -2,7 +2,7 @@
 # Doorkeeper controllers.
 class ActionController::Base
 
-  before_action :set_language
+  # before_action :set_language
 
   private
 

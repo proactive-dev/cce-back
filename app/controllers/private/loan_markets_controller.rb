@@ -2,29 +2,29 @@ module Private
   class LoanMarketsController < BaseController
     skip_before_action :auth_member!, only: [:show]
     before_action :visible_loan_market?, only: [:show]
-    after_action :set_default_loan_market, only: [:show]
+    # after_action :set_default_loan_market, only: [:show]
 
     layout false
 
     def show
-      @offer = params[:offer]
-      @demand = params[:demand]
-
       @loan_market      = current_loan_market
-      @loan_markets     = LoanMarket.all.sort
-
       @offers   = @loan_market.offers
       @demands  = @loan_market.demands
-      @active_loans = @loan_market.active_loans
-
-      @loan = OpenLoan.new
 
       set_member_data if current_user
-      gon.jbuilder
+      # gon.jbuilder
+     
+      data ={offers: @offers, demands: @demands}
+      if @member
+        data[:my_active_loans] = @loans_active.map(&:for_notify)
+        data[:my_open_loan_offers] = @loan_offers_wait.map(&:for_notify)
+      end
+
+      render json: data.to_json, status: :ok 
     end
 
     def update
-      active_loan_id = params[:active_loan_id]
+      active_loan_id = params[:id]
       active_loan = ActiveLoan.find_by_id(active_loan_id)
       auto_renew = active_loan.auto_renew
 
@@ -32,8 +32,6 @@ module Private
         active_loan.auto_renew = !auto_renew
 
         if active_loan.save!
-          active_loan.trigger_offer
-
           render status: 200, nothing: true
         else
           render status: 500, nothing: true

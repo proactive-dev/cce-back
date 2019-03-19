@@ -4,7 +4,8 @@ module Concerns
 
     def token_required
       if not @token = Token.available.with_token(params[:token] || params[:id]).first
-        redirect_to root_path, :alert => t('.alert')
+        render_json(Response::ResetPasswordFailure.new(t('.alert')))
+        # redirect_to root_path, :alert => t('.alert')
       end
     end
 

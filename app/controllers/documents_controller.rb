@@ -24,20 +24,4 @@ class DocumentsController < ApplicationController
   def affiliate
     render 'affiliate', layout: 'documents'
   end
-
-  def fees
-    render 'fees', layout: 'documents'
-  end
-
-  def privacy
-    render 'privacy', layout: 'documents'
-  end
-
-  def terms
-    render 'terms', layout: 'documents'
-  end
-
-  def about
-    render 'about', layout: 'documents'
-  end
 end

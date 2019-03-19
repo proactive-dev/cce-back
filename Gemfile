@@ -36,7 +36,6 @@ gem 'rails-observers'
 gem 'country_select', '~> 2.1.0'
 
 gem 'gon', '~> 5.2.0'
-gem 'pusher'
 gem 'eventmachine', '~> 1.0.4'
 gem 'em-websocket', '~> 0.5.1'
 
@@ -72,7 +71,7 @@ gem 'memoist', '~> 0.16'
 gem 'method-not-implemented', '~> 1.0'
 gem 'passgen', '~> 1.0'
 gem 'digest-sha3', '~> 1.1'
-
+gem 'rack-cors', require: 'rack/cors'
 gem 'binance', github: 'Apollo-IT/binance'
 gem 'rack-affiliates'
 
@@ -91,6 +90,8 @@ group :development, :test do
   gem 'dotenv-rails'
   gem 'rspec-rails'
   # gem 'byebug'
+  gem 'debase', '~> 0.2.2'
+  gem 'ruby-debug-ide', '~> 0.6.1'
 end
 
 group :test do

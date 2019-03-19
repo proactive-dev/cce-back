@@ -37,10 +37,6 @@ queue:
     durable: true
   market_ticker:
     name: exchange.trade.market_ticker
-  pusher_market:
-    name: exchange.pusher.market
-  pusher_member:
-    name: exchange.pusher.member
   withdraw_coin:
     name: exchange.withdraw.coin
   deposit_coin:
@@ -66,8 +62,6 @@ queue:
   loan_processor:
     name: exchange.loan.processor
     durable: true
-  pusher_loan_market:
-    name: exchange.pusher.loan_market
   binance_processor:
     name: exchange.binance.processor
     durable: true
@@ -88,11 +82,6 @@ binding:
   market_ticker:
     queue: market_ticker
     exchange: trade
-  pusher_market:
-    queue: pusher_market
-    exchange: trade
-  pusher_member:
-    queue: pusher_member
   withdraw_coin:
     queue: withdraw_coin
   deposit_coin:
@@ -117,9 +106,6 @@ binding:
   loan_processor:
     queue: loan_processor
     manual_ack: true
-  pusher_loan_market:
-    queue: pusher_loan_market
-    exchange: lending
   binance_processor:
     queue: binance_processor
     exchange: binance

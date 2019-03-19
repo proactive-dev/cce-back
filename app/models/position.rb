@@ -7,15 +7,13 @@ class Position < ActiveRecord::Base
   DIRECTIONS = %w(short long)
   enumerize :direction, in: DIRECTIONS, scope: true
 
-  after_commit :trigger
-
   validates_presence_of :direction
   validates :member_id, uniqueness: { scope: :currency }
 
   OPEN = 'open'
   CLOSE = 'close'
 
-  ATTRIBUTES = %w(id market member_id direction base_price amount volume lending_fees unrealized_lending_fees at state)
+  ATTRIBUTES = %w(id market member_id direction base_price amount volume lending_fees unrealized_lending_fee at state)
 
   belongs_to :member
 
@@ -46,7 +44,7 @@ class Position < ActiveRecord::Base
     member.active_loans.select { |active_loan| active_loan.market == currency && active_loan.state == ActiveLoan::WAIT}
   end
 
-  def unrealized_lending_fees
+  def unrealized_lending_fee
     total_base = 0
     total_quote = 0
     active_loans.each do |active_loan|
@@ -56,7 +54,16 @@ class Position < ActiveRecord::Base
         total_base += active_loan.interest
       end
     end
-    [total_base, total_quote]
+    current_price * total_base + total_quote
+  end
+
+  def current_price
+    ticker = Global[market_obj.id].ticker
+    direction == 'long' ? ticker[:buy] : ticker[:sell]
+  end
+
+  def unrealized_pnl
+    current_price * amount.abs - volume.abs - lending_fees
   end
 
   def update_lending_fee(lending_fee)
@@ -64,7 +71,7 @@ class Position < ActiveRecord::Base
     self.save!
   end
 
-  def update(trade)
+  def update(trade, is_from_position)
     # initialize first when closed
     if state == Position::CLOSE || state.blank?
       self.amount = 0
@@ -73,7 +80,24 @@ class Position < ActiveRecord::Base
       self.state = Position::OPEN
     end
 
-    # calculate attributes
+    # close active loans
+    if is_from_position
+      remain_amount = direction == 'short' ? trade.volume : trade.volume * trade.price
+      active_loans.each do |active_loan|
+        if remain_amount >= active_loan.amount
+          active_loan.close
+          remain_amount -= active_loan.amount
+          self.update_lending_fee(active_loan.interest)
+        else
+          active_loan.fill_volume(remain_amount)
+          remain_amount = 0
+          break
+        end
+
+      end
+    end
+
+    # re-calculate attributes
     if trade.side == 'ask' # 'ask'
       self.amount -= trade.volume
       self.volume += trade.volume * trade.price * (1 - market_obj.ask['fee'])
@@ -83,7 +107,7 @@ class Position < ActiveRecord::Base
     end
     self.direction = self.amount >= 0 ? 'long' : 'short'
 
-    # close active loans
+    # close position and calculate settlement
     if self.active_loans.blank?
       self.state = Position::CLOSE
 
@@ -121,30 +145,22 @@ class Position < ActiveRecord::Base
               OrderAsk.new(order_params)
             end
     Ordering.new(order).submit
-
-    # close active loans
-    remain_amount = amount
-    active_loans.each do |active_loan|
-      if remain_amount >= active_loan.amount
-        active_loan.close
-        remain_amount -= active_loan.amount
-        self.update_lending_fee(active_loan.interest)
-      else
-        active_loan.fill_volume(remain_amount)
-        remain_amount = 0
-        break
-      end
-
-    end
   end
 
-  def trigger
-    return unless member
-
-    json = Jbuilder.encode do |json|
-      json.(self, *ATTRIBUTES)
-    end
-    member.trigger('position', json)
+  def as_json(options = {})
+    {
+      id: id,
+      direction: direction,
+      amount: amount,
+      market: market,
+      member_id: member_id,
+      base_price: base_price,
+      volume: volume,
+      lending_fees: lending_fees,
+      unrealized_pnl: unrealized_pnl,
+      unrealized_lending_fee: -unrealized_lending_fee,
+      state: state
+    }
   end
 
   private

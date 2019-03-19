@@ -1,5 +1,7 @@
 class WelcomeController < ApplicationController
-  layout 'landing'
+
+  layout false
+  # layout 'landing'
 
   def index
   end

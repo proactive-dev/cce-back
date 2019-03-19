@@ -1,6 +1,8 @@
 class SessionsController < ApplicationController
 
-  skip_before_action :verify_authenticity_token, only: [:create]
+  layout false
+
+  skip_before_action :verify_authenticity_token#, only: [:create]
 
   before_action :auth_member!, only: :destroy
   before_action :auth_anybody!, only: [:new, :failure]
@@ -12,14 +14,14 @@ class SessionsController < ApplicationController
   end
 
   def create
-    if !require_captcha? || simple_captcha_valid?
+    # if !require_captcha? || simple_captcha_valid?
       @member = Member.from_auth(auth_hash)
-    end
+    # end
 
     if @member
       if @member.disabled?
         increase_failed_logins
-        redirect_to signin_path, alert: t('.disabled')
+        render_json(MemberDisabled.new)
       else
         clear_failed_logins
         reset_session rescue nil
@@ -27,23 +29,23 @@ class SessionsController < ApplicationController
         save_session_key @member.id, cookies['_exchange_session']
         save_signup_history @member.id
         MemberMailer.notify_signin(@member.id).deliver if @member.activated?
-        redirect_back_or_settings_page
+        render_json(SignInSuccess.new)
       end
     else
       increase_failed_logins
-      redirect_to signin_path, alert: t('.error')
+      render_json(AuthError.new)
     end
   end
 
   def failure
     increase_failed_logins
-    redirect_to signin_path, alert: t('.error')
+    render_json(AuthError.new)
   end
 
   def destroy
     clear_all_sessions current_user.id
     reset_session
-    redirect_to root_path
+    render_json(SignOutSuccess.new)
   end
 
   private

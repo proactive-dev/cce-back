@@ -12,7 +12,6 @@ class Order < ActiveRecord::Base
   SOURCES = %w(Web APIv2 Position debug)
   enumerize :source, in: SOURCES, scope: true
 
-  after_commit :trigger
   before_validation :fix_number_precision, on: :create
 
   validates_presence_of :ord_type, :volume, :origin_volume, :locked, :origin_locked
@@ -39,6 +38,7 @@ class Order < ActiveRecord::Base
   scope :active, -> { with_state(:wait) }
   scope :position, -> { group("price").pluck(:price, 'sum(volume)') }
   scope :best_price, ->(currency) { where(ord_type: 'limit').active.with_currency(currency).matching_rule.position }
+  scope :h24, -> { where("created_at > ?", 24.hours.ago) }
 
   def funds_used
     origin_locked - locked
@@ -50,15 +50,6 @@ class Order < ActiveRecord::Base
 
   def config
     @config ||= Market.find(currency)
-  end
-
-  def trigger
-    return unless member
-
-    json = Jbuilder.encode do |json|
-      json.(self, *ATTRIBUTES)
-    end
-    member.trigger('order', json)
   end
 
   def strike(trade)
@@ -127,6 +118,20 @@ class Order < ActiveRecord::Base
     currency
   end
 
+  def for_notify
+    {
+        id:     id,
+        market: market,
+        kind:   kind,
+        at:     at,
+        price:  price,
+        volume: volume,
+        origin_volume: origin_volume,
+        ord_type: ord_type,
+        state: state
+    }
+  end
+
   def to_matching_attributes
     { id: id,
       market: market,
@@ -178,6 +183,6 @@ class Order < ActiveRecord::Base
 
   def create_or_update_position(trade)
     position = Position.find_or_create_by(member_id: member_id, currency: market_obj.code)
-    position.update(trade)
+    position.update(trade, self.source == 'Position')
   end
 end

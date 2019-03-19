@@ -119,6 +119,22 @@ class Market < ActiveYamlBase
     {name: name, base_unit: base_unit, quote_unit: quote_unit}
   end
 
+  def for_notify
+    data = {
+        id: id,
+        code: code,
+        name: name,
+        base_unit: base_unit,
+        quote_unit: quote_unit,
+        bid: bid,
+        ask: ask,
+        visible: visible,
+        is_margin: is_margin?
+    }
+    data[:margin] = margin unless margin.blank?
+    data
+  end
+
   private
 
   def global

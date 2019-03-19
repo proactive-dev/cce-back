@@ -1,101 +1,86 @@
 - id: 2
   key: satoshi
+  name: Bitcoin
   code: btc
   symbol: "฿"
   type: coin
-  precision: 6
+  precision: 8
   base_factor: 100_000_000
   quick_withdraw_max: 0
   api_client: BTC
-  rpc: http://rpcuser:rpcpass@127.0.0.1:18332
-  blockchain: https://blockchain.com/tx/#{txid}
-  address_url: https://blockchain.com/address/#{address}
+  rpc: http://btc:btc@0.0.0.0:8332
+  info_url: https://coinmarketcap.com/currencies/bitcoin
+  blockchain: https://blockchain.com/btc/tx/#{txid}
+  address_url: https://blockchain.com/btc/address/#{address}
   case_sensitive: true
+  withdraw: {fee: 0, min_amount: 0.0050}
 
 - id: 3
   key: ethereum
+  name: Ethereum
   code: eth
   symbol: "Ξ"
   type: coin
-  precision: 6
+  precision: 8
   base_factor: 1_000_000_000_000_000_000
   quick_withdraw_max: 0
   api_client: ETH
-  rpc: http://127.0.0.1:8545
+  rpc: http://0.0.0.0:8545
+  info_url: https://coinmarketcap.com/currencies/ethereum
   blockchain: https://etherscan.io/tx/#{txid}
   address_url: https://etherscan.io/address/#{address}
   case_sensitive: false
+  withdraw: {fee: 0, min_amount: 0.0050}
 
-#- id: 4
-#  key: bytecoin
-#  code: bcn
-#  symbol: "BCN"
-#  type: coin
-#  precision: 6
-#  base_factor: 100_000_000
-#  quick_withdraw_max: 0
-#  api_client: CRYPTONOTE
-#  rpc: http://127.0.0.1:8080
-#  blockchain: https://chainradar.com/bcn/transaction/#{txid}
-#  address_url: https://chainradar.com/bcn/address/#{address}
-#  case_sensitive: true
-#
-#- id: 5
-#  key: erc20token
-#  code: erc20
-#  symbol: "ERC20"
-#  type: coin
-#  precision: 6
-#  base_factor: 1_000_000_000_000_000_000
-#  quick_withdraw_max: 0
-#  erc20_contract_address: '0xcae8f93fb07e224563da0c8bbfc2w5c4fffb5dd4'
-#  api_client: ERC20
-#  rpc: http://127.0.0.1:8545
-#  blockchain: https://etherscan.io/tx/#{txid}
-#  address_url: https://etherscan.io/token/0xcae8f93fb07e224563da0c8bbfc2w5c4fffb5dd4?a={address}
-#  case_sensitive: false
+- id: 4
+  key: litecoin
+  name: Litecoin
+  code: ltc
+  symbol: "Ł"
+  type: coin
+  precision: 8
+  base_factor: 100_000_000
+  quick_withdraw_max: 0
+  api_client: BTC
+  rpc: http://ltc:ltc@0.0.0.0:9332
+  info_url: https://coinmarketcap.com/currencies/litecoin
+  blockchain: http://explorer.litecoin.net/tx/#{txid}
+  address_url: http://explorer.litecoin.net/address/#{address}
+  case_sensitive: true
+  withdraw: {fee: 0, min_amount: 0.0050}
+
+- id: 5
+  key: sakurabloom
+  name: Sakura Bloom
+  code: skb
+  symbol: "SKB"
+  type: coin
+  precision: 8
+  base_factor: 100_000_000
+  quick_withdraw_max: 0
+  erc20_contract_address: '0x4af328c52921706dcb739f25786210499169afe6'
+  api_client: ERC20
+  rpc: http://0.0.0.0:8545
+  info_url: https://coinmarketcap.com/currencies/sakura-bloom/
+  blockchain: https://etherscan.io/tx/#{txid}
+  address_url: https://etherscan.io/token/0x4af328c52921706dcb739f25786210499169afe6?a={address}
+  case_sensitive: false
+  withdraw: {fee: 0, min_amount: 0.0050}
 
 - id: 6
-  key: xrp
-  code: xrp
-  symbol: "XRP"
+  key: masoyamacoin
+  name: Mas Oyama Coin
+  code: mas
+  symbol: "MAS"
   type: coin
-  precision: 6
-  base_factor: 1_000_000
+  precision: 8
+  base_factor: 100_000_000
   quick_withdraw_max: 0
-  api_client: XRP
-#  rpc: https://s.altnet.rippletest.net:51234
-  rpc: http://127.0.0.1:5005
-  blockchain: https://bithomp.com/explorer/#{txid}
-  address_url: https://bithomp.com/explorer/#{address}
-  case_sensitive: true
-
-- id: 7
-  key: cardano
-  code: ada
-  symbol: "₳"
-  type: coin
-  precision: 6
-  base_factor: 1_000_000
-  quick_withdraw_max: 0
-  api_client: ADA
-  rpc: https://127.0.0.1:8090
-  blockchain: https://cardanoexplorer.com/tx/#{txid}
-  address_url: https://cardanoexplorer.com/address/#{address}
-  case_sensitive: true
-  cert: '/home/deploy/.ssl-certs/.ada/server.cert'
-  p_key: '/home/deploy/.ssl-certs/.ada/server.key'
-  spending_password: D705ED466A81DF80C890D5A89CB207421B35485BB0C0B83E827D2F263750FC4C
-  backup_phrase:
-    - drum
-    - child
-    - pave
-    - bridge
-    - legal
-    - afraid
-    - pause
-    - rice
-    - scout
-    - shed
-    - fabric
-    - silly
+  erc20_contract_address: '0xf355164187e533b1969b4de46737c4e8bc9ae7e2'
+  api_client: ERC20
+  rpc: http://0.0.0.0:8545
+  info_url: https://etherscan.io/token/0xf355164187e533b1969b4de46737c4e8bc9ae7e2
+  blockchain: https://etherscan.io/tx/#{txid}
+  address_url: https://etherscan.io/token/0xf355164187e533b1969b4de46737c4e8bc9ae7e2?a={address}
+  case_sensitive: false
+  withdraw: {fee: 0, min_amount: 0.0050}

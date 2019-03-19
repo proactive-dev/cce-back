@@ -1,4 +1,7 @@
 class TwoFactorsController < ApplicationController
+  layout false
+
+  skip_before_action :verify_authenticity_token, only: [:update]
   before_action :auth_member!
   before_action :two_factor_required!
 
@@ -22,9 +25,9 @@ class TwoFactorsController < ApplicationController
     if two_factor_auth_verified?
       unlock_two_factor!
 
-      redirect_to session.delete(:return_to) || settings_path
+      render_json(TFAVerified.new)
     else
-      redirect_to two_factors_path, alert: t('.alert')
+      render_json(TFAError.new(t('.alert')))
     end
   end
 

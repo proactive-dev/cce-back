@@ -44,9 +44,16 @@ class Trade < ActiveRecord::Base
     end
   end
 
-  def trigger_notify
-    ask.member.notify 'trade', for_notify('ask')
-    bid.member.notify 'trade', for_notify('bid')
+  def for_history
+    {
+        id:     id,
+        at:     created_at.to_i,
+        price:  price.to_s  || ZERO,
+        volume: volume.to_s || ZERO,
+        ask_member_id: ask_member_id,
+        bid_member_id: bid_member_id,
+        market: currency
+    }
   end
 
   def for_notify(kind=nil)

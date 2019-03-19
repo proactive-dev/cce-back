@@ -30,6 +30,10 @@ class Ticket < ActiveRecord::Base
     title.blank? ? content.truncate(n) : title.truncate(n)
   end
 
+  def as_json(options = {})
+    super(options).merge({comment_count: comments.length})
+  end
+
   private
 
   def send_notification
