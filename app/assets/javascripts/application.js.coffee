@@ -16,7 +16,6 @@
 
 #= require ./lib/tiny-pubsub
 
-#= require_tree ./helpers
 #= require_tree ./component_ui
 #= require_tree ./templates
 
