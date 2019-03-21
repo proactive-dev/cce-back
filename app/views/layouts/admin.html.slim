@@ -65,10 +65,6 @@ html lang="en"
             li class = check_active('members')
               = link_to t(".menus.sections.members"), admin_members_path
 
-          - if can? :manage, Affiliation
-            li class = check_active('affiliations')
-              = link_to t('header.affiliate'), admin_affiliations_path
-
           li class = check_active('markets')
             = link_to t(".menus.sections.markets"), admin_markets_path
 

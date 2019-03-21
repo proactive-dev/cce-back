@@ -72,8 +72,6 @@ class SessionsController < ApplicationController
 
   def auth_hash
     @auth_hash ||= env["omniauth.auth"]
-    @auth_hash['aff_id'] = cookies[:aff_tag] if cookies[:aff_tag]
-    @auth_hash
   end
 
 

@@ -11,7 +11,6 @@ module Admin
       can :read, PaymentAddress
       can :manage, Document
       can :manage, Member
-      can :manage, Affiliation
       can :manage, Ticket
       can :manage, IdDocument
       can :manage, TwoFactor

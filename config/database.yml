@@ -1,7 +1,7 @@
 development: &defaults
   adapter: mysql2
   encoding: utf8
-  database: rabbit-cc_development
+  database: ngo_development
   username: root
   password: admin
   pool: 10
@@ -9,8 +9,8 @@ development: &defaults
 
 test:
   <<: *defaults
-  database: rabbit-cc_test
+  database: ngo_test
 
 production:
   <<: *defaults
-  database: rabbit-cc_production
+  database: ngo_production

@@ -21,8 +21,6 @@ namespace :admin do
     resources :two_factors, only: [:destroy]
   end
 
-  resources :affiliations
-
   namespace :assets do
     resources :proofs
     resources :payment_addresses

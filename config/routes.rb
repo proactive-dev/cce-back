@@ -44,11 +44,6 @@ Exchange::Application.routes.draw do
   get '/api' => 'documents#api_v2', :as => :api_doc
   get '/websocket_api' => 'documents#websocket_api', :as => :websocket_api_doc
   # get '/oauth' => 'documents#oauth', :as => :oauth
-  # get '/fees' => 'documents#fees', :as => :fees
-  # get '/about' => 'documents#about', :as => :about
-  # get '/privacy-policy' => 'documents#privacy', :as => :privacy
-  # get '/terms-of-use' => 'documents#terms', :as => :terms
-  get '/affiliate-program' => 'documents#affiliate', :as => :about_affiliate
 
   resources :documents, only: [:show]
   resources :two_factors, only: [:show, :index, :update]
@@ -74,16 +69,6 @@ Exchange::Application.routes.draw do
       end
     end
 
-    # namespace :deposits do
-    #   Deposit.descendants.each do |d|
-    #     resources d.resource_name do
-    #       collection do
-    #         post :gen_address
-    #       end
-    #     end
-    #   end
-    # end
-
     namespace :withdraws do
       Withdraw.descendants.each do |w|
         resources w.resource_name
@@ -101,9 +86,6 @@ Exchange::Application.routes.draw do
     end
 
     resources :exchange_assets, :controller => 'assets'
-
-    get '/affiliates' => 'affiliates#index', as: :affiliates
-    post '/affiliates/new', to: 'affiliates#gen_affiliate_code', as: :new_affiliate
 
     resources :move_funds, only: [:create]
 
