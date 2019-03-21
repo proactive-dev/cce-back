@@ -21,4 +21,7 @@ class Price < ActiveRecord::Base
 
   end
 
+  def market_name
+    Market.find(market_id).name
+  end
 end

@@ -74,6 +74,7 @@ module APIv2
           sell: ticker[:sell],
           low: ticker[:low],
           high: ticker[:high],
+          open: ticker[:open].to_s,
           last: ticker[:last],
           vol: ticker[:volume]
         }

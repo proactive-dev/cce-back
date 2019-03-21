@@ -16,6 +16,14 @@ class OrderBid < Order
     member.get_account(ask)
   end
 
+  def hold_margin_account
+    member.get_margin_account(bid)
+  end
+
+  def expect_margin_account
+    member.get_margin_account(ask)
+  end
+
   def avg_price
     return ::Trade::ZERO if funds_received.zero?
     config.fix_number_precision(:bid, funds_used / funds_received)

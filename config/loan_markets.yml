@@ -1,0 +1,29 @@
+- id: btc
+  code: 2
+  name: Bitcoin
+  precision: 8
+  fee: 0.1
+
+- id: eth
+  code: 3
+  name: Ethereum
+  precision: 8
+  fee: 0.1
+
+- id: ltc
+  code: 4
+  name: Litecoin
+  precision: 8
+  fee: 0.1
+
+- id: skb
+  code: 5
+  name: sakurabloom
+  precision: 8
+  fee: 0.1
+
+- id: mas
+  code: 6
+  name: masoyamacoin
+  precision: 8
+  fee: 0.1

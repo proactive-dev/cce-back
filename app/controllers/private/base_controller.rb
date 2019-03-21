@@ -1,5 +1,6 @@
 module Private
   class BaseController < ::ApplicationController
+    skip_before_action :verify_authenticity_token
     before_action :check_email_nil
     before_filter :no_cache, :auth_member!
 

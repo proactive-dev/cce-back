@@ -1,0 +1,20 @@
+= table_for(loans, class: 'table table-condensed table-hover', model: OpenLoan) do |t|
+  - t.column :member, class: 'col-xs-5' do |x|
+    = link_to x.member.name || x.member.email, url_for([:admin, x.member]), target: '_blank'
+  - t.column :coin, class: 'col-xs-2' do |x|
+    = x.currency.upcase
+  - t.column :rate, class: 'col-xs-3' do |x|
+    code.text-info = x.rate
+  - t.column :amount, class: 'col-xs-3' do |x|
+    code.text-info = x.amount
+  - t.column :duration, class: 'col-xs-3' do |x|
+    code.text-info = x.duration
+  - t.column :auto_renew, class: 'col-xs-3' do |x|
+    - if x.kind == 'offer'
+      = yesno x.auto_renew
+    - else
+      = "-"
+
+  - t.column :created_at, class: 'col-xs-4'
+  - t.column :action, class: 'col-xs-3' do |x|
+    = link_to t('.reject'), admin_lending_loan_path(x), method: :delete, class: 'btn.btn-danger', confirm: t('.reject_confirm')

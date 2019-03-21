@@ -3,7 +3,12 @@ class Member < ActiveRecord::Base
   acts_as_reader
 
   has_many :orders
+  has_many :trigger_orders
+  has_many :open_loans
+  has_many :positions
   has_many :accounts
+  has_many :lending_accounts
+  has_many :margin_accounts
   has_many :payment_addresses, through: :accounts
   has_many :withdraws
   has_many :fund_sources
@@ -40,8 +45,9 @@ class Member < ActiveRecord::Base
 
   before_create :build_default_id_document
   after_create  :touch_accounts
+  after_create  :touch_margin_accounts
+  after_create  :touch_lending_accounts
   after_update :resend_activation
-  after_update :sync_update
 
   class << self
     def from_auth(auth_hash)
@@ -118,6 +124,10 @@ class Member < ActiveRecord::Base
     Trade.where('bid_member_id = ? OR ask_member_id = ?', id, id)
   end
 
+  def active_loans
+    ActiveLoan.where('demand_member_id = ? OR offer_member_id = ?', id, id)
+  end
+
   def active!
     update activated: true
   end
@@ -165,14 +175,6 @@ class Member < ActiveRecord::Base
     authentications.build_auth(auth_hash).save
   end
 
-  def trigger(event, data)
-    AMQPQueue.enqueue(:pusher_member, {member_id: id, event: event, data: data})
-  end
-
-  def notify(event, data)
-    ::Pusher["private-#{sn}"].trigger_async event, data
-  end
-
   def to_s
     "#{name || email} - #{sn}"
   end
@@ -195,14 +197,103 @@ class Member < ActiveRecord::Base
 
     account
   end
+  alias :get_main_account :get_account
   alias :ac :get_account
+
+  def get_margin_account(currency)
+    margin_account = margin_accounts.with_currency(currency.to_sym).first
+
+    if margin_account.nil?
+      touch_margin_accounts
+      margin_account = margin_accounts.with_currency(currency.to_sym).first
+    end
+
+    margin_account
+  end
+
+  def get_lending_account(currency)
+    lending_account = lending_accounts.with_currency(currency.to_sym).first
+
+    if lending_account.nil?
+      touch_lending_accounts
+      lending_account = lending_accounts.with_currency(currency.to_sym).first
+    end
+
+    lending_account
+  end
 
   def touch_accounts
     less = Currency.codes - self.accounts.map(&:currency).map(&:to_sym)
     less.each do |code|
       self.accounts.create(currency: code, balance: 0, locked: 0)
     end
+  end
 
+  def touch_margin_accounts
+    less = Currency.codes - self.accounts.map(&:currency).map(&:to_sym)
+    less.each do |code|
+      self.margin_accounts.create(currency: code, balance: 0, locked: 0)
+    end
+  end
+
+  def touch_lending_accounts
+    less = Currency.codes - self.accounts.map(&:currency).map(&:to_sym)
+    less.each do |code|
+      self.lending_accounts.create(currency: code, balance: 0, locked: 0)
+    end
+  end
+
+  def get_margin_info(quote_unit)
+
+    total_margin = 0
+    margin_accounts.non_zero.each do |margin_account|
+      base_unit = margin_account.currency_obj.code
+      total_margin += margin_account.balance * Market.last_price(base_unit, quote_unit)
+    end
+
+    total_borrowed = 0
+    unrealized_lending_fee = 0
+    realized_lending_fee = 0
+    unrealized_pnl = 0
+
+    positions.open.each do |position|
+      unrealized_pnl += position.unrealized_pnl
+      realized_lending_fee += position.lending_fees
+      unrealized_lending_fee += position.unrealized_lending_fee
+    end
+
+    ActiveLoan.where(demand_member_id: id, state: 100).each do |active_loan| # ActiveLoan::WAIT
+      base_unit = active_loan.currency
+      price = Market.last_price(base_unit, quote_unit)
+      total_borrowed += active_loan.amount * price
+    end
+
+    net_value = total_margin - unrealized_lending_fee + unrealized_pnl
+
+    current_margin = if total_borrowed > 0
+                       net_value / total_borrowed * 100
+                     else
+                       100
+                     end
+
+    {
+      total_margin: total_margin,
+      unrealized_pnl: unrealized_pnl,
+      unrealized_lending_fee: -unrealized_lending_fee,
+      net_value: net_value,
+      total_borrowed: total_borrowed,
+      current_margin: current_margin,
+      quote_unit: quote_unit
+    }
+  end
+
+  def sync_margin_info(quote_unit)
+    margin_info = get_margin_info(quote_unit)
+    margin_info[:current_margin]
+  end
+
+  def force_liquidation
+    positions.open.each { |position| position.complete_close }
   end
 
   def identity
@@ -284,7 +375,4 @@ class Member < ActiveRecord::Base
     self.send_activation if self.email_changed?
   end
 
-  def sync_update
-    ::Pusher["private-#{sn}"].trigger_async('members', { type: 'update', id: self.id, attributes: self.changes_attributes_as_json })
-  end
 end

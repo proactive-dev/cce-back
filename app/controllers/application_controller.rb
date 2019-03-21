@@ -1,16 +1,17 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
 
-  helper_method :current_user, :is_admin?, :current_market, :gon
+  helper_method :current_user, :is_admin?, :current_market, :gon, :current_loan_market
   before_action :set_timezone, :set_gon
   after_action :allow_iframe
-  after_action :set_csrf_cookie_for_ng
+  # after_action :set_csrf_cookie_for_ng
   rescue_from CoinAPI::ConnectionRefusedError, with: :coin_rpc_connection_refused
 
   private
 
   include SimpleCaptcha::ControllerHelpers
   include TwoFactorHelper
+  include Concerns::Response
 
   def currency
     "#{params[:ask]}#{params[:bid]}".to_sym
@@ -20,14 +21,14 @@ class ApplicationController < ActionController::Base
     @current_market ||= Market.find_by_id(params[:market]) || Market.find_by_id(cookies[:market_id]) || Market.first
   end
 
-  def redirect_back_or_settings_page
-    if cookies[:redirect_to].present?
-      redirect_to cookies[:redirect_to]
-      cookies[:redirect_to] = nil
-    else
-      redirect_to settings_path
-    end
+  def current_loan_market
+    @current_loan_market ||= LoanMarket.find_by_id(params[:loan_market_id]) || LoanMarket.find_by_id(params[:id]) ||
+        LoanMarket.find_by_id(cookies[:loan_market_id]) || LoanMarket.first
   end
+
+  # def redirect_back_or_settings_page
+  #   render_json(SignInSuccess.new)
+  # end
 
   def current_user
     @current_user ||= Member.current = Member.enabled.where(id: session[:member_id]).first
@@ -36,17 +37,17 @@ class ApplicationController < ActionController::Base
   def auth_member!
     unless current_user
       set_redirect_to
-      redirect_to root_path, alert: t('activations.new.login_required')
+      render_json(LogInRequired.new)
     end
   end
 
   def auth_activated!
-    redirect_to settings_path, alert: t('private.settings.index.auth-activated') unless current_user.activated?
+    render_json(SettingsAlert.new(t('private.settings.index.auth-activated'))) unless current_user.activated?
   end
 
   def auth_verified!
     unless current_user and current_user.id_document and current_user.id_document_verified?
-      redirect_to settings_path, alert: t('private.settings.index.auth-verified')
+      render_json(SettingsAlert.new(t('private.settings.index.auth-verified')))
     end
   end
 
@@ -54,11 +55,11 @@ class ApplicationController < ActionController::Base
   end
 
   def auth_anybody!
-    redirect_to root_path if current_user
+    render_json(LogInRequired.new) if current_user
   end
 
   def auth_admin!
-    redirect_to main_app.root_path unless is_admin?
+    render_json(AdminRoleRequired.new) unless is_admin?
   end
 
   def is_admin?
@@ -67,7 +68,7 @@ class ApplicationController < ActionController::Base
 
   def two_factor_activated!
     if not current_user.two_factors.activated?
-      redirect_to settings_path, alert: t('two_factors.auth.please_active_two_factor')
+      render_json(TFAError.new(t('two_factors.auth.please_active_two_factor')))
     end
   end
 
@@ -120,14 +121,7 @@ class ApplicationController < ActionController::Base
     gon.markets = Market.to_hash
     gon.price_config = current_market.price_config
     gon.market_limit = current_market.source_limit
-
-    gon.pusher = {
-      key:       ENV['PUSHER_KEY'],
-      wsHost:    'ws-us2.pusher.com', #ENV['PUSHER_HOST']      || 'ws.pusherapp.com',
-      wsPort:    ENV['PUSHER_WS_PORT']   || '80',
-      wssPort:   ENV['PUSHER_WSS_PORT']  || '443',
-      encrypted: ENV['PUSHER_ENCRYPTED'] == 'true'
-    }
+    gon.loan_market = current_loan_market.attributes
 
     gon.clipboard = {
       :click => I18n.t('actions.clipboard.click'),
@@ -140,6 +134,10 @@ class ApplicationController < ActionController::Base
       bid: I18n.t('gon.bid'),
       cancel: I18n.t('actions.cancel'),
       latest_trade: I18n.t('private.markets.order_book.latest_trade'),
+      on: I18n.t('actions.action_on'),
+      off: I18n.t('actions.action_off'),
+      demand: I18n.t('private.loan_markets.loan_entry.demand'),
+      offer: I18n.t('private.loan_markets.loan_entry.offer'),
       switch: {
         notification: I18n.t('private.markets.settings.notification'),
         sound: I18n.t('private.markets.settings.sound')
@@ -185,7 +183,25 @@ class ApplicationController < ActionController::Base
       },
       trade_state: {
         new: I18n.t('private.markets.trade_state.new'),
-        partial: I18n.t('private.markets.trade_state.partial')
+        partial: I18n.t('private.markets.trade_state.partial'),
+        loan_available: I18n.t('private.markets.trade_state.loan_available')
+      },
+      place_loan: {
+        confirm_submit: I18n.t('private.loan_markets.show.confirm'),
+        confirm_cancel: I18n.t('private.loan_markets.show.cancel_confirm'),
+        confirm_update: I18n.t('private.loan_markets.show.update_confirm'),
+        rate: I18n.t('private.loan_markets.show.rate'),
+        lending_balance: I18n.t('private.loan_markets.lending_balance')
+      },
+      position: {
+          short: I18n.t('private.margin_markets.open_positions.short'),
+          long: I18n.t('private.margin_markets.open_positions.long'),
+          prompt_close: I18n.t('private.margin_markets.open_positions.prompt_close'),
+          invalid_value: I18n.t('private.margin_markets.open_positions.invalid_value'),
+          empty_value: I18n.t('private.margin_markets.open_positions.empty_value'),
+          amount_close: I18n.t('private.margin_markets.open_positions.amount_close'),
+          confirm_close: I18n.t('private.margin_markets.open_positions.confirm_close'),
+          balance: I18n.t('private.margin_markets.open_positions.balance')
       }
     }
 
@@ -215,6 +231,14 @@ class ApplicationController < ActionController::Base
         } if account.currency_obj.try(:visible)
         memo
       end
+      gon.lending_accounts = current_user.lending_accounts.inject({}) do |memo, account|
+        memo[account.currency] = {
+            currency: account.currency,
+            balance: account.balance,
+            locked: account.locked
+        } if account.currency_obj.try(:visible)
+        memo
+      end
     end
   end
 
@@ -238,12 +262,12 @@ class ApplicationController < ActionController::Base
     response.headers.except! 'X-Frame-Options' if Rails.env.development?
   end
 
-  def set_csrf_cookie_for_ng
-    cookies['XSRF-TOKEN'] = form_authenticity_token if protect_against_forgery?
-  end
+  # def set_csrf_cookie_for_ng
+  #   cookies['XSRF-TOKEN'] = form_authenticity_token if protect_against_forgery?
+  # end
 
-  def verified_request?
-    super || form_authenticity_token == request.headers['X-XSRF-TOKEN']
-  end
+  # def verified_request?
+  #   super || form_authenticity_token == request.headers['X-XSRF-TOKEN']
+  # end
 
 end

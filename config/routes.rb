@@ -24,9 +24,11 @@ Exchange::Application.routes.draw do
   resource :member, :only => [:edit, :update]
   resource :identity, :only => [:edit, :update]
 
+  get '/currencies' => 'currencies#index', as: :currency_list
+
   namespace :verify do
     resource :sms_auth,    only: [:show, :update]
-    resource :google_auth, only: [:show, :update, :edit, :destroy]
+    resource :google_auth, only: [:show, :update, :destroy]
   end
 
   namespace :authentications do
@@ -41,11 +43,11 @@ Exchange::Application.routes.draw do
 
   get '/api' => 'documents#api_v2', :as => :api_doc
   get '/websocket_api' => 'documents#websocket_api', :as => :websocket_api_doc
-  get '/oauth' => 'documents#oauth', :as => :oauth
-  get '/fees' => 'documents#fees', :as => :fees
-  get '/about' => 'documents#about', :as => :about
-  get '/privacy-policy' => 'documents#privacy', :as => :privacy
-  get '/terms-of-use' => 'documents#terms', :as => :terms
+  # get '/oauth' => 'documents#oauth', :as => :oauth
+  # get '/fees' => 'documents#fees', :as => :fees
+  # get '/about' => 'documents#about', :as => :about
+  # get '/privacy-policy' => 'documents#privacy', :as => :privacy
+  # get '/terms-of-use' => 'documents#terms', :as => :terms
   get '/affiliate-program' => 'documents#affiliate', :as => :about_affiliate
 
   resources :documents, only: [:show]
@@ -59,29 +61,28 @@ Exchange::Application.routes.draw do
     resource  :id_document, only: [:edit, :update]
 
     resources :settings, only: [:index]
-    resources :api_tokens do
-      member do
-        delete :unbind
-      end
-    end
+    resources :api_tokens
 
-    resources :fund_sources, only: [:create, :update, :destroy]
+    resources :fund_sources, only: [:index, :create, :update, :destroy]
 
-    resources :funds, only: [:index] do
+    resources :funds, only: [:index, :withdraws, :deposits] do
       collection do
         post :gen_address
+
+        get  :withdraws
+        get  :deposits
       end
     end
 
-    namespace :deposits do
-      Deposit.descendants.each do |d|
-        resources d.resource_name do
-          collection do
-            post :gen_address
-          end
-        end
-      end
-    end
+    # namespace :deposits do
+    #   Deposit.descendants.each do |d|
+    #     resources d.resource_name do
+    #       collection do
+    #         post :gen_address
+    #       end
+    #     end
+    #   end
+    # end
 
     namespace :withdraws do
       Withdraw.descendants.each do |w|
@@ -90,15 +91,28 @@ Exchange::Application.routes.draw do
     end
 
     resources :account_versions, :only => :index
+    resources :accounts, :only => :index
+
+    resources :accounts, only: [:index, :main, :lending] do
+      collection do
+        get  :main
+        get  :lending
+      end
+    end
 
     resources :exchange_assets, :controller => 'assets'
 
     get '/affiliates' => 'affiliates#index', as: :affiliates
     post '/affiliates/new', to: 'affiliates#gen_affiliate_code', as: :new_affiliate
 
+    resources :move_funds, only: [:create]
+
     get '/history/orders' => 'history#orders', as: :order_history
     get '/history/trades' => 'history#trades', as: :trade_history
     get '/history/account' => 'history#account', as: :account_history
+    get '/history/loans' => 'history#loans', as: :loan_history
+
+    get '/markets' => 'markets#index', as: :market_list
 
     resources :markets, :only => :show, :constraints => MarketConstraint do
       resources :orders, :only => [:index, :destroy] do
@@ -118,12 +132,35 @@ Exchange::Application.routes.draw do
       end
     end
 
-    post '/pusher/auth', to: 'pusher#auth'
-
-    resources :tickets, only: [:index, :new, :create, :show] do
-      member do
-        patch :close
+    resources :margin_markets, :only => :show, :constraints => MarginMarketConstraint do
+      resources :trigger_orders, :only => [:index, :destroy] do
+        collection do
+          post :clear
+        end
       end
+      resources :trigger_bids, :only => [:create] do
+        collection do
+          post :clear
+        end
+      end
+      resources :trigger_asks, :only => [:create] do
+        collection do
+          post :clear
+        end
+      end
+    end
+
+    resources :positions, :only => [:update]
+
+    resources :loan_markets, :only => [:show, :update] do
+      resources :open_loans, :only => [:index, :create, :update, :destroy] do
+        collection do
+          post :clear
+        end
+      end
+    end
+
+    resources :tickets, only: [:index, :new, :create, :show, :destroy] do
       resources :comments, only: [:create]
     end
   end

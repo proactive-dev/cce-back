@@ -49,5 +49,13 @@ module Exchange
 
     # Observer configuration
     config.active_record.observers = :transfer_observer
+
+	# CORS
+	config.middleware.insert_before 0, "Rack::Cors" do
+      allow do
+        origins "#{ENV['URL_SCHEMA']}://#{ENV['URL_UI']}", "#{ENV['URL_SCHEMA']}://www.#{ENV['URL_UI']}"
+        resource '*', headers: :any, methods: [:get, :post, :put, :options, :delete], credentials: true
+      end
+    end
   end
 end

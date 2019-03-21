@@ -2,7 +2,7 @@ class TicketMailer < BaseMailer
 
   def author_notification(ticket_id)
     ticket = Ticket.find ticket_id
-    @ticket_url = ticket_url(ticket)
+    @ticket_url = "#{ENV['URL_SCHEMA']}://#{ENV['URL_UI']}/tickets/#{ticket_id}"
 
     mail to: ticket.author.email
   end

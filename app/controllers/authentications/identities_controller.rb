@@ -1,5 +1,8 @@
 module Authentications
   class IdentitiesController < ApplicationController
+
+    layout false
+
     before_action :auth_member!
 
     def new
@@ -9,9 +12,9 @@ module Authentications
     def create
       identity = Identity.new(identity_params.merge(email: current_user.email))
       if identity.save && current_user.create_auth_for_identity(identity)
-        redirect_to settings_path, notice: t('.success')
+        render_json(SetupPasswordSuccess.new(t('.success')))
       else
-        redirect_to new_authentications_identity_path, alert: identity.errors.full_messages.join(',')
+        render_json(AuthError.new)
       end
     end
 

@@ -48,7 +48,7 @@ module APIv2
       end
 
       def tonce
-        @tonce ||= @params[:tonce].to_i * 1000
+        @tonce ||= @params[:tonce].to_i
       end
 
       def payload

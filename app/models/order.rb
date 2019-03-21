@@ -9,10 +9,9 @@ class Order < ActiveRecord::Base
   ORD_TYPES = %w(market limit)
   enumerize :ord_type, in: ORD_TYPES, scope: true
 
-  SOURCES = %w(Web APIv2 debug)
+  SOURCES = %w(Web APIv2 Position debug)
   enumerize :source, in: SOURCES, scope: true
 
-  after_commit :trigger
   before_validation :fix_number_precision, on: :create
 
   validates_presence_of :ord_type, :volume, :origin_volume, :locked, :origin_locked
@@ -31,10 +30,15 @@ class Order < ActiveRecord::Base
   belongs_to :member
   attr_accessor :total
 
+  belongs_to :trigger_order
+
+  has_many :active_loans
+
   scope :done, -> { with_state(:done) }
   scope :active, -> { with_state(:wait) }
   scope :position, -> { group("price").pluck(:price, 'sum(volume)') }
   scope :best_price, ->(currency) { where(ord_type: 'limit').active.with_currency(currency).matching_rule.position }
+  scope :h24, -> { where("created_at > ?", 24.hours.ago) }
 
   def funds_used
     origin_locked - locked
@@ -48,15 +52,6 @@ class Order < ActiveRecord::Base
     @config ||= Market.find(currency)
   end
 
-  def trigger
-    return unless member
-
-    json = Jbuilder.encode do |json|
-      json.(self, *ATTRIBUTES)
-    end
-    member.trigger('order', json)
-  end
-
   def strike(trade)
     raise "Cannot strike on cancelled or done order. id: #{id}, state: #{state}" unless state == Order::WAIT
 
@@ -64,13 +59,15 @@ class Order < ActiveRecord::Base
     real_fee      = add * fee
     real_add      = add - real_fee
 
-    hold_account.unlock_and_sub_funds \
-      real_sub, locked: real_sub,
-      reason: Account::STRIKE_SUB, ref: trade
-
-    expect_account.plus_funds \
-      real_add, fee: real_fee,
-      reason: Account::STRIKE_ADD, ref: trade
+    if self.trigger_order_id.blank? && self.source != 'Position'
+      # normal order
+      hold_account.unlock_and_sub_funds real_sub, locked: real_sub,  reason: Account::STRIKE_SUB, ref: trade
+      expect_account.plus_funds real_add, fee: real_fee, reason: Account::STRIKE_ADD, ref: trade
+    else
+      # margin order
+      hold_margin_account.unlock_and_sub_borrowed real_sub, locked: real_sub,  reason: MarginAccount::STRIKE_SUB, ref: trade
+      expect_margin_account.plus_borrowed real_add-real_fee, reason: MarginAccount::STRIKE_ADD, ref: trade
+    end
 
     self.volume         -= trade.volume
     self.locked         -= real_sub
@@ -81,14 +78,24 @@ class Order < ActiveRecord::Base
       self.state = Order::DONE
 
       # unlock not used funds
-      hold_account.unlock_funds locked,
-        reason: Account::ORDER_FULLFILLED, ref: trade unless locked.zero?
+      if self.trigger_order_id.blank? && self.source != 'Position'
+        # normal order
+        hold_account.unlock_funds locked,
+                                  reason: Account::ORDER_FULLFILLED, ref: trade unless locked.zero?
+      else
+        # margin order
+        hold_margin_account.unlock_borrowed locked,
+                                  reason: MarginAccount::ORDER_FULLFILLED, ref: trade unless locked.zero?
+      end
+
     elsif ord_type == 'market' && locked.zero?
       # partially filled market order has run out its locked fund
       self.state = Order::CANCEL
     end
 
     self.save!
+
+    create_or_update_position(trade) if trigger_order || source == 'Position'
   end
 
   def kind
@@ -109,6 +116,20 @@ class Order < ActiveRecord::Base
 
   def market
     currency
+  end
+
+  def for_notify
+    {
+        id:     id,
+        market: market,
+        kind:   kind,
+        at:     at,
+        price:  price,
+        volume: volume,
+        origin_volume: origin_volume,
+        ord_type: ord_type,
+        state: state
+    }
   end
 
   def to_matching_attributes
@@ -160,4 +181,8 @@ class Order < ActiveRecord::Base
     required_funds
   end
 
+  def create_or_update_position(trade)
+    position = Position.find_or_create_by(member_id: member_id, currency: market_obj.code)
+    position.update(trade, self.source == 'Position')
+  end
 end

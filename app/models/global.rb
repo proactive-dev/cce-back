@@ -4,14 +4,6 @@ class Global
   LIMIT = 80
 
   class << self
-    def channel
-      "market-global"
-    end
-
-    def trigger(event, data)
-      Pusher.trigger_async(channel, event, data)
-    end
-
     def daemon_statuses
       Rails.cache.fetch('exchange:daemons:statuses', expires_in: 3.minute) do
         Daemons::Rails::Monitoring.statuses
@@ -23,14 +15,10 @@ class Global
     @currency = currency
   end
 
-  def channel
-    "market-#{@currency}-global"
-  end
-
   attr_accessor :currency
 
   def self.[](market)
-    if market.is_a? Market
+    if (market.is_a? Market) || (market.is_a? LoanMarket)
       self.new(market.id)
     else
       self.new(market)
@@ -86,16 +74,20 @@ class Global
     Rails.cache.read("exchange:#{currency}:trades") || []
   end
 
-  def trigger_orderbook
-    data = {asks: asks, bids: bids}
-    Pusher.trigger_async(channel, "update", data)
-  end
-
-  def trigger_trades(trades)
-    Pusher.trigger_async(channel, "trades", trades: trades)
-  end
-
   def at
     @at ||= DateTime.now.to_i
   end
+
+  def demands
+    Rails.cache.read("exchange:#{currency}:demands") || []
+  end
+
+  def offers
+    Rails.cache.read("exchange:#{currency}:offers") || []
+  end
+
+  def active_loans
+    Rails.cache.read("exchange:#{currency}:active_loans") || []
+  end
+
 end

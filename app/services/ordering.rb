@@ -55,8 +55,15 @@ class Ordering
     order.locked = order.origin_locked = order.compute_locked
     order.save!
 
-    account = order.hold_account
-    account.lock_funds(order.locked, reason: Account::ORDER_SUBMIT, ref: order)
+    if order.trigger_order_id.blank? && order.source != 'Position'
+      # submit normal order
+      account = order.hold_account
+      account.lock_funds(order.locked, reason: Account::ORDER_SUBMIT, ref: order)
+    else
+      # submit margin order
+      account = order.hold_margin_account
+      account.lock_borrowed(order.locked, reason: Account::ORDER_SUBMIT, ref: order)
+    end
   end
 
   def do_cancel(order)
@@ -71,12 +78,20 @@ class Ordering
   end
 
   def do_cancel!(order)
-    account = order.hold_account
     order   = Order.find(order.id).lock!
 
     if order.state == Order::WAIT
       order.state = Order::CANCEL
-      account.unlock_funds(order.locked, reason: Account::ORDER_CANCEL, ref: order)
+      if order.trigger_order_id.blank? && order.source != 'Position'
+        # cancel normal order
+        account = order.hold_account
+        account.unlock_funds(order.locked, reason: Account::ORDER_CANCEL, ref: order)
+      else
+        # cancel margin order
+        account = order.hold_margin_account
+        account.unlock_borrowed(order.locked, reason: Account::ORDER_CANCEL, ref: order)
+        order.active_loans.each { |active_loan| active_loan.close }
+      end
       order.save!
     else
       raise CancelOrderError, "Only active order can be cancelled. id: #{order.id}, state: #{order.state}"

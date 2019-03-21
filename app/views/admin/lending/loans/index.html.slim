@@ -1,0 +1,11 @@
+- unless @offers.empty?
+  .panel.panel-primary
+    .panel-heading: span = t('.open_offers')
+    = render partial: 'table_loan', locals: {loans: @offers}
+- unless @demands.empty?
+  .panel.panel-primary
+    .panel-heading: span = t('.open_demands')
+    = render partial: 'table_loan', locals: {loans: @demands}
+
+- if @demands.empty? and @offers.empty?
+  h3.text-info.text-center = t('.empty')

@@ -40,6 +40,11 @@ namespace :admin do
     end
   end
 
+  namespace :lending do
+    resources :loans, :only => [:index, :destroy]
+    resource :history, :controller => 'history', :only => :show
+  end
+
   namespace :statistic do
     resource :members, :only => :show
     resource :orders, :only => :show

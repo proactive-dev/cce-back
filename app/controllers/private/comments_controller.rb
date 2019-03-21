@@ -1,15 +1,15 @@
 module Private
   class CommentsController < BaseController
+    layout false
 
     def create
       comment = ticket.comments.new(comment_params.merge(author_id: current_user.id))
 
       if comment.save
-        flash[:notice] = I18n.t("private.tickets.comment_succ")
+        render_json(TicketSuccess.new(t('private.tickets.comment_succ')))
       else
-        flash[:alert] = I18n.t("private.tickets.comment_fail")
+        render_json(TicketFailure.new(t('private.tickets.comment_fail')))
       end
-      redirect_to ticket_path(ticket)
     end
 
     private

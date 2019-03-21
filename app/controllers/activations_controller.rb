@@ -14,10 +14,11 @@ class ActivationsController < ApplicationController
     @token.confirm!
 
     if current_user
-      redirect_to settings_path, notice: t('.notice')
+      url = "#{ENV['URL_SCHEMA']}://#{ENV['URL_UI']}/user"
     else
-      redirect_to signin_path, notice: t('.notice')
+      url = "#{ENV['URL_SCHEMA']}://#{ENV['URL_UI']}/login"
     end
+    redirect_to url, notice: t('.notice')
   end
 
   private

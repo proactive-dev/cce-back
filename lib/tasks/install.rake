@@ -13,11 +13,6 @@ namespace :install do
 
   desc 'setup your application'
   task :application do
-    if yes_no('Use your own Pusher Account? ')
-      pusher_app    = var 'Pusher App: '
-      pusher_key    = var 'Pusher Key: '
-      pusher_secret = var 'Pusher Secret: '
-    end
 
     if yes_no('Do you want to setup SMTP service')
       smtp_domain = var 'SMTP domain: '
@@ -28,9 +23,6 @@ namespace :install do
 
     config 'config/application.yml' do |content|
       lines = content.split /\n/
-      lines = customize 'PUSHER_APP',    pusher_app,    lines
-      lines = customize 'PUSHER_KEY',    pusher_key,    lines
-      lines = customize 'PUSHER_SECRET', pusher_secret, lines
       if smtp_address
         lines = customize 'SMTP_DOMAIN',   smtp_domain, lines
         lines = customize 'SMTP_ADDRESS',  smtp_address, lines

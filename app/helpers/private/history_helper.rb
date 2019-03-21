@@ -15,4 +15,20 @@ module Private::HistoryHelper
     link_to txid, t.blockchain_url
   end
 
+  def loan_type(active_loan)
+    active_loan.type_of(current_user.id)
+  end
+
+  def loan_auto_renew(active_loan)
+    case loan_type(active_loan)
+    when 'offer'
+      t(".#{active_loan.auto_renew}")
+    else
+      '-'
+    end
+  end
+
+  def loan_fee(active_loan)
+    active_loan.fee(loan_type(active_loan))
+  end
 end

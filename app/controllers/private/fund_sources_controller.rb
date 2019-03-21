@@ -1,5 +1,10 @@
 module Private
   class FundSourcesController < BaseController
+    layout false
+
+    def index
+      render json: current_user.fund_sources
+    end
 
     def create
       new_fund_source = current_user.fund_sources.new fund_source_params

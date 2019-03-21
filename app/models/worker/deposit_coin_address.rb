@@ -21,10 +21,6 @@ module Worker
           pa.update! \
             result.extract!(:address, :secret, :tag).merge(details: result)
 
-          Pusher["private-#{acc.member.sn}"].trigger_async \
-            :deposit_address,
-            type:       'create',
-            attributes: pa.as_json
         end
       end
 
@@ -51,10 +47,6 @@ module Worker
             p_address.update! \
               result.extract!(:address, :secret).merge(details: result)
 
-            Pusher["private-#{account.member.sn}"].trigger_async \
-              :deposit_address,
-              type:       'create',
-              attributes: p_address.as_json
           end
         end
       end

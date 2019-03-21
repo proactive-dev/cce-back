@@ -26,6 +26,10 @@ class Market < ActiveYamlBase
     all.select &:is_binance?
   end
 
+  def self.margin_markets
+    all.select &:is_margin?
+  end
+
   def self.enumerize
     all_with_invisible.inject({}) {|hash, i| hash[i.id.to_sym] = i.code; hash }
   end
@@ -36,6 +40,14 @@ class Market < ActiveYamlBase
     @markets_hash = {}
     all.each {|m| @markets_hash[m.id.to_sym] = m.unit_info }
     @markets_hash
+  end
+
+  def self.last_price(base_unit, quote_unit)
+    if base_unit == quote_unit
+      1
+    else
+      Global["#{base_unit}#{quote_unit}"].ticker[:last]
+    end
   end
 
   def initialize(*args)
@@ -85,8 +97,14 @@ class Market < ActiveYamlBase
     source.nil?
   end
 
+  def is_margin?
+    margin.present?
+  end
+
   def scope?(account_or_currency)
     code = if account_or_currency.is_a? Account
+             account_or_currency.currency
+           elsif account_or_currency.is_a? MarginAccount
              account_or_currency.currency
            elsif account_or_currency.is_a? Currency
              account_or_currency.code
@@ -99,6 +117,22 @@ class Market < ActiveYamlBase
 
   def unit_info
     {name: name, base_unit: base_unit, quote_unit: quote_unit}
+  end
+
+  def for_notify
+    data = {
+        id: id,
+        code: code,
+        name: name,
+        base_unit: base_unit,
+        quote_unit: quote_unit,
+        bid: bid,
+        ask: ask,
+        visible: visible,
+        is_margin: is_margin?
+    }
+    data[:margin] = margin unless margin.blank?
+    data
   end
 
   private

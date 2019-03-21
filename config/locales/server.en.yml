@@ -297,6 +297,14 @@ en:
       ltc: LTC
       skb: SKB
       mas: MAS
+  margin_market:
+    currency:
+      usd: USD
+      btc: BTC
+      eth: ETH
+      ltc: LTC
+      skb: SKB
+      mas: MAS
   currency:
     dollar:
       key: USD
@@ -584,6 +592,15 @@ en:
         quote_currency: Quote Currency
         quote_amount: Quote Amount
         price: Price
+      loans:
+        type: Type
+        created_at: Time
+        currency: Currency
+        rate: Rate
+        amount: Amount
+        duration: Duration
+        auto_renew: Auto-Renew
+        fee: Fee
       trade:
         sell: Sell
         buy: Buy
@@ -842,6 +859,23 @@ en:
         ref:
           system: System
           default: Default
+    transfer_balances:
+      move_funds: Move Funds Between Your Accounts
+      manage: Move Funds
+      amount: Amount
+      transfer: Transfer
+      from: from
+      account_to: account to
+      account: account
+      currency: Currency
+      exchange_account: Exchange
+      margin_account: Margin
+      lending_account: Lending
+      total: Total
+      please_set_amount: Please set the amount correctly
+      please_select_different_account: Please select the accounts differently
+      error_selected_account: Please select the accounts correctly
+      not_enough_balance_source_account: Not enough balance in your source account
     id_documents:
       edit:
         state: State
@@ -947,6 +981,7 @@ en:
       trade_state:
         new: New
         partial: Partial
+        loan_available: Loan available
       market_trades:
         all: All
         my: Mine
@@ -965,6 +1000,7 @@ en:
         sound: Sound
         notification: Notify
         funds: "Funds"
+        transfer_balances: "Move Funds"
         signout: "Sign Out"
         settings: "Profile"
         history: "History"
@@ -991,7 +1027,7 @@ en:
         amount: Amount
         time: Place Time
       mask:
-        warning: Please <a class=text-up href='/'>Sign up</a> or <a class=text-up href='/'>Sign in</a> for operation
+        warning: Please <a class=text-up href='/signup'>Sign up</a> or <a class=text-up href='/signin'>Sign in</a> for operation
       klime_chart:
         title: Candlestick Charts
       global:
@@ -999,6 +1035,180 @@ en:
         global_trades_title: TRADES
       chat:
         title: Chat Channel
+    margin_markets:
+      show:
+        error: Failed
+        success: Success
+        analysis_panel: Analysis
+        help_panel: Help
+        done: DONE
+        cancel: CANCEL
+        cancel_confirm: Are your sure cancel order?
+        confirm: CONFIRM
+        ask_order: 'ASK ##sn#'
+        bid_order: 'BID ##sn#'
+        my_active_order: Active
+        my_done_order: Done
+        trades: Trading
+        chat: Chat Channel
+      market_list:
+        all: All Markets
+        all_html: "<i class='fa fa-check'></i><span>All Markets</span>"
+        usd_html: "<i class='fa fa-check'></i><span>USD Markets</span>"
+        btc_html: "<i class='fa fa-check'></i><span>BTC Markets</span>"
+        eth_html: "<i class='fa fa-check'></i><span>ETH Markets</span>"
+        ltc_html: "<i class='fa fa-check'></i><span>LTC Markets</span>"
+        skb_html: "<i class='fa fa-check'></i><span>SKB Markets</span>"
+        mas_html: "<i class='fa fa-check'></i><span>MAS Markets</span>"
+        price: Price
+        change: "24h %"
+      account_balance:
+        title: Account Balance
+        available: Available %{currency}
+      bid_entry:
+        action: "Margin Buy %{currency}"
+        price: Price
+        last_price: Last Price
+        amount: Amount
+        rate: Rate
+        total: Total
+        fee: Fee
+      ask_entry:
+        action: "Margin Sell %{currency}"
+        price: Price
+        last_price: Last Price
+        amount: Amount
+        rate: Rate
+        total: Total
+        fee: Fee
+      place_order:
+        price_high: HIGH
+        price_low: LOW
+        price_min_limit: MIN
+        price_fixed: FIXED
+        full_bid: FULL
+        full_ask: EMPTY
+      header:
+        network: Connection State
+        vol: 24h Volume
+        high: High
+        low: Low
+        change: Change
+      my_orders:
+        orders_wait: Latest Orders
+        orders_done: Completed Orders
+        orders_cancel: Cancel Orders
+        no_open_orders: You have no open orders.
+        clear_all_html: "<i class='fa fa-trash'></i><span>Cancel All</span>"
+        clear_bids_html: "<i class='fa fa-trash'></i><span>Cancel Bids</span>"
+        clear_asks_html: "<i class='fa fa-trash'></i><span>Cancel Asks</span>"
+        confirm_clear_all: Are you sure to cancel ALL orders?
+        confirm_clear_bids: Are you sure to cancel all BIDS?
+        confirm_clear_asks: Are you sure to cancel all ASKS?
+        price: Price
+        volume: Volume
+        amount: Amount
+        time: Place Time
+      open_positions:
+        title: Open Position
+        direction: Direction
+        amount: Amount
+        base_price: Base Price
+        est_liq_price: Est. Liquidation Price
+        unrealized_pnl: Unrealized P/L
+        unrealized_lending_fee: Unrealized Lending Fees
+        action: Action
+        short: Short
+        long: Long
+        close: Close
+        no_open_positions: You have no open positions.
+        prompt_close: Input the amount of your margin position to close with a order.
+        confirm_close: Confirm your order.
+        amount_close: Amount to close position
+        balance: Balance
+        invalid_value: Invalid input value!
+        empty_value: Input value empty!
+      margin_info:
+        title: Margin Account
+        total: Total
+        unrealized_pnl: Unrealized P/L
+        unrealized_lending_fee: Unrealized Lending Fees
+        net_value: Net Value
+        total_borrowed: Total Borrowed
+        initial_margin: Initial Margin
+        maintenance_margin: Maintenance Margin
+        current_margin: Current Margin
+      global:
+        global_orders_title: ORDERS
+        global_trades_title: TRADES
+    loan_markets:
+      show:
+        error: Failed
+        success: Success
+        done: DONE
+        cancel_confirm: Are your sure cancel loan?
+        update_confirm: Are your sure update loan?
+        confirm: CONFIRM
+        my_active_loan: Active
+        my_open_loan: Open
+        active_loans: Active Loan
+        rate: Rate
+      lending_balance: "Your lending account balance: "
+      loan_entry:
+        title: Place Loan Offer
+        demand: "Demand"
+        offer: "Offer Loan"
+        rate: Rate
+        amount: Amount
+        duration: Duration
+        day: Day(s)
+        auto_renew: Auto-Renew
+      loan_book:
+        title_offer: Loan Offers
+        title_demand: Loan Demands
+        rate: Rate
+        amount: Amount
+        duration: Duration
+      lending_state:
+        new: New
+        partial: Partial
+      settings:
+        sound: Sound
+        notification: Notify
+        funds: Funds
+        signout: Sign Out
+        settings: Profile
+        history: History
+        move_funds: Move Funds
+      my_open_loan_offers:
+        title: My Open Loan Offers
+        no_open_loans: You have no open loan offers.
+        confirm_clear: Are you sure to cancel loan offer?
+        cancel: Cancel
+        currency: Currency
+        rate: Rate
+        amount: Amount
+        duration: Duration
+        time: Placed Time
+        auto_renew: Auto-renew
+        type: Type
+        action: Action
+      my_active_loans:
+        title: My Active Loans
+        no_active_loans: You have no active loans.
+        currency: Currency
+        rate: Rate
+        amount: Amount
+        duration: Duration
+        time: Placed Time
+        auto_renew: Auto-renew
+        type: Type
+        fee: Fee
+      mask:
+        warning: Please <a class=text-up href='/signup'>Sign up</a> or <a class=text-up
+          href='/signin'>Sign in</a> for operation
+      global:
+        global_loans_title: LOANS
     settings:
       success: Settings updated successfully.
       failure: Invalid passcode. Please try again.
@@ -1045,12 +1255,6 @@ en:
           title: API Tokens
           description: Create and manage your API tokens.
           go: Set
-        weibo:
-          title: Connect to Weibo
-          description: After you connecting to Weibo, you can login via Weibo account.
-          bound_desc: This has been connected with %{nickname}.
-          bind: Connect
-          unbind: Disconnect
     otps:
       new:
         step_1: Step 1
@@ -1430,6 +1634,17 @@ en:
         notice: Affiliation been rejected.
       update:
         notice: Affiliation is approved. Affiliation commissions will be added your account soon.
+    lending:
+      loans:
+        index:
+          open_offers: Open Offers
+          open_demands: Open Demands
+          empty: Empty
+        table_loan:
+          reject: Reject
+          reject_confirm: Confirm reject?
+        destroy:
+          notice: Reject successfully done.
     statistic:
       filter: Filter
       summary: Summary
@@ -1908,18 +2123,21 @@ en:
     home: Home
     dashboard: Dashboard
     admin: Admin Panel
-    market: Trade
+    market: Trading
+    margin_market: Margin Trading
     settings: Profile
     signin: Sign In
     signout: Exit
     signup: Sign Up
     funds: Funds
+    transfer_balances: Move Funds
     getstart: Get Started
     assets: Solvency
     history: History
     order_history: Order History
     trade_history: Trade History
     account_history: Account History
+    loan_history: Loan History
     my_profile: My Profile
     tickets: Tickets
     account_balance: Total Assets
@@ -1928,10 +2146,12 @@ en:
     deposit: Deposit
     withdraw: Withdraw
     affiliate: Affiliate
+    lending: Lending
   admin_header:
     assets: Assets
     deposits: Deposits
     withdraws: Withdraws
+    lending: Lending
     statistics: Data Statistics
     id_documents: Verify Account
   footer:
@@ -1970,6 +2190,8 @@ en:
     member: Member
     transact: Transact
     reject: Reject
+    action_on: "On"
+    action_off: "Off"
     clipboard:
       click: Click to copy
       done: Copied
@@ -2080,6 +2302,8 @@ en:
         sections:
           members: Members
           deposits: Deposits
+          loans: Loans
+          history: History
           sites_statistics: Analytics
           operating: Operations
         items:

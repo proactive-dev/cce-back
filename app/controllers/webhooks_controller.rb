@@ -1,5 +1,7 @@
 class WebhooksController < ApplicationController
 
+  layout false
+
   skip_before_action :verify_authenticity_token
   before_action      :auth_anybody!
   before_action      :currency_exists!

@@ -32,8 +32,6 @@ class Account < ActiveRecord::Base
 
   scope :enabled, -> { where("currency in (?)", Currency.ids) }
 
-  after_commit :trigger, :sync_update
-
   def payment_address
     payment_addresses.last || payment_addresses.create(currency: self.currency)
   end
@@ -143,20 +141,11 @@ class Account < ActiveRecord::Base
     expected == self.amount
   end
 
-  def trigger
-    return unless member
-
-    json = Jbuilder.encode do |json|
-      json.(self, :balance, :locked, :currency)
-    end
-    member.trigger('account', json)
-  end
-
   def change_balance_and_locked(delta_b, delta_l)
     self.balance += delta_b
     self.locked  += delta_l
     self.class.connection.execute "update accounts set balance = balance + #{delta_b}, locked = locked + #{delta_l} where id = #{id}"
-    add_to_transaction # so after_commit will be triggered
+    add_to_transaction
     self
   end
 
@@ -177,10 +166,28 @@ class Account < ActiveRecord::Base
     })
   end
 
+  def for_notify
+    {
+        id:     id,
+        currency: currency_obj,
+        balance: balance,
+        locked: locked,
+        estimated: estimate_balance('btc'),
+        payment_address: payment_address
+    }
+  end
+
   private
 
-  def sync_update
-    ::Pusher["private-#{member.sn}"].trigger_async('accounts', { type: 'update', id: self.id, attributes: {balance: balance, locked: locked} })
+  def estimate_balance(quote_unit)
+    base_unit = currency_obj.code
+    price = if base_unit == quote_unit
+              1
+            else
+              Global["#{base_unit}#{quote_unit}"].ticker[:last]
+            end
+
+    (self.balance + self.locked) * price
   end
 
 end
