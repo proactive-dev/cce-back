@@ -18,7 +18,8 @@ class AccountVersion < ActiveRecord::Base
     Account::WITHDRAW_LOCK => 800,
     Account::WITHDRAW_UNLOCK => 810,
     Account::DEPOSIT => 1000,
-    Account::WITHDRAW => 2000 }
+    Account::WITHDRAW => 2000,
+    Account::REFERRAL => 700 }
   enumerize :reason, in: REASON_CODES, scope: true
 
   belongs_to :account

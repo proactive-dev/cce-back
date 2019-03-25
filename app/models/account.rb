@@ -14,6 +14,7 @@ class Account < ActiveRecord::Base
   WITHDRAW_UNLOCK = :withdraw_unlock
   DEPOSIT = :deposit
   WITHDRAW = :withdraw
+  REFERRAL = :referral
   ZERO = 0.to_d
 
   FUNS = {:unlock_funds => 1, :lock_funds => 2, :plus_funds => 3, :sub_funds => 4, :unlock_and_sub_funds => 5}

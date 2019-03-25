@@ -1,0 +1,35 @@
+class Referral < ActiveRecord::Base
+  extend Enumerize
+
+  include Currencible
+
+  enumerize :state, in: {:pending => 100, :paid => 200}, scope: true
+
+  PENDING = 'pending'
+  PAID = 'paid'
+
+  belongs_to :member
+
+  scope :paid, -> { with_state(:paid) }
+  scope :pending, -> { with_state(:pending) }
+
+  def calculate
+    return unless state == Referral::PENDING
+
+    total = 0.0
+    member.referrer_ids.each do |referrer_id|
+      begin
+        tier = member.get_tier(referrer_id)
+        commission = amount * (ENV["REFERRAL_MAX_TIER"].to_i - tier) * ENV["REFERRAL_RATE_STEP"].to_d
+        referrer_account = Account.find_by(currency: currency_obj.id, member_id: referrer_id)
+        referrer_account.lock!.plus_funds commission, reason: Account::REFERRAL, ref: self
+        total += commission
+      rescue => e
+        Rails.logger.fatal e.inspect
+        next
+      end
+    end
+
+    self.update!(total: total, state: Referral::PAID)
+  end
+end

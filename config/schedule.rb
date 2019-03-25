@@ -19,6 +19,10 @@
 
 # Learn more: http://github.com/javan/whenever
 
+every '0 0 15 * *' do
+  rake 'referral:calculate_commissions'
+end
+
 every 5.minutes do
   rake 'solvency:liability_proof'
 end

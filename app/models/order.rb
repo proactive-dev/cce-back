@@ -95,6 +95,8 @@ class Order < ActiveRecord::Base
 
     self.save!
 
+    create_or_update_referral(add, trade.id) if member.referrer_ids.present?
+
     create_or_update_position(trade) if trigger_order || source == 'Position'
   end
 
@@ -179,6 +181,17 @@ class Order < ActiveRecord::Base
     raise "Volume too large" if (filled_at-start_from).abs/start_from > FUSE
 
     required_funds
+  end
+
+  def create_or_update_referral(amount, trade_id)
+    currency = kind == 'bid' ? ask : bid
+    Referral.create(
+        member: member,
+        currency: currency,
+        amount: amount,
+        trade_id: trade_id,
+        state: Referral::PENDING
+    )
   end
 
   def create_or_update_position(trade)

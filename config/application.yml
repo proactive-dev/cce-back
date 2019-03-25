@@ -49,6 +49,12 @@ defaults: &defaults
   LOAN_MAX_RATE: '100'
   MARGIN_MAINTENANCE: '20'
 
+  # referral settings
+  # --------------------------------------------------------------
+  #
+  REFERRAL_RATE_STEP: '0.0001'
+  REFERRAL_MAX_TIER: '10'
+
 development:
   <<: *defaults
   # sites hosts

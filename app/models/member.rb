@@ -6,6 +6,7 @@ class Member < ActiveRecord::Base
   has_many :trigger_orders
   has_many :open_loans
   has_many :positions
+  has_many :referrals
   has_many :accounts
   has_many :lending_accounts
   has_many :margin_accounts
@@ -23,7 +24,9 @@ class Member < ActiveRecord::Base
 
   has_many :authentications, dependent: :destroy
 
-  has_one :referrer
+  belongs_to :referrer, class_name: 'Member', foreign_key: :referrer_id
+  has_many :referees, class_name: 'Member', foreign_key: :referrer_id
+  serialize :referrer_ids, Array
 
   scope :enabled, -> { where(disabled: false) }
 
@@ -149,6 +152,48 @@ class Member < ActiveRecord::Base
 
   def initial?
     name? and !name.empty?
+  end
+
+  # Same function as 'referrers', but used recursive with only referrer_id.
+  # You can test speed with referral task.
+  def recur_referrers
+    if referrer_id.blank?
+      []
+    else
+      [referrer] + referrer.recur_referrers
+    end
+  end
+
+  def referrers
+    if referrer_ids.blank?
+      []
+    else
+      Member.where(id: referrer_ids)
+    end
+  end
+
+  # Same function as 'all_referees', but used recursive with only referees
+  # You can test speed with referral task
+  def recur_all_referees
+    if referees.blank?
+      []
+    else
+      recur_referees = [referees]
+      referees.each do |referee|
+        recur_referees << referee.recur_all_referees
+      end
+      recur_referees.flatten!
+    end
+  end
+
+  def all_referees
+    Member.where("referrer_ids LIKE ?", "% #{id}\n%")
+    # Member.all.select{ |m| m.referrer_ids.include? id } # same with above line , but slow in leafs
+  end
+
+  def get_tier(member_id)
+    tier = referrer_ids.index(member_id)
+    tier.nil? ? -1 : tier + 1
   end
 
   def get_account(currency)
