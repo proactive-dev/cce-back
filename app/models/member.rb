@@ -305,6 +305,63 @@ class Member < ActiveRecord::Base
     positions.open.each { |position| position.complete_close }
   end
 
+  def all_ref_commissions
+    all_commissions = {}
+    Currency.all.each do |currency|
+      commissions = referrals.blank? ? 0 : referrals.paid_sum(currency.code)
+      all_commissions[currency.code] = commissions
+    end
+    all_commissions
+  end
+
+  def ref_uplines # TODO
+    uplines = []
+    referrers.each do |member|
+      tier = member.referrer.blank? ? 1 : get_tier(member.id) + 1
+      commission = (ENV["REFERRAL_MAX_TIER"].to_i - tier) * ENV["REFERRAL_RATE_STEP"].to_d
+      rewards = {}
+      Currency.all.each do |currency|
+        amount = referrals.blank? ? 0 : referrals.amount_sum(currency.code)
+        rewards[currency.code.upcase] = amount * commission if amount > 0
+      end
+      if member.referrer.blank?
+        uplines << {parent: email, child: referrer.email, attributes: rewards}
+      else
+        uplines << {parent: member.email, child: member.referrer.email, attributes: rewards}
+      end
+    end
+    uplines
+  end
+
+  def ref_downlines
+    all_rewards = {}
+    downlines = []
+    all_referees.each do |referee|
+      tier = referee.get_tier(self.id)
+      commission = (ENV["REFERRAL_MAX_TIER"].to_i - tier) * ENV["REFERRAL_RATE_STEP"].to_d
+      commissions = {}
+      Currency.all.each do |currency|
+        amount = referee.referrals.blank? ? 0 : referee.referrals.amount_sum(currency.code)
+        paid = amount * commission
+        commissions[currency.code.upcase] = paid if amount > 0
+        all_rewards[currency.code] = all_rewards[currency.code].blank? ? paid : all_rewards[currency.code] + paid
+      end
+      downlines << {parent: referee.referrer.email, child: referee.email, attributes: commissions} # TODO
+    end
+    [all_rewards, downlines]
+  end
+
+  def referral_info
+    all_rewards, downlines = ref_downlines
+    {
+        all_commissions: all_ref_commissions,
+        all_rewards: all_rewards,
+        uplines: ref_uplines,
+        downlines: downlines
+    }
+
+  end
+
   def identity
     authentication = authentications.find_by(provider: 'identity')
     authentication ? Identity.find(authentication.uid) : nil

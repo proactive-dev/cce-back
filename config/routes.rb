@@ -133,6 +133,7 @@ Exchange::Application.routes.draw do
     end
 
     resources :positions, :only => [:update]
+    resources :referrals, :only => [:index]
 
     resources :loan_markets, :only => [:show, :update] do
       resources :open_loans, :only => [:index, :create, :update, :destroy] do
