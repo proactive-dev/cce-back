@@ -1,0 +1,11 @@
+- unless @pending_withdraws.empty?
+  .panel.panel-primary
+    .panel-heading: span = t('.one')
+    = render partial: 'table', locals: {withdraws: @pending_withdraws}
+- unless @other_withdraws.empty?
+  .panel.panel-success
+    .panel-heading: span = t('.all')
+    = render partial: 'table', locals: {withdraws: @other_withdraws}
+
+- if @other_withdraws.empty? and @pending_withdraws.empty?
+  h3.text-info.text-center = t('.empty')

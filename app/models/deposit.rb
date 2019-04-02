@@ -6,6 +6,8 @@ class Deposit < ActiveRecord::Base
   include AASM
   include AASM::Locking
   include Currencible
+  # added when removing Deposits::{CoinName}
+  include Deposits::Coinable
 
   has_paper_trail on: [:update, :destroy]
 
@@ -14,7 +16,6 @@ class Deposit < ActiveRecord::Base
   alias_attribute :sn, :id
 
   delegate :name, to: :member, prefix: true
-  delegate :id, to: :channel, prefix: true
   delegate :coin?, :fiat?, to: :currency_obj
 
   belongs_to :member
@@ -68,10 +69,6 @@ class Deposit < ActiveRecord::Base
   end
 
   class << self
-    def channel
-      DepositChannel.find_by_key(name.demodulize.underscore)
-    end
-
     def resource_name
       name.demodulize.underscore.pluralize
     end
@@ -83,10 +80,6 @@ class Deposit < ActiveRecord::Base
     def new_path
       "new_#{params_name}_path"
     end
-  end
-
-  def channel
-    self.class.channel
   end
 
   def update_confirmations(data)
@@ -123,7 +116,7 @@ class Deposit < ActiveRecord::Base
   end
 
   def check_min_amount
-    if self.amount < channel.min_amount
+    if self.amount < currency_obj.deposit['min_amount']
       with_lock do
         reject!
         save!

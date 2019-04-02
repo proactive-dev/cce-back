@@ -142,39 +142,13 @@ zh-CN:
         country: 国家
         phone_number: 手机号码
         otp: 验证码
-      withdraws/dollar:
-        id: 提现编号
-        member_name: 用户
-        currency_obj_key_text: 币种
-        state_and_actions: 状态/操作
-        fund_source: 提现银行
-        fund_extra: 银行
-        fund_extra_text: 提现银行
-        fund_uid: 提现银行账户
-        sum: 提现金额
-        fee: 手续费
-        amount: 提现金额
-        remark: 备注
-        created_at: 时间
-      deposits/dollar:
-        created_at: 时间
-        holder: 持卡人姓名
-        fund_extra: 转账银行
-        fund_uid: 转账账号
-        member_sn: 个人识别码
-        member_name: 开户户名
-        amount: 充值金额
-        sn: 转账备注（必填）
-        state_and_action: 状态 / 操作
-        label: 标签
-        fund_source: 充值账号
-      deposits/satoshi:
+      deposits:
         created_at: 时间
         txid: 交易哈希
         amount: 充值数量
         confirmations: 确认数
         aasm_state_text: 状态
-      withdraws/satoshi:
+      withdraws:
         id: 提现编号
         member_name: 用户
         currency_obj_key_text: 币种
@@ -355,7 +329,6 @@ zh-CN:
       columns:
         sn: 充值编号
         created_at: 时间
-        channel_key_text: 通道
         fund_extra_text: 资金来源
         fund_uid: 资金账户
         txid: 交易
@@ -368,7 +341,6 @@ zh-CN:
       columns:
         sn: 充值编号
         created_at: 充值时间
-        channel_key_text: 充值方式
         fund_extra_text: 开户行
         fund_uid: 充值账户
         amount: 充值金额
@@ -473,13 +445,6 @@ zh-CN:
         state: 状态
         created_at: 时间
   deposit_channel:
-    dollar:
-      key: 银行转账
-      title: 银行转账充值
-      intro: 通过银行转账的方式，从您的银行账户充值美元到您的交易所账户。
-      latency: 10 分钟到账
-      transfer: 人工处理
-      go: 立即充值
     satoshi:
       key: Bitcoin
       title: Bitcoin充值
@@ -526,36 +491,8 @@ zh-CN:
       warning: 异常
   private:
     deposits:
-      satoshis:
-        gen_address:
-          require_transaction: 当前地址没有使用过之前不能生成新地址
-      ethereums:
-        gen_address:
-          require_transaction: 当前地址没有使用过之前不能生成新地址
-      litecoins:
-        gen_address:
-          require_transaction: 当前地址没有使用过之前不能生成新地址
-      sakurablooms:
-        gen_address:
-          require_transaction: 当前地址没有使用过之前不能生成新地址
-      masoyamacoins:
-        gen_address:
-          require_transaction: 当前地址没有使用过之前不能生成新地址
-      banks:
-        destroy:
-          notice: 撤销充值请求成功。
-        create:
-          notice: 您的充值订单提交成功，请按照提示继续完成您的转账操作。
-          submit: 提交
-        new:
-          fund_source: 充值账号
-          manage_fund_source: 管理充值账号
-          submit: 提交
-        edit:
-          dollar: 收款银行
-          branch: 收款开户行
-          hodler: 收款账号
-          account: 收款账号
+      gen_address:
+        require_transaction: 当前地址没有使用过之前不能生成新地址
     fund_sources:
       index:
         manage_coin_address: 管理 %{name} 地址
@@ -583,7 +520,7 @@ zh-CN:
         Deposit: 充值
         Withdraw: 提现
       account:
-        currency: 币种
+        currency: 货币
         buy: 买入
         sell: 卖出
         filter_by_type: 查询类型
@@ -591,7 +528,6 @@ zh-CN:
         type: 类型
         timestamp: 时间
         fee: 手续费
-        currency: 货币
         amount: 金额
         txid: 交易哈希
       orders:
@@ -1609,49 +1545,11 @@ zh-CN:
           member_name: 账户名
   admin:
     deposits:
-      dollars:
-        index:
-          oneday: 二十四小时内充值订单
-          available: 全部未完成充值订单
-        show:
-          alert: 未发现外部充值账单，无法处理充值。
-          notice: 此账目已经充值成功，请手工记录。
-          deposit: 充值请求
-          accept: 充值
-          target_deposit: 外部充值
-          confirm: 确认给用户进行充值吗？
-        update:
-          blank_txid: TxID 不能为空
-      satoshis:
-        update:
-          notice: 此笔充值已经成功到账。
-        index:
-          accept: 立即充值
-          accept_confirm: 确定立刻确认此充值？
-      ethereums:
-        update:
-          notice: 此笔充值已经成功到账。
-        index:
-          accept: 立即充值
-          accept_confirm: 确定立刻确认此充值？
-      litecoins:
-        update:
-          notice: 此笔充值已经成功到账。
-        index:
-          accept: 立即充值
-          accept_confirm: 确定立刻确认此充值？
-      sakurablooms:
-        update:
-          notice: 此笔充值已经成功到账。
-        index:
-          accept: 立即充值
-          accept_confirm: 确定立刻确认此充值？
-      masoyamacoins:
-        update:
-          notice: 此笔充值已经成功到账。
-        index:
-          accept: 立即充值
-          accept_confirm: 确定立刻确认此充值？
+      update:
+        notice: 此笔充值已经成功到账。
+      index:
+        accept: 立即充值
+        accept_confirm: 确定立刻确认此充值？
     tickets:
       view: 查看
       close: 关闭服务单
@@ -1744,117 +1642,23 @@ zh-CN:
           amount: 金额合计
           fee: 手续费
     withdraws:
-      dollars:
-        index:
-          one: 待处理提现订单
-          all: 二十四小时内订单
-          empty: 无任何数据
-        show:
-          process: 受理
-          succeed: 提现
-          reject: 驳回
-          succeed_confirm: 确定处理提现？
-          reject_confirm: 确定驳回提现？
-          withdraw: 银行卡提现
-          empty: 无任何数据
-      satoshis:
-        index:
-          one: 待处理提现订单
-          all: 二十四小时内订单
-          empty: 无任何数据
-        show:
-          process: 受理
-          succeed: 提现
-          reject: 驳回
-          succeed_confirm: 确定处理提现？
-          reject_confirm: 确定驳回提现？
-          withdraw: BTC提现
-        destroy:
-          notice: Withdraw been canceled, frozen balance has returned to your account
-        update:
-          notice: Withdraw request is submit successful, we will process it as soon as possible
-          alert_two_factor: Two-Factor Authentication error
-      ethereums:
-        index:
-          one: 待处理提现订单
-          all: 二十四小时内订单
-          empty: 无任何数据
-        show:
-          process: 受理
-          succeed: 提现
-          reject: 驳回
-          succeed_confirm: 确定处理提现？
-          reject_confirm: 确定驳回提现？
-          withdraw: ETH提现
-        update:
-          notice: Withdraw was made
-      litecoins:
-        index:
-          one: 待处理提现订单
-          all: 二十四小时内订单
-          empty: 无任何数据
-        show:
-          process: 受理
-          succeed: 提现
-          reject: 驳回
-          succeed_confirm: 确定处理提现？
-          reject_confirm: 确定驳回提现？
-          withdraw: LTC提现
-        update:
-          notice: Withdraw was made
-      sakurablooms:
-        index:
-          one: 待处理提现订单
-          all: 二十四小时内订单
-          empty: 无任何数据
-        show:
-          process: 受理
-          succeed: 提现
-          reject: 驳回
-          succeed_confirm: 确定处理提现？
-          reject_confirm: 确定驳回提现？
-          withdraw: SKB提现
-        update:
-          notice: Withdraw was made
-      masoyamacoins:
-        index:
-          one: 待处理提现订单
-          all: 二十四小时内订单
-          empty: 无任何数据
-        show:
-          process: 受理
-          succeed: 提现
-          reject: 驳回
-          succeed_confirm: 确定处理提现？
-          reject_confirm: 确定驳回提现？
-          withdraw: MAS提现
-        update:
-          notice: Withdraw was made
-  deposits/satoshi:
-    aasm_state:
-      submitted: 受理中
-      accepted: 充值成功
-      checked: 充值成功
-      warning: 异常
-  deposits/ethereum:
-    aasm_state:
-      submitted: 受理中
-      accepted: 充值成功
-      checked: 充值成功
-      warning: 异常
-  deposits/litecoin:
-    aasm_state:
-      submitted: 受理中
-      accepted: 充值成功
-      checked: 充值成功
-      warning: 异常
-  deposits/sakurabloom:
-    aasm_state:
-      submitted: 受理中
-      accepted: 充值成功
-      checked: 充值成功
-      warning: 异常
-  deposits/masoyamacoin:
+      index:
+        one: 待处理提现订单
+        all: 二十四小时内订单
+        empty: 无任何数据
+      show:
+        process: 受理
+        succeed: 提现
+        reject: 驳回
+        succeed_confirm: 确定处理提现？
+        reject_confirm: 确定驳回提现？
+        withdraw: BTC提现
+      destroy:
+        notice: Withdraw been canceled, frozen balance has returned to your account
+      update:
+        notice: Withdraw request is submit successful, we will process it as soon as possible
+        alert_two_factor: Two-Factor Authentication error
+  deposits:
     aasm_state:
       submitted: 受理中
       accepted: 充值成功
@@ -1904,55 +1708,13 @@ zh-CN:
         destroy:
           notice: Application revoked.
   easy_table:
-    dollar:
-      sn: SN
-      amount: 金额
-      created_at: 创建时间
-      fund_source: 账号
-      memo: Memo
-      member_name: 用户
-      state_and_actions: 状态/操作
-      currency_obj_key_text: 币种
-    satoshi:
-      amount: 金额
-      txid: TxID
-      created_at: 创建时间
-      confirmations: 确认数
-      member_name: 用户
-      state_and_actions: 状态/操作
-      currency_obj_key_text: 币种
-    ethereum:
-      amount: 金额
-      txid: TxID
-      created_at: 创建时间
-      confirmations: 确认数
-      member_name: 用户
-      state_and_actions: 状态/操作
-      currency_obj_key_text: 币种
-    litecoin:
-      amount: 金额
-      txid: TxID
-      created_at: 创建时间
-      confirmations: 确认数
-      member_name: 用户
-      state_and_actions: 状态/操作
-      currency_obj_key_text: 币种
-    sakurabloom:
-      amount: 金额
-      txid: TxID
-      created_at: 创建时间
-      confirmations: 确认数
-      member_name: 用户
-      state_and_actions: 状态/操作
-      currency_obj_key_text: 币种
-    masoyamacoin:
-      amount: 金额
-      txid: TxID
-      created_at: 创建时间
-      confirmations: 确认数
-      member_name: 用户
-      state_and_actions: 状态/操作
-      currency_obj_key_text: 币种
+    amount: 金额
+    txid: TxID
+    created_at: 创建时间
+    confirmations: 确认数
+    member_name: 用户
+    state_and_actions: 状态/操作
+    currency_obj_key_text: 币种
   enumerize:
     account_version:
       reason:
@@ -2506,49 +2268,6 @@ zh-CN:
           already_activated: 您的手机号码已绑定成功。
         alert:
           phone_number_error: 手机号码无效或错误
-  withdraw_channel:
-    dollar:
-      key: 银行转账提现
-      title: 银行转账提现
-      intro: 银行转账方式提现，推荐大额用户使用
-      latency: 30 分钟到账
-      transfer: 人工处理
-      go: 立即提现
-    satoshi:
-      key: 块链
-      title: Bitcoin提现
-      intro: 将您在交易所的Bitcoin余额提取到您的钱包账户
-      latency: 30 分钟到账
-      transfer: 人工处理
-      go: 立即提现
-    ethereum:
-      key: Ethereum
-      title: Ethereum提现
-      intro: 将您在交易所的Ethereum余额提取到您的钱包账户
-      latency: 30 分钟到账
-      transfer: 人工处理
-      go: 立即提现
-    litecoin:
-      key: Litecoin
-      title: Litecoin提现
-      intro: 将您在交易所的Litecoin余额提取到您的钱包账户
-      latency: 30 分钟到账
-      transfer: 人工处理
-      go: 立即提现
-    sakurabloom:
-      key: Sakurabloom
-      title: Sakurabloom提现
-      intro: 将您在交易所的Sakurabloom余额提取到您的钱包账户
-      latency: 30 分钟到账
-      transfer: 人工处理
-      go: 立即提现
-    masoyamacoin:
-      key: Masoyamacoin
-      title: Masoyamacoin提现
-      intro: 将您在交易所的Masoyamacoin余额提取到您的钱包账户
-      latency: 30 分钟到账
-      transfer: 人工处理
-      go: 立即提现
   withdraws:
     invalid_address: 不合法. 无法提现到这个地址
   withdraws/dollar:

@@ -51,7 +51,7 @@ class PaymentTransaction < ActiveRecord::Base
   def make_deposit
     unless self.deposit
 
-      self.deposit = DepositChannel.find_by_currency(self.currency).kls.create! \
+      self.deposit = Deposit.create! \
         payment_transaction_id: self.id,
         txid:                   self.txid,
         txout:                  self.txout,

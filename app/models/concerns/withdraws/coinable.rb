@@ -9,7 +9,7 @@ module Withdraws
     def audit!
       result = CoinAPI[currency].validate_address!(fund_uid)
 
-      if result.nil? || (result[:isvalid] == false)
+      if result.nil? || (result[:is_valid] == false)
         Rails.logger.info "#{self.class.name}##{id} uses invalid address: #{fund_uid.inspect}"
         reject
         save!

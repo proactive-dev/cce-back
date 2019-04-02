@@ -1,13 +1,12 @@
-module Withdraws
-  module Withdrawable
-    extend ActiveSupport::Concern
+module Private
+  class WithdrawsController < BaseController
 
-    included do
-      before_filter :fetch
-    end
+    before_action :auth_activated!
+    before_action :auth_verified!
+    before_action :two_factor_activated!
 
     def create
-      @withdraw = model_kls.new(withdraw_params)
+      @withdraw = Withdraw.new(withdraw_params)
 
       if two_factor_auth_verified?
         if @withdraw.save
@@ -32,15 +31,11 @@ module Withdraws
 
     private
 
-    def fetch
-      @account = current_user.get_account(channel.currency)
-      @model = model_kls
-      @fund_sources = current_user.fund_sources.with_currency(channel.currency)
-      @assets = model_kls.without_aasm_state(:submitting).where(member: current_user).order(:id).reverse_order.limit(10)
+    def currency
+      @currency ||= Currency.find_by_code(params[:withdraw][:currency])
     end
 
     def withdraw_params
-      params[:withdraw][:currency] = channel.currency
       params[:withdraw][:member_id] = current_user.id
       params.require(:withdraw).permit(:fund_source, :member_id, :currency, :sum)
     end

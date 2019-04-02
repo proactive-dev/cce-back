@@ -37,9 +37,9 @@ html lang="en"
                 span = t('admin_header.deposits')
                 span.caret
               ul.dropdown-menu
-                - DepositChannel.all.sort.each do |c|
-                  - if can? :manage, c.kls
-                    li = link_to c.title_text, [:admin, c.kls]
+                - Currency.all.each do |c|
+                  - if can? :manage, c
+                    li = link_to c.name, admin_deposit_index_path(c)
 
           - if can? :menu, Withdraw
             li.dropdown class = check_active('withdraws')
@@ -47,9 +47,9 @@ html lang="en"
                 span = t('admin_header.withdraws')
                 span.caret
               ul.dropdown-menu
-                - WithdrawChannel.all.each do |c|
-                  - if can? :manage, c.kls
-                    li = link_to c.title_text, [:admin, c.kls]
+                - Currency.all.each do |c|
+                  - if can? :manage, c
+                    li = link_to c.name, admin_withdraw_index_path(c)
 
           li.dropdown class = check_active('lending')
             = link_to 'javascript:;', class: 'dropdown-toggle', 'data-toggle' => 'dropdown' do
@@ -86,7 +86,7 @@ html lang="en"
           /         = link_to Member.model_name.human, admin_statistic_members_path
 
         ul.nav.navbar-nav.navbar-right
-          li = link_to t('actions.back'), main_app.root_path
+          li = link_to t('actions.back'), "#{ENV['URL_SCHEMA']}://#{ENV['URL_UI']}"
 
     .container
       = render 'shared/flash'

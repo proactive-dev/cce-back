@@ -8,8 +8,6 @@ module Private
     before_action :two_factor_activated!
 
     # def index
-    #   @deposit_channels = DepositChannel.all
-    #   @withdraw_channels = WithdrawChannel.all
     #   @currencies = Currency.all.sort
     #   @deposits = current_user.deposits
     #   @accounts = current_user.accounts.enabled

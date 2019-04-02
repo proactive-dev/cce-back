@@ -29,6 +29,10 @@ class Currency < ActiveYamlBase
     find_by_code(code)[:assets]
   end
 
+  def blacklist
+    self[:blacklist]
+  end
+
   def precision
     self[:precision]
   end

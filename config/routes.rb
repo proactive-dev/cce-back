@@ -74,21 +74,11 @@ Exchange::Application.routes.draw do
       end
     end
 
-    # namespace :deposits do
-    #   Deposit.descendants.each do |d|
-    #     resources d.resource_name do
-    #       collection do
-    #         post :gen_address
-    #       end
-    #     end
-    #   end
-    # end
-
-    namespace :withdraws do
-      Withdraw.descendants.each do |w|
-        resources w.resource_name
-      end
+    resources 'deposits/:currency', controller: 'deposits', as: 'deposit', only: %i[ destroy ] do
+      collection { post 'gen_address' }
     end
+
+    resources 'withdraws/:currency', controller: 'withdraws', as: 'withdraw', only: %i[ create destroy ]
 
     resources :account_versions, :only => :index
     resources :accounts, :only => :index

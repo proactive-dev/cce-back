@@ -1,10 +1,10 @@
 FactoryGirl.define do
-  factory :satoshi_withdraw, class: Withdraws::Satoshi do
+  factory :satoshi_withdraw, class: Withdraws do
     sum { 10.to_d }
     currency :btc
     member { create :member }
     fund_source_id { create(:btc_fund_source).id }
-    type 'Withdraws::Satoshi'
+    type 'Withdraws'
 
     account do
       member.get_account(:btc).tap do |a|

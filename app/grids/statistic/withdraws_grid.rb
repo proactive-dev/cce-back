@@ -8,7 +8,6 @@ module Statistic
       Withdraw.includes(:account).order(id: :desc)
     end
 
-    #filter(:channel, :enum, :select => WithdrawChannel.all, :default => 100, :include_blank => false)
     filter(:aasm_state, :enum, :select => Withdraw::STATES, :default => 500)
     filter(:created_at, :datetime, :range => true, :default => proc { [1.day.ago, Time.now]})
 
@@ -22,7 +21,6 @@ module Statistic
       self.account.currency_text
     end
 
-    column(:channel)
     column(:amount)
     column(:address) do
       self.address.mask

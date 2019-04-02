@@ -17,10 +17,10 @@ module Admin
       can :manage, TwoFactor
 
       can :menu, Deposit
-      Deposit.descendants.each { |d| can :manage, d }
+      Currency.all.each { |c| can :manage, c }
 
       can :menu, Withdraw
-      Withdraw.descendants.each { |w| can :manage, w }
+      Currency.all.each { |c| can :manage, c }
 
     end
   end

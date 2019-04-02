@@ -1,8 +1,8 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
 
-  helper_method :current_user, :is_admin?, :current_market, :gon, :current_loan_market
-  before_action :set_timezone, :set_gon
+  helper_method :current_user, :is_admin?, :current_market, :current_loan_market
+  before_action :set_timezone
   after_action :allow_iframe
   # after_action :set_csrf_cookie_for_ng
   rescue_from CoinAPI::ConnectionRefusedError, with: :coin_rpc_connection_refused
@@ -111,135 +111,6 @@ class ApplicationController < ActionController::Base
 
   def set_timezone
     Time.zone = ENV['TIMEZONE'] if ENV['TIMEZONE']
-  end
-
-  def set_gon
-    gon.env = Rails.env
-    gon.local = I18n.locale
-    gon.market = current_market.attributes
-    gon.ticker = current_market.ticker
-    gon.markets = Market.to_hash
-    gon.price_config = current_market.price_config
-    gon.market_limit = current_market.source_limit
-    gon.loan_market = current_loan_market.attributes
-
-    gon.clipboard = {
-      :click => I18n.t('actions.clipboard.click'),
-      :done => I18n.t('actions.clipboard.done')
-    }
-
-    gon.i18n = {
-      brand: I18n.t('gon.brand'),
-      ask: I18n.t('gon.ask'),
-      bid: I18n.t('gon.bid'),
-      cancel: I18n.t('actions.cancel'),
-      latest_trade: I18n.t('private.markets.order_book.latest_trade'),
-      on: I18n.t('actions.action_on'),
-      off: I18n.t('actions.action_off'),
-      demand: I18n.t('private.loan_markets.loan_entry.demand'),
-      offer: I18n.t('private.loan_markets.loan_entry.offer'),
-      switch: {
-        notification: I18n.t('private.markets.settings.notification'),
-        sound: I18n.t('private.markets.settings.sound')
-      },
-      notification: {
-        title: I18n.t('gon.notification.title'),
-        enabled: I18n.t('gon.notification.enabled'),
-        new_trade: I18n.t('gon.notification.new_trade')
-      },
-      time: {
-        minute: I18n.t('chart.minute'),
-        hour: I18n.t('chart.hour'),
-        day: I18n.t('chart.day'),
-        week: I18n.t('chart.week'),
-        month: I18n.t('chart.month'),
-        year: I18n.t('chart.year')
-      },
-      chart: {
-        price: I18n.t('chart.price'),
-        volume: I18n.t('chart.volume'),
-        open: I18n.t('chart.open'),
-        high: I18n.t('chart.high'),
-        low: I18n.t('chart.low'),
-        close: I18n.t('chart.close'),
-        candlestick: I18n.t('chart.candlestick'),
-        line: I18n.t('chart.line'),
-        zoom: I18n.t('chart.zoom'),
-        depth: I18n.t('chart.depth'),
-        depth_title: I18n.t('chart.depth_title')
-      },
-      place_order: {
-        confirm_submit: I18n.t('private.markets.show.confirm'),
-        confirm_cancel: I18n.t('private.markets.show.cancel_confirm'),
-        price: I18n.t('private.markets.place_order.price'),
-        volume: I18n.t('private.markets.place_order.amount'),
-        sum: I18n.t('private.markets.place_order.total'),
-        price_high: I18n.t('private.markets.place_order.price_high'),
-        price_low: I18n.t('private.markets.place_order.price_low'),
-        price_min_limit: I18n.t('private.markets.place_order.price_min_limit'),
-        price_fixed: I18n.t('private.markets.place_order.price_fixed'),
-        full_bid: I18n.t('private.markets.place_order.full_bid'),
-        full_ask: I18n.t('private.markets.place_order.full_ask')
-      },
-      trade_state: {
-        new: I18n.t('private.markets.trade_state.new'),
-        partial: I18n.t('private.markets.trade_state.partial'),
-        loan_available: I18n.t('private.markets.trade_state.loan_available')
-      },
-      place_loan: {
-        confirm_submit: I18n.t('private.loan_markets.show.confirm'),
-        confirm_cancel: I18n.t('private.loan_markets.show.cancel_confirm'),
-        confirm_update: I18n.t('private.loan_markets.show.update_confirm'),
-        rate: I18n.t('private.loan_markets.show.rate'),
-        lending_balance: I18n.t('private.loan_markets.lending_balance')
-      },
-      position: {
-          short: I18n.t('private.margin_markets.open_positions.short'),
-          long: I18n.t('private.margin_markets.open_positions.long'),
-          prompt_close: I18n.t('private.margin_markets.open_positions.prompt_close'),
-          invalid_value: I18n.t('private.margin_markets.open_positions.invalid_value'),
-          empty_value: I18n.t('private.margin_markets.open_positions.empty_value'),
-          amount_close: I18n.t('private.margin_markets.open_positions.amount_close'),
-          confirm_close: I18n.t('private.margin_markets.open_positions.confirm_close'),
-          balance: I18n.t('private.margin_markets.open_positions.balance')
-      }
-    }
-
-    gon.currencies = Currency.all.inject({}) do |memo, currency|
-      memo[currency.code] = {
-        code: currency[:code],
-        symbol: currency[:symbol],
-        isCoin: currency.coin?
-      }
-      memo
-    end
-
-    gon.fiat_currency = Currency.first.code
-
-    gon.tickers = {}
-    Market.all.each do |market|
-      gon.tickers[market.id] = market.unit_info.merge(Global[market.id].ticker)
-    end
-
-    if current_user
-      gon.current_user = { sn: current_user.sn }
-      gon.accounts = current_user.accounts.inject({}) do |memo, account|
-        memo[account.currency] = {
-          currency: account.currency,
-          balance: account.balance,
-          locked: account.locked
-        } if account.currency_obj.try(:visible)
-        memo
-      end
-      gon.lending_accounts = current_user.lending_accounts.inject({}) do |memo, account|
-        memo[account.currency] = {
-            currency: account.currency,
-            balance: account.balance,
-            locked: account.locked
-        } if account.currency_obj.try(:visible)
-        memo
-      end
-    end
   end
 
   def coin_rpc_connection_refused

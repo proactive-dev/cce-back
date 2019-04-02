@@ -7,12 +7,15 @@
   precision: 8
   base_factor: 100_000_000
   quick_withdraw_max: 0
+  min_confirm: 1
+  max_confirm: 3
   api_client: BTC
   rpc: http://btc:btc@0.0.0.0:8332
   info_url: https://coinmarketcap.com/currencies/bitcoin
   blockchain: https://blockchain.com/btc/tx/#{txid}
   address_url: https://blockchain.com/btc/address/#{address}
   case_sensitive: true
+  deposit: {fee: 0, min_amount: 0.0001}
   withdraw: {fee: 0, min_amount: 0.0050}
 
 - id: 3
@@ -24,12 +27,15 @@
   precision: 8
   base_factor: 1_000_000_000_000_000_000
   quick_withdraw_max: 0
+  min_confirm: 1
+  max_confirm: 3
   api_client: ETH
   rpc: http://0.0.0.0:8545
   info_url: https://coinmarketcap.com/currencies/ethereum
   blockchain: https://etherscan.io/tx/#{txid}
   address_url: https://etherscan.io/address/#{address}
   case_sensitive: false
+  deposit: {fee: 0, min_amount: 0.0001}
   withdraw: {fee: 0, min_amount: 0.0050}
 
 - id: 4
@@ -41,12 +47,15 @@
   precision: 8
   base_factor: 100_000_000
   quick_withdraw_max: 0
+  min_confirm: 1
+  max_confirm: 3
   api_client: BTC
   rpc: http://ltc:ltc@0.0.0.0:9332
   info_url: https://coinmarketcap.com/currencies/litecoin
   blockchain: http://explorer.litecoin.net/tx/#{txid}
   address_url: http://explorer.litecoin.net/address/#{address}
   case_sensitive: true
+  deposit: {fee: 0, min_amount: 0.0001}
   withdraw: {fee: 0, min_amount: 0.0050}
 
 - id: 5
@@ -58,6 +67,8 @@
   precision: 8
   base_factor: 100_000_000
   quick_withdraw_max: 0
+  min_confirm: 1
+  max_confirm: 3
   erc20_contract_address: '0x4af328c52921706dcb739f25786210499169afe6'
   api_client: ERC20
   rpc: http://0.0.0.0:8545
@@ -65,6 +76,7 @@
   blockchain: https://etherscan.io/tx/#{txid}
   address_url: https://etherscan.io/token/0x4af328c52921706dcb739f25786210499169afe6?a={address}
   case_sensitive: false
+  deposit: {fee: 0, min_amount: 0.0001}
   withdraw: {fee: 0, min_amount: 0.0050}
 
 - id: 6
@@ -76,6 +88,8 @@
   precision: 8
   base_factor: 100_000_000
   quick_withdraw_max: 0
+  min_confirm: 1
+  max_confirm: 3
   erc20_contract_address: '0xf355164187e533b1969b4de46737c4e8bc9ae7e2'
   api_client: ERC20
   rpc: http://0.0.0.0:8545
@@ -83,4 +97,5 @@
   blockchain: https://etherscan.io/tx/#{txid}
   address_url: https://etherscan.io/token/0xf355164187e533b1969b4de46737c4e8bc9ae7e2?a={address}
   case_sensitive: false
+  deposit: {fee: 0, min_amount: 0.0001}
   withdraw: {fee: 0, min_amount: 0.0050}
