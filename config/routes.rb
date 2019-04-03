@@ -65,18 +65,14 @@ Exchange::Application.routes.draw do
 
     resources :fund_sources, only: [:index, :create, :update, :destroy]
 
-    resources :funds, only: [:index, :withdraws, :deposits] do
+    resources :funds, only: [:withdraws, :deposits] do
       collection do
-        post :gen_address
-
         get  :withdraws
         get  :deposits
       end
     end
 
-    resources 'deposits/:currency', controller: 'deposits', as: 'deposit', only: %i[ destroy ] do
-      collection { post 'gen_address' }
-    end
+    resources 'deposits/:currency', controller: 'deposits', as: 'deposit', only: %i[ destroy ]
 
     resources 'withdraws/:currency', controller: 'withdraws', as: 'withdraw', only: %i[ create destroy ]
 
