@@ -27,6 +27,8 @@ class Account < ActiveRecord::Base
   # relationship at account side. (Daniel)
   belongs_to :default_withdraw_fund_source_id, class_name: 'FundSource'
 
+  after_create  :touch_address
+
   validates :member_id, uniqueness: { scope: :currency }
   validates_numericality_of :balance, :locked, greater_than_or_equal_to: ZERO
 
@@ -34,6 +36,10 @@ class Account < ActiveRecord::Base
 
   def payment_address
     payment_addresses.last || payment_addresses.create(currency: self.currency)
+  end
+
+  def touch_address
+    payment_addresses.create(currency: self.currency) unless currency_obj.erc20?
   end
 
   def self.after(*names)
@@ -159,7 +165,7 @@ class Account < ActiveRecord::Base
   def as_json(options = {})
     super(options).merge({
       # check if there is a useable address, but don't touch it to create the address now.
-      "deposit_address" => payment_addresses.empty? ? "" : payment_address.deposit_address,
+      "deposit_address" => payment_addresses.empty? ? "" : payment_address.address,
       "name_text" => currency_obj.name_text,
       "default_withdraw_fund_source_id" => default_withdraw_fund_source_id,
       "tag" => payment_addresses.empty? ? "" : payment_address.tag
