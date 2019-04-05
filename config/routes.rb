@@ -86,8 +86,6 @@ Exchange::Application.routes.draw do
       end
     end
 
-    resources :exchange_assets, :controller => 'assets'
-
     get '/affiliates' => 'affiliates#index', as: :affiliates
     post '/affiliates/new', to: 'affiliates#gen_affiliate_code', as: :new_affiliate
 

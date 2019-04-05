@@ -12,11 +12,5 @@ module Private
         head 422
       end
     end
-
-    private
-
-    def currency
-      @currency ||= Currency.find_by_code(params[:currency])
-    end
   end
 end

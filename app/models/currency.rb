@@ -14,7 +14,7 @@ class Currency < ActiveYamlBase
   end
 
   def self.codes
-    @keys ||= all.map &:code
+    @codes ||= all.map &:code
   end
 
   def self.ids
@@ -89,13 +89,12 @@ class Currency < ActiveYamlBase
   end
 
   def quick_withdraw_max
-    @quick_withdraw_max ||= BigDecimal.new self[:quick_withdraw_max].to_s
+    @quick_withdraw_max ||= BigDecimal.new(self.withdraw['quick_max'], 8)
   end
 
   def as_json(options = {})
     {
         id: id,
-        key: key,
         name: name,
         code: code,
         symbol: symbol,

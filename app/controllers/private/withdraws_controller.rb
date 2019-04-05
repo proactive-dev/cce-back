@@ -31,10 +31,6 @@ module Private
 
     private
 
-    def currency
-      @currency ||= Currency.find_by_code(params[:withdraw][:currency])
-    end
-
     def withdraw_params
       params[:withdraw][:member_id] = current_user.id
       params.require(:withdraw).permit(:fund_source, :member_id, :currency, :sum)
