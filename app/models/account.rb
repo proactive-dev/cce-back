@@ -35,7 +35,15 @@ class Account < ActiveRecord::Base
   scope :enabled, -> { where("currency in (?)", Currency.ids) }
 
   def payment_address
-    payment_addresses.last || payment_addresses.create(currency: self.currency)
+    p_address = if currency_obj.erc20?
+                  account = member.get_account('eth')
+                  account.payment_addresses.last || account.touch_address
+                else
+                  payment_addresses.last || touch_address
+                end
+
+    p_address.gen_address if p_address.address.blank?
+    p_address
   end
 
   def touch_address

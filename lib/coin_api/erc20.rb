@@ -29,7 +29,7 @@ module CoinAPI
     def load_balance!
       total = 0
 
-      PaymentAddress.where(currency: currency.id).each do |a|
+      PaymentAddress.where(currency: Currency.find_by_code('eth').id).each do |a|
         begin
           next if a.address.nil?
 

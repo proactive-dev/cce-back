@@ -12,8 +12,6 @@ class PaymentTransaction < ActiveRecord::Base
 
   has_one :deposit
   belongs_to :payment_address, touch: true
-  has_one :account, through: :payment_address
-  has_one :member, through: :account
 
   aasm :whiny_transitions => false do
     state :unconfirm, initial: true
@@ -56,7 +54,7 @@ class PaymentTransaction < ActiveRecord::Base
         txid:                   self.txid,
         txout:                  self.txout,
         amount:                 self.amount,
-        member:                 self.member,
+        member:                 self.payment_address.account.member,
         currency:               self.currency,
         confirmations:          self.confirmations
 

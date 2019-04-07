@@ -18,7 +18,10 @@ class PaymentAddress < ActiveRecord::Base
   end
 
   def self.get_with(currency, entry)
-    case currency.code
+    if currency.erc20?
+      PaymentAddress.find_by(currency: Currency.find_by_code('eth').id, address: entry[:address])
+    else
+      case currency.code
       when 'xrp'
         PaymentAddress.find_by(currency: currency.id, address: entry[:address], tag: entry[:tag])
       else
