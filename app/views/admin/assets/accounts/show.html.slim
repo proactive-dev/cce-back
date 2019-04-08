@@ -3,7 +3,7 @@
     .panel-heading
       span = t('.transfer_to')
     .panel-body
-      = form_tag admin_assets_payment_address_path, :class => 'form form-horizontal', method: :get do |f|
+      = form_tag admin_assets_account_path, :class => 'form form-horizontal', method: :get do |f|
         .col-xs-2.text-right = label_tag :label_to_address, 'To', :class => 'string required control-label'
         .col-xs-12 = select_tag :to_address, options_from_collection_for_select(@proofs, 'address', 'address'), :class => 'string required form-control'
         .col-xs-2.text-right = label_tag :label_amount, 'Amount', :class => 'string required control-label'
@@ -14,13 +14,15 @@
     .panel-heading
       span = t('.user_address')
     .panel-body
-      = description_for :payment_address do
-        = item_for @payment_address, :currency
-        = item_for @payment_address, :address
-        = item_for @payment_address, :balance
+      = description_for :account do
+        = item_for @account, :currency
+        = item_for @account, :address do
+          span = @account.payment_address.address
+        = item_for @account, :balance do
+          span = @account.real_balance
 
 .row
   .col-xs-12
-    = render partial: 'shared/admin/member', locals: {member: @payment_address.account.member}
+    = render partial: 'shared/admin/member', locals: {member: @account.member}
   .col-xs-12
-    = render partial: 'shared/admin/account', locals: {account: @payment_address.account}
+    = render partial: 'shared/admin/account', locals: {account: @account}

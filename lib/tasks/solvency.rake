@@ -16,7 +16,6 @@ namespace :solvency do
 
       puts "Generating ERC20 addresses .."
       Currency.all.each do |currency|
-        next if currency.fiat?
         next unless currency.erc20?
 
         Proof.create!(currency: currency.code, address: eth_proof.address, secret: eth_proof.secret, details: eth_proof.details)
@@ -44,17 +43,16 @@ namespace :solvency do
 
   desc "Sync balances of payment_addresses."
   task :sync_balance => :environment do
-    PaymentAddress.all.each do |payment_address|
+    Account.all.each do |account|
       begin
-        next if payment_address.address.blank? || payment_address.currency_obj.nil?
+        next if account.payment_address.blank? || account.payment_address.address.blank? || account.currency_obj.nil?
 
-        balance = payment_address.currency_obj.api.load_balance_of!(payment_address.address)
-        payment_address.update! balance: balance
+        balance = account.currency_obj.api.load_balance_of!(account.payment_address.address)
+        account.update! real_balance: balance
       rescue => e
         puts e.inspect
       end
     end
-
     puts "Complete."
   end
 

@@ -8,6 +8,7 @@ module Admin
       can :read, Order
       can :read, Trade
       can :read, Proof
+      can :read, Account
       can :read, PaymentAddress
       can :manage, Document
       can :manage, Member

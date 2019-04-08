@@ -24,7 +24,7 @@ namespace :admin do
 
   namespace :assets do
     resources :proofs
-    resources :payment_addresses
+    resources :accounts
   end
 
   resources 'deposits/:currency', controller: 'deposits', as: 'deposit', :only => [:index, :update]
