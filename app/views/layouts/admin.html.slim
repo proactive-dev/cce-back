@@ -62,6 +62,10 @@ html lang="en"
                 = link_to t(".menus.sections.history"), admin_lending_history_path
 
           - if can? :manage, Member
+            li class = check_active('referral')
+              = link_to t("referral"), admin_referrals_path
+
+          - if can? :manage, Member
             li class = check_active('members')
               = link_to t(".menus.sections.members"), admin_members_path
 

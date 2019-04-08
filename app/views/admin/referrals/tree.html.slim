@@ -1,0 +1,9 @@
+.row
+  .col-xs-24
+    .panel.panel-info
+      .panel-heading
+        = @type.capitalize
+      .panel-body
+        #tree data-tree='#{@data.to_json}'
+
+= javascript_include_tag 'admin/referral_tree'

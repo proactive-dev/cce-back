@@ -1672,6 +1672,19 @@ zh-CN:
         actions_title: 操作
         accounts_title: 账户信息
         account_versions_title: 账户记录
+    referrals:
+      index:
+        search: 搜索
+        members: 用户列表
+        email: 邮箱地址
+        name: 姓名
+        phone: 手机号码
+        wallet_address: 钱包地址
+      show:
+        member_title: 用户信息
+        actions_title: 操作
+        accounts_title: 账户信息
+        account_versions_title: 账户记录
     dashboard:
       index:
         accounts_title: 账户汇总

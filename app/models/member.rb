@@ -362,6 +362,38 @@ class Member < ActiveRecord::Base
 
   end
 
+  def ref_uplines_admin
+    uplines = [{parent: referrer.email, name: email, attributes: nil}]
+    referrers.each do |member|
+      tier = get_tier(member.id)
+      commission = (ENV["REFERRAL_MAX_TIER"].to_i - tier) * ENV["REFERRAL_RATE_STEP"].to_d
+      rewards = {}
+      Currency.all.each do |currency|
+        amount = referrals.blank? ? 0 : referrals.amount_sum(currency.code)
+        rewards[currency.code.upcase] = amount * commission if amount > 0
+      end
+      parent = member.referrer.blank? ? nil : member.referrer.email
+      uplines << {parent: parent, name: member.email, attributes: rewards}
+    end
+    uplines
+  end
+
+  def ref_downlines_admin
+    downlines = [{parent: nil, name: email, attributes: nil}]
+    all_referees.each do |referee|
+      tier = referee.get_tier(self.id)
+      commission = (ENV["REFERRAL_MAX_TIER"].to_i - tier) * ENV["REFERRAL_RATE_STEP"].to_d
+      commissions = {}
+      Currency.all.each do |currency|
+        amount = referee.referrals.blank? ? 0 : referee.referrals.amount_sum(currency.code)
+        paid = amount * commission
+        commissions[currency.code.upcase] = paid if amount > 0
+      end
+      downlines << {parent: referee.referrer.email, name: referee.email, attributes: commissions}
+    end
+    downlines
+  end
+
   def identity
     authentication = authentications.find_by(provider: 'identity')
     authentication ? Identity.find(authentication.uid) : nil

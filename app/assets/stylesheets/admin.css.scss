@@ -94,3 +94,23 @@ span.detail-section {
     }
   }
 }
+
+.node path {
+  fill: #fff;
+  stroke: #000;
+  stroke-width: 1px;
+}
+
+.node text {
+  font: 12px sans-serif;
+}
+
+.node rect {
+  fill: #fff;
+}
+
+.link {
+  fill: none;
+  stroke: #ccc;
+  stroke-width: 1px;
+}

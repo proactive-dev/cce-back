@@ -1606,6 +1606,19 @@ en:
         actions_title: Action
         accounts_title: Account Information
         account_versions_title: Records
+    referrals:
+      index:
+        search: Search
+        members: Members
+        email: Email
+        name: Name
+        phone: Phone Number
+        wallet_address: Wallet Address
+      show:
+        member_title: User Information
+        actions_title: Action
+        accounts_title: Account Information
+        account_versions_title: Records
     dashboard:
       index:
         accounts_title: Account Summary

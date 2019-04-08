@@ -21,6 +21,9 @@ namespace :admin do
     resources :two_factors, only: [:destroy]
   end
 
+  resources :referrals, only: [:index, :show]
+  get 'referrals/:id/:type', to: 'referrals#tree'
+
   namespace :assets do
     resources :proofs
     resources :payment_addresses
