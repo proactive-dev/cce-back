@@ -81,9 +81,6 @@ Exchange::Application.routes.draw do
       end
     end
 
-    get '/affiliates' => 'affiliates#index', as: :affiliates
-    post '/affiliates/new', to: 'affiliates#gen_affiliate_code', as: :new_affiliate
-
     resources :move_funds, only: [:create]
 
     get '/history/orders' => 'history#orders', as: :order_history
