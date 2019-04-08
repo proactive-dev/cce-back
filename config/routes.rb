@@ -60,20 +60,16 @@ Exchange::Application.routes.draw do
 
     resources :fund_sources, only: [:index, :create, :update, :destroy]
 
-    resources :funds, only: [:index, :withdraws, :deposits] do
+    resources :funds, only: [:withdraws, :deposits] do
       collection do
-        post :gen_address
-
         get  :withdraws
         get  :deposits
       end
     end
 
-    namespace :withdraws do
-      Withdraw.descendants.each do |w|
-        resources w.resource_name
-      end
-    end
+    resources 'deposits/:currency', controller: 'deposits', as: 'deposit', only: %i[ destroy ]
+
+    resources 'withdraws/:currency', controller: 'withdraws', as: 'withdraw', only: %i[ create destroy ]
 
     resources :account_versions, :only => :index
     resources :accounts, :only => :index
@@ -85,7 +81,8 @@ Exchange::Application.routes.draw do
       end
     end
 
-    resources :exchange_assets, :controller => 'assets'
+    get '/affiliates' => 'affiliates#index', as: :affiliates
+    post '/affiliates/new', to: 'affiliates#gen_affiliate_code', as: :new_affiliate
 
     resources :move_funds, only: [:create]
 
