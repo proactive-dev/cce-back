@@ -138,39 +138,13 @@ en:
         country: Country
         phone_number: Phone Number
         otp: Verify Code
-      withdraws/bank:
-        id: ID
-        member_name: Member
-        currency_obj_key_text: Currency
-        state_and_actions: State/Action
-        fund_source: Bank
-        fund_extra: Bank
-        fund_extra_text: Bank
-        fund_uid: Bank Account
-        sum: Amount
-        fee: Fee
-        amount: Amount
-        remark: Remark
-        created_at: Created At
-      deposits/bank:
-        created_at: Created At
-        holder: Holder
-        fund_extra: Sender Bank
-        fund_uid: Sender Account
-        member_sn: Member SN
-        member_name: Sender Name
-        amount: Amount
-        sn: SN
-        state_and_action: State/Action
-        label: Label
-        fund_source: Fund Source
-      deposits/satoshi:
+      deposits:
         created_at: Created At
         txid: Transaction ID
         amount: Amount
         confirmations: Confirmation
         aasm_state_text: State
-      withdraws/satoshi:
+      withdraws:
         id: ID
         member_name: Account
         currency_obj_key_text: Currency
@@ -349,7 +323,6 @@ en:
       columns:
         sn: SN
         created_at: At
-        channel_key_text: Channel
         fund_extra_text: Extra
         fund_uid: UID
         txid: TXID
@@ -362,7 +335,6 @@ en:
       columns:
         sn: SN
         created_at: At
-        channel_key_text: Category
         fund_extra_text: Bank
         fund_uid: Account
         amount: Amount
@@ -467,13 +439,6 @@ en:
         state: State
         created_at: Created at
   deposit_channel:
-    dollar:
-      key: Dollar
-      title: Dollar Deposits
-      intro: Dollar deposits, recommend for large recharge
-      latency: 10 minutes
-      transfer: Manual
-      go: Deposit
     satoshi:
       key: Bitcoin
       title: Bitcoin Deposits
@@ -520,36 +485,8 @@ en:
       warning: Warning
   private:
     deposits:
-      satoshis:
-        gen_address:
-          require_transaction: it can't generate new address if it hasn't been used.
-      ethereums:
-        gen_address:
-          require_transaction: it can't generate new address if it hasn't been used.
-      litecoins:
-        gen_address:
-          require_transaction: it can't generate new address if it hasn't been used.
-      sakurablooms:
-        gen_address:
-          require_transaction: it can't generate new address if it hasn't been used.
-      masoyamacoins:
-        gen_address:
-          require_transaction: it can't generate new address if it hasn't been used.
-      banks:
-        destroy:
-          notice: Revocation request is successful.
-        create:
-          notice: Recharge request successfully submitted. Use the info below to complete the bank transfer.
-          submit: Submit
-        new:
-          fund_source: Select Fund Source
-          manage_fund_source: Manage Fund Source
-          submit: Submit
-        edit:
-          bank: Receive Bank Name
-          branch: Receive Bank Branch
-          hodler: Receive holder
-          account: Receive Account
+      gen_address:
+        require_transaction: it can't generate new address if it hasn't been used.
     history:
       transaction:
         Deposit: Deposit
@@ -563,7 +500,6 @@ en:
         type: type
         timestamp: date and time
         fee: fee
-        currency: Currency
         amount: Amount
         txid: Txid
       orders:
@@ -1543,49 +1479,11 @@ en:
           member_name: Account
   admin:
     deposits:
-      dollars:
-        index:
-          oneday: Requests in the last 24 hours
-          available: All Pending Requests
-        show:
-          alert: Recharge cannot be located.
-          notice: The recharge have been successful.
-          deposit: Deposit Request
-          accept: Accept
-          target_deposit: Wire Transfer
-          confirm: Confirm recharge?
-        update:
-          blank_txid: TxID can't be blank
-      satoshis:
-        update:
-          notice: The deposit was successful.
-        index:
-          accept: Accept
-          accept_confirm: Confirm deposit?
-      ethereums:
-        update:
-          notice: The deposit was successful.
-        index:
-          accept: Accept
-          accept_confirm: Confirm deposit?
-      litecoins:
-        update:
-          notice: The deposit was successful.
-        index:
-          accept: Accept
-          accept_confirm: Confirm deposit?
-      sakurablooms:
-        update:
-          notice: The deposit was successful.
-        index:
-          accept: Accept
-          accept_confirm: Confirm deposit?
-      masoyamacoins:
-        update:
-          notice: The deposit was successful.
-        index:
-          accept: Accept
-          accept_confirm: Confirm deposit?
+      update:
+        notice: The deposit was successful.
+      index:
+        accept: Accept
+        accept_confirm: Confirm deposit?
     tickets:
       view: View
       close: Close Ticket
@@ -1691,117 +1589,23 @@ en:
           amount: Total Amount
           fee: Fee
     withdraws:
-      dollars:
-        index:
-          one: Pending withdrawal Orders
-          all: Twenty-four hours Orders
-          empty: No Data
-        show:
-          process: Process
-          succeed: Succeed
-          reject: Reject
-          succeed_confirm: Confirm Process?
-          reject_confirm: Confirm Reject?
-          withdraw: Withdraw
-          empty: No Data
-      satoshis:
-        index:
-          one: Pending withdrawals
-          all: Last 24 hours
-          empty: No data
-        show:
-          process: Process
-          succeed: Withdraw
-          reject: Reject
-          succeed_confirm: Process withdrawal?
-          reject_confirm: Reject withdrawal?
-          withdraw: Withdrawals
-        destroy:
-          notice: Withdraw been canceled, frozen balance has returned to your account
-        update:
-          notice: Withdraw request is submit successful, we will process it as soon as possible
-          alert_two_factor: Two-Factor Authentication error
-      ethereums:
-        index:
-          one: Pending withdrawals
-          all: Last 24 hours
-          empty: No data
-        show:
-          process: Process
-          succeed: Withdraw
-          reject: Reject
-          succeed_confirm: Process withdrawal?
-          reject_confirm: Reject withdrawal?
-          withdraw: Withdrawals
-        update:
-          notice: Withdraw was made
-      litecoins:
-        index:
-          one: Pending withdrawals
-          all: Last 24 hours
-          empty: No data
-        show:
-          process: Process
-          succeed: Withdraw
-          reject: Reject
-          succeed_confirm: Process withdrawal?
-          reject_confirm: Reject withdrawal?
-          withdraw: Withdrawals
-        update:
-          notice: Withdraw was made
-      sakurablooms:
-        index:
-          one: Pending withdrawals
-          all: Last 24 hours
-          empty: No data
-        show:
-          process: Process
-          succeed: Withdraw
-          reject: Reject
-          succeed_confirm: Process withdrawal?
-          reject_confirm: Reject withdrawal?
-          withdraw: Withdrawals
-        update:
-          notice: Withdraw was made
-      masoyamacoins:
-        index:
-          one: Pending withdrawals
-          all: Last 24 hours
-          empty: No data
-        show:
-          process: Process
-          succeed: Withdraw
-          reject: Reject
-          succeed_confirm: Process withdrawal?
-          reject_confirm: Reject withdrawal?
-          withdraw: Withdrawals
-        update:
-          notice: Withdraw was made
-  deposits/satoshi:
-    aasm_state:
-      submitted: Submitted
-      accepted: Accepted
-      checked: Checked
-      warning: Warning
-  deposits/ethereum:
-    aasm_state:
-      submitted: Submitted
-      accepted: Accepted
-      checked: Checked
-      warning: Warning
-  deposits/litecoin:
-    aasm_state:
-      submitted: Submitted
-      accepted: Accepted
-      checked: Checked
-      warning: Warning
-  deposits/sakurabloom:
-    aasm_state:
-      submitted: Submitted
-      accepted: Accepted
-      checked: Checked
-      warning: Warning
-  deposits/masoyamacoin:
+      index:
+        one: Pending withdrawals
+        all: Last 24 hours
+        empty: No data
+      show:
+        process: Process
+        succeed: Withdraw
+        reject: Reject
+        succeed_confirm: Process withdrawal?
+        reject_confirm: Reject withdrawal?
+        withdraw: Withdrawals
+      destroy:
+        notice: Withdraw been canceled, frozen balance has returned to your account
+      update:
+        notice: Withdraw request is submit successful, we will process it as soon as possible
+        alert_two_factor: Two-Factor Authentication error
+  deposits:
     aasm_state:
       submitted: Submitted
       accepted: Accepted
@@ -1851,55 +1655,13 @@ en:
         destroy:
           notice: Application revoked.
   easy_table:
-    dollar:
-      sn: SN
-      amount: Amount
-      created_at: At
-      fund_source: Fund Source
-      memo: Memo
-      member_name: Member
-      state_and_actions: State/Action
-      currency_obj_key_text: Currency
-    satoshi:
-      amount: Amount
-      txid: TxID
-      created_at: Created At
-      confirmations: Confirmations
-      member_name: Member
-      state_and_actions: State/Actions
-      currency_obj_key_text: Currency
-    ethereum:
-      amount: Amount
-      txid: TxId
-      created_at: Created At
-      confirmations: Confirmations
-      member_name: Member
-      state_and_actions: State/Actions
-      currency_obj_key_text: Currency
-    litecoin:
-      amount: Amount
-      txid: TxId
-      created_at: Created At
-      confirmations: Confirmations
-      member_name: Member
-      state_and_actions: State/Actions
-      currency_obj_key_text: Currency
-    sakurabloom:
-      amount: Amount
-      txid: TxId
-      created_at: Created At
-      confirmations: Confirmations
-      member_name: Member
-      state_and_actions: State/Actions
-      currency_obj_key_text: Currency
-    masoyamacoin:
-      amount: Amount
-      txid: TxId
-      created_at: Created At
-      confirmations: Confirmations
-      member_name: Member
-      state_and_actions: State/Actions
-      currency_obj_key_text: Currency
+    amount: Amount
+    txid: TxID
+    created_at: Created At
+    confirmations: Confirmations
+    member_name: Member
+    state_and_actions: State/Actions
+    currency_obj_key_text: Currency
   enumerize:
     account_version:
       reason:
@@ -2451,49 +2213,6 @@ en:
           already_activated: You phone number has been activated.
         alert:
           phone_number_error: phone number error
-  withdraw_channel:
-    dollar:
-      key: Dollar
-      title: Dollar Withdraw
-      intro: Dollar Withdraw, Recommend for large recharge
-      latency: 30 minutes
-      transfer: Manual
-      go: Withdraw
-    satoshi:
-      key: Bitcoin
-      title: Bitcoin Withdraw
-      intro: Withdraw Bitcoin to your own Bitcoin wallet
-      latency: 30 minutes
-      transfer: Manual
-      go: Withdraw
-    ethereum:
-      key: Ethereum
-      title: Ethereum Withdraw
-      intro: Withdraw Ethereum to your own Ethereum wallet
-      latency: 30 minutes
-      transfer: Manual
-      go: Withdraw
-    litecoin:
-      key: Litecoin
-      title: Litecoin Withdraw
-      intro: Withdraw Litecoin to your own Litecoin wallet
-      latency: 30 minutes
-      transfer: Manual
-      go: Withdraw
-    sakurabloom:
-      key: Sakurabloom
-      title: Sakurabloom Withdraw
-      intro: Withdraw Sakurabloom to your own Sakurabloom wallet
-      latency: 30 minutes
-      transfer: Manual
-      go: Withdraw
-    masoyamacoin:
-      key: Masoyamacoin
-      title: Masoyamacoin Withdraw
-      intro: Withdraw Masoyamacoin to your own Masoyamacoin wallet
-      latency: 30 minutes
-      transfer: Manual
-      go: Withdraw
   withdraws:
     invalid_address: is not valid. You can not withdraw to this address.
   withdraws/dollar:

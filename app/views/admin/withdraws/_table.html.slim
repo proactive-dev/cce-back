@@ -1,0 +1,14 @@
+= table_for(withdraws, class: 'table table-condensed table-hover', model: Withdraw) do |t|
+  - t.column :id, class: 'col-xs-2'
+  - t.column :created_at, class: 'col-xs-3'
+  - t.column :currency, class: 'col-xs-2' do |x|
+    = x.currency_obj.name
+  - t.column :member, class: 'col-xs-3' do |x|
+    = link_to x.member_name, url_for([:admin, x.member]), target: '_blank'
+  - t.column :fund_source, class: 'col-xs-6' do |x|
+    span #{x.fund_extra} # #{x.fund_uid.truncate(22)}
+  - t.column :amount, class: 'col-xs-3' do |x|
+    code.text-info = x.amount
+  - t.column :state_and_action, class: 'col-xs-3' do |x|
+    span = "#{x.aasm_state_text} / "
+    = link_to t("actions.view"), admin_withdraw_path(x.currency_obj.id, x.id), target: '_blank'

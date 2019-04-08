@@ -44,6 +44,7 @@ ActiveRecord::Schema.define(version: 20190310020500) do
     t.decimal  "in",                              precision: 32, scale: 16
     t.decimal  "out",                             precision: 32, scale: 16
     t.integer  "default_withdraw_fund_source_id"
+    t.decimal  "real_balance",                    precision: 32, scale: 16, default: 0.0, null: false
   end
 
   add_index "accounts", ["member_id", "currency"], name: "index_accounts_on_member_id_and_currency", using: :btree
@@ -155,7 +156,6 @@ ActiveRecord::Schema.define(version: 20190310020500) do
     t.datetime "updated_at"
     t.datetime "done_at"
     t.string   "confirmations"
-    t.string   "type"
     t.integer  "payment_transaction_id"
     t.integer  "txout"
   end
@@ -390,9 +390,8 @@ ActiveRecord::Schema.define(version: 20190310020500) do
     t.datetime "updated_at"
     t.integer  "currency"
     t.string   "secret"
-    t.string   "details",                              default: "{}"
+    t.string   "details",    default: "{}"
     t.string   "tag"
-    t.decimal  "balance",    precision: 32, scale: 16, default: 0.0,  null: false
   end
 
   create_table "payment_transactions", force: true do |t|
@@ -632,7 +631,6 @@ ActiveRecord::Schema.define(version: 20190310020500) do
     t.string   "txid"
     t.string   "aasm_state"
     t.decimal  "sum",        precision: 32, scale: 16, default: 0.0, null: false
-    t.string   "type"
     t.string   "fund_tag"
   end
 

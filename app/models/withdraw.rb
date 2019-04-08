@@ -8,6 +8,9 @@ class Withdraw < ActiveRecord::Base
   include AASM
   include AASM::Locking
   include Currencible
+  # added when removing Withdraws::{CoinName}
+  include Withdraws::Coinable
+  include FundSourceable
 
   has_paper_trail on: [:update, :destroy]
 
@@ -18,8 +21,6 @@ class Withdraw < ActiveRecord::Base
   has_many :account_versions, as: :modifiable
 
   delegate :balance, to: :account, prefix: true
-  delegate :key_text, to: :channel, prefix: true
-  delegate :id, to: :channel, prefix: true
   delegate :name, to: :member, prefix: true
   delegate :coin?, :fiat?, to: :currency_obj
 
@@ -42,18 +43,6 @@ class Withdraw < ActiveRecord::Base
 
   scope :completed, -> { where aasm_state: COMPLETED_STATES }
   scope :not_completed, -> { where.not aasm_state: COMPLETED_STATES }
-
-  def self.channel
-    WithdrawChannel.find_by_key(name.demodulize.underscore)
-  end
-
-  def channel
-    self.class.channel
-  end
-
-  def channel_name
-    channel.key
-  end
 
   alias_attribute :withdraw_id, :sn
   alias_attribute :full_name, :member_name
@@ -212,15 +201,9 @@ class Withdraw < ActiveRecord::Base
   end
 
   def calc_fee
-    set_fee
-
     self.sum ||= 0.0
-    self.fee ||= 0.0
+    self.fee = sum * currency_obj.withdraw['fee'] || 0
     self.amount = sum - fee
-  end
-
-  def set_fee
-    self.fee = channel.fee
   end
 
   def set_account

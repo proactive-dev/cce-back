@@ -10,7 +10,7 @@ module CoinAPI
     end
 
     def load_balance_of!(address)
-      json_rpc(:getbalance, [""]).fetch('result').to_d
+      json_rpc(:getbalance).fetch('result').to_d
     end
 
     def each_deposit!(options = {})

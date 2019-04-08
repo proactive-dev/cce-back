@@ -3,7 +3,6 @@ namespace :admin do
 
   resources :documents
   resources :id_documents,     only: [:index, :show, :update]
-  resource  :currency_deposit, only: [:new, :create]
   resources :markets, only: [:index]
   resources :tickets, only: [:index, :show] do
     member do
@@ -26,20 +25,11 @@ namespace :admin do
 
   namespace :assets do
     resources :proofs
-    resources :payment_addresses
+    resources :accounts
   end
 
-  namespace :deposits do
-    Deposit.descendants.each do |d|
-      resources d.resource_name
-    end
-  end
-
-  namespace :withdraws do
-    Withdraw.descendants.each do |w|
-      resources w.resource_name
-    end
-  end
+  resources 'deposits/:currency', controller: 'deposits', as: 'deposit', :only => [:index, :update]
+  resources 'withdraws/:currency', controller: 'withdraws', as: 'withdraw'
 
   namespace :lending do
     resources :loans, :only => [:index, :destroy]

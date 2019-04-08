@@ -8,18 +8,14 @@ module Deposits
       belongs_to :payment_transaction
     end
 
-    def channel
-      @channel ||= DepositChannel.find_by_key(self.class.name.demodulize.underscore)
-    end
-
     def min_confirm?(confirmations)
       update_confirmations(confirmations)
-      confirmations >= channel.min_confirm && confirmations < channel.max_confirm
+      confirmations >= currency_obj.min_confirm && confirmations < currency_obj.max_confirm
     end
 
     def max_confirm?(confirmations)
       update_confirmations(confirmations)
-      confirmations >= channel.max_confirm
+      confirmations >= currency_obj.max_confirm
     end
 
     def update_confirmations(confirmations)
