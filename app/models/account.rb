@@ -39,6 +39,9 @@ class Account < ActiveRecord::Base
     p_address = if currency_obj.erc20?
                   account = member.get_account('eth')
                   account.payment_addresses.last || account.touch_address
+                elsif currency_obj.neo_gas_or_nep5?
+                  account = member.get_account('neo')
+                  account.payment_addresses.last || account.touch_address
                 else
                   payment_addresses.last || touch_address
                 end
@@ -48,7 +51,7 @@ class Account < ActiveRecord::Base
   end
 
   def touch_address
-    payment_addresses.create(currency: self.currency) unless currency_obj.erc20?
+    payment_addresses.create(currency: self.currency) unless (currency_obj.erc20? || currency_obj.neo_gas_or_nep5?)
   end
 
   def self.after(*names)

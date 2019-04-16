@@ -54,6 +54,10 @@ class Currency < ActiveYamlBase
     api_client.casecmp('ERC20').zero?
   end
 
+  def neo_gas_or_nep5?
+    api_client.casecmp('NEP5').zero? || code.casecmp('gas').zero?
+  end
+
   def balance_cache_key
     "exchange:hotwallet:#{code}:balance"
   end

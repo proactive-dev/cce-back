@@ -8,7 +8,7 @@ module Worker
 
       acc.payment_address.tap do |pa|
         pa.with_lock do
-          next if pa.address.present? || acc.currency_obj.erc20?
+          next if pa.address.present? || acc.currency_obj.erc20? || acc.currency_obj.neo_gas_or_nep5?
 
           options = acc.currency == 'xrp' ? { is_admin: acc.member.admin? } : {}
           result =  CoinAPI[acc.currency].new_address!(options)
