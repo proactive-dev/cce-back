@@ -30,3 +30,7 @@ end
 every 1.day, :at => '4:00 pm' do
   rake 'solvency:sync_balance'
 end
+
+every 1.day, :at => '3:00 pm' do
+  rake 'coin:claim_neo_gas'
+end

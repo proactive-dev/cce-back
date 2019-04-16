@@ -14,6 +14,7 @@ class Account < ActiveRecord::Base
   WITHDRAW_UNLOCK = :withdraw_unlock
   DEPOSIT = :deposit
   WITHDRAW = :withdraw
+  CLAIM_GAS = :claim_gas
   REFERRAL = :referral
   ZERO = 0.to_d
 
