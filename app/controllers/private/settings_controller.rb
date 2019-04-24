@@ -12,7 +12,7 @@ module Private
           tfa_status: current_user.app_two_factor.activated?,
           is_admin: current_user.admin?,
           tags: current_user.tag_list,
-          signup_histories: current_user.signup_histories.last(10)
+          logins: current_user.signup_histories.last(10)
       }
 
       render json: data.to_json, status: :ok
