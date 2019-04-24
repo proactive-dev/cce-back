@@ -15,8 +15,8 @@ module Private
     def show
       @market        = current_market
 
-      @bids = @market.bids.present? ? @market.bids.first(10) : []
-      @asks = @market.asks.present? ? @market.asks.last(10) : []
+      @bids = @market.bids.present? ? @market.bids.first(40) : []
+      @asks = @market.asks.present? ? @market.asks.last(40) : []
       # @trades = @market.trades
 
       set_member_data if current_user
