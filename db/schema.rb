@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190310020500) do
+ActiveRecord::Schema.define(version: 20190420020000) do
 
   create_table "account_versions", force: true do |t|
     t.integer  "member_id"
@@ -216,8 +216,10 @@ ActiveRecord::Schema.define(version: 20190310020500) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.date     "birth_date"
+    t.integer  "gender",             default: 1
     t.text     "address"
     t.string   "city"
+    t.string   "state"
     t.string   "country"
     t.string   "zipcode"
     t.integer  "id_bill_type"
