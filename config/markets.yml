@@ -33,7 +33,7 @@
   bid: {fee: 0, currency: btc, fixed: 8}
   ask: {fee: 0, currency: skb, fixed: 8}
   sort_order: 1
-  margin: {initial: 40, maintenance: 20}
+  margin: true
   #visible: false     # default to true
 
 - id: masbtc
@@ -45,7 +45,7 @@
   bid: {fee: 0, currency: btc, fixed: 8}
   ask: {fee: 0, currency: mas, fixed: 8}
   sort_order: 1
-  margin: {initial: 40, maintenance: 20}
+  margin: true
   #visible: false     # default to true
 
 - id: ltceth

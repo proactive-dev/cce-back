@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190420020000) do
+ActiveRecord::Schema.define(version: 20190420050000) do
 
   create_table "account_versions", force: true do |t|
     t.integer  "member_id"
@@ -487,6 +487,11 @@ ActiveRecord::Schema.define(version: 20190420020000) do
 
   add_index "running_accounts", ["member_id"], name: "index_running_accounts_on_member_id", using: :btree
   add_index "running_accounts", ["source_id", "source_type"], name: "index_running_accounts_on_source_id_and_source_type", using: :btree
+
+  create_table "settings", force: true do |t|
+    t.integer "maintenance_margin", limit: 1, default: 20, null: false
+    t.integer "initial_margin",     limit: 1, default: 40, null: false
+  end
 
   create_table "signup_histories", force: true do |t|
     t.integer  "member_id"
