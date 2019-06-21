@@ -13,9 +13,9 @@ html lang="en"
           li class = check_active('dashboard')
             = link_to t('header.dashboard'), main_app.admin_dashboard_path
 
-          - if can? :manage, Document
-            li class = check_active(Document)
-              = link_to t(".menus.items.operating.documents"), admin_documents_path
+          / - if can? :manage, Document
+          /   li class = check_active(Document)
+          /     = link_to t(".menus.items.operating.documents"), admin_documents_path
 
           - if can? :manage, IdDocument
             li class = check_active('id_documents')
@@ -30,6 +30,10 @@ html lang="en"
                 = link_to t(".menus.items.operating.proofs"), admin_assets_proofs_path
               li class = check_active(PaymentAddress)
                 = link_to t(".menus.items.operating.payment_addresses"), admin_assets_accounts_path
+
+          - if can? :manage, Setting
+            li class = check_active('settings')
+              = link_to 'Settings', admin_settings_path
 
           - if can? :menu, Deposit
             li.dropdown class = check_active('deposits')
