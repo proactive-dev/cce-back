@@ -1,4 +1,5 @@
 class Member < ActiveRecord::Base
+  extend Enumerize
   acts_as_taggable
   acts_as_reader
 
@@ -20,6 +21,7 @@ class Member < ActiveRecord::Base
   has_many :signup_histories
 
   has_one :id_document
+  enumerize :level, in: Level.enumerize
 
   has_many :authentications, dependent: :destroy
 
@@ -185,6 +187,29 @@ class Member < ActiveRecord::Base
 
   def initial?
     name? and !name.empty?
+  end
+
+  def level_obj
+    Level.find level
+  end
+
+  def get_trade_fee(currency, amount, is_maker)
+    fee_config = is_maker ? level_obj.maker : level_obj.taker
+
+    if commission_status
+      fee = amount * fee_config.holding / 100
+      fee_estimation = Global.estimate(currency, level_obj.holding.currency, fee)
+      if fee_estimation != 0 && fee_account.balance > fee_estimation
+        return [0, fee_estimation]
+      end
+    end
+
+    fee = amount * fee_config.normal / 100
+    [fee, 0]
+  end
+
+  def fee_account
+    get_account(level_obj.holding.currency)
   end
 
   def get_account(currency)
