@@ -189,6 +189,37 @@ class Member < ActiveRecord::Base
     name? and !name.empty?
   end
 
+  def calculate_trade_volume(trade_unit, trade_list)
+    trade_amount = Hash.new {|h, k| h[k] = 0}
+    trade_list.each do |trade|
+      quote_unit = trade.currency.bid["currency"]
+      trade_amount[quote_unit] += trade.funds
+    end
+    total_volume = 0
+    trade_amount.each do |key, value|
+      if key == trade_unit
+        total_volume += value
+      else
+        total_volume += Global.estimate(key, trade_unit, value)
+      end
+    end
+  end
+
+  def calculate_level
+    total_trade_volume = calculate_trade_volume(level_obj.trade.currency, trades.d30)
+
+    level = 0
+    Level.all.each do |level_config|
+      unless (total_trade_volume >= level_config.trade.amount) && (fee_account.balance >= level_config.holding.amount)
+        level = level_config.id - 1
+        break
+      end
+    end
+
+    self.level = level
+    self.save!
+  end
+
   def level_obj
     Level.find level
   end

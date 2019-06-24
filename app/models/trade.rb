@@ -16,6 +16,7 @@ class Trade < ActiveRecord::Base
   validates_presence_of :price, :volume, :funds
 
   scope :h24, -> {where("created_at > ?", 24.hours.ago)}
+  scope :d30, -> {where("created_at > ?", 30.days.ago)}
 
   attr_accessor :side
 

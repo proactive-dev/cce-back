@@ -20,7 +20,11 @@
 # Learn more: http://github.com/javan/whenever
 
 every '0 4 9 * *' do
-  rake 'affilate:check_status'
+  rake 'member:affiliate'
+end
+
+every 1.day, :at => '0:00 am' do
+  rake 'member:cal_level'
 end
 
 every 5.minutes do
