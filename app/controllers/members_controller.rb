@@ -13,7 +13,7 @@ class MembersController < ApplicationController
         tfa_status: current_user.app_two_factor.activated?,
         is_admin: current_user.admin?,
         commission_status: current_user.commission_status,
-        level: current_user.level,
+        level: current_user.level_obj.key,
         logins: current_user.signup_histories.last(10)
     }
 

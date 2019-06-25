@@ -206,11 +206,11 @@ class Member < ActiveRecord::Base
   end
 
   def calculate_level
-    total_trade_volume = calculate_trade_volume(level_obj.trade.currency, trades.d30)
+    total_trade_volume = calculate_trade_volume(level_obj.trade['currency'], trades.d30)
 
     level = 0
     Level.all.each do |level_config|
-      unless (total_trade_volume >= level_config.trade.amount) && (fee_account.balance >= level_config.holding.amount)
+      unless (total_trade_volume >= level_config.trade['amount']) && (fee_account.balance >= level_config.holding['amount'])
         level = level_config.id - 1
         break
       end
@@ -228,19 +228,19 @@ class Member < ActiveRecord::Base
     fee_config = is_maker ? level_obj.maker : level_obj.taker
 
     if commission_status
-      fee = amount * fee_config.holding / 100
-      fee_estimation = Global.estimate(currency, level_obj.holding.currency, fee)
+      fee = amount * fee_config['holding'] / 100
+      fee_estimation = Global.estimate(currency, level_obj.holding['currency'], fee)
       if fee_estimation != 0 && fee_account.balance > fee_estimation
         return [0, fee_estimation]
       end
     end
 
-    fee = amount * fee_config.normal / 100
+    fee = amount * fee_config['normal'] / 100
     [fee, 0]
   end
 
   def fee_account
-    get_account(level_obj.holding.currency)
+    get_account(level_obj.holding['currency'])
   end
 
   def get_account(currency)
