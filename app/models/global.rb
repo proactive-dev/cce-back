@@ -15,11 +15,11 @@ class Global
         price = 1
       else
         mkt_id = "#{base_unit}#{quote_unit}"
-        if Market.find(mkt_id).present?
+        if Market.find_by_id(mkt_id).present?
           price = Global[mkt_id].ticker[:last]
         else
           mkt_id = "#{quote_unit}#{base_unit}"
-          if Market.find(mkt_id).present?
+          if Market.find_by_id(mkt_id).present?
             price = Global[mkt_id].ticker[:last]
             if price != 0
               price = 1 / price
