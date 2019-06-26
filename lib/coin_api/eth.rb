@@ -127,7 +127,7 @@ module CoinAPI
                            else
                              latest_block_number
                            end
-      # current_block_number = 6_462_400 if currency.code == 'skb' || currency.code == 'eth'
+      # current_block_number = 6_462_400 if currency.code == 'ngo' || currency.code == 'eth'
       # Rails.logger.info "current_#{currency.code}_block_number: #{current_block_number}"
       while current_block_number <= limit_block_number
         begin

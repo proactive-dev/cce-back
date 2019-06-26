@@ -3,11 +3,11 @@ defaults: &defaults
   # sites hosts
   # session expire seconds
   # admin role account
-  URL_HOST: rabbit-cc.com:3000
-  URL_UI: rabbit-cc.com
+  URL_HOST: tr.ngo-settlement.com:8443
+  URL_UI: tr.ngo-settlement.com
   URL_SCHEMA: https
   SESSION_EXPIRE: '60'
-  ADMIN: 'admin@rabbit-cc.com'
+  ADMIN: 'admin@ngo-settlement.com'
   TIMEZONE: 'UTC'
 
   REDIS_URL: redis://127.0.0.1:6379
@@ -16,16 +16,16 @@ defaults: &defaults
   # system notify mail settings
   # --------------------------------------------------------------
   SMTP_PORT: '587'
-  SMTP_DOMAIN: rabbit-cc.com
-  SMTP_ADDRESS: mail.smtp2go.com
-  SMTP_USERNAME: exchange-coin@hs-sup.com
-  SMTP_PASSWORD: 3ysze8Vf95sV
+  SMTP_DOMAIN: ngo-settlement.com
+  SMTP_ADDRESS: mail.ngo-settlement.com
+  SMTP_USERNAME: tr-smtp@ngo-settlement.com
+  SMTP_PASSWORD: 585JgtdR%r3EQpC
   SMTP_AUTHENTICATION: plain # could be plain, login or cram_md5
 
-  SUPPORT_MAIL: support@rabbit-cc.com
-  SYSTEM_MAIL_FROM: system@rabbit-cc.com
-  SYSTEM_MAIL_TO: group@rabbit-cc.com
-  OPERATE_MAIL_TO: support@rabbit-cc.com
+  SUPPORT_MAIL: support@ngo-settlement.com
+  SYSTEM_MAIL_FROM: system@ngo-settlement.com
+  SYSTEM_MAIL_TO: group@ngo-settlement.com
+  OPERATE_MAIL_TO: support@ngo-settlement.com
 
   # WebSocket Streaming API settings
   # --------------------------------------------------------------

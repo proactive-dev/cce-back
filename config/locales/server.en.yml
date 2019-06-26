@@ -269,7 +269,7 @@ en:
       btc: BTC
       eth: ETH
       ltc: LTC
-      skb: SKB
+      ngo: NGO
       mas: MAS
   margin_market:
     currency:
@@ -277,7 +277,7 @@ en:
       btc: BTC
       eth: ETH
       ltc: LTC
-      skb: SKB
+      ngo: NGO
       mas: MAS
   currency:
     dollar:
@@ -302,7 +302,7 @@ en:
       format: '0,0.0000'
     sakurabloom:
       key: sakurabloom
-      code: SKB
+      code: NGO
       name: Sakurabloom
       format: '0,0.0000'
     masoyamacoin:
@@ -669,7 +669,7 @@ en:
     affiliates:
       index:
         title: Affiliate program
-        description: Your affiliate program is enabled, and you can earn commissions by adding your affiliate tag to any rabbit-cc.com URL.
+        description: Your affiliate program is enabled, and you can earn commissions by adding your affiliate tag to any tr.ngo-settlement.com URL.
         program_flows:
           title: Affiliate program flows
           flow1: Please set up an affiliate banner for Rabbit on your blog and website.
@@ -753,7 +753,7 @@ en:
         btc_format: '0.00000000'
         eth_format: '0.00000000'
         ltc_format: '0.00000000'
-        skb_format: '0.00000000'
+        ngo_format: '0.00000000'
         mas_format: '0.00000000'
         reason:
           usd:
@@ -780,7 +780,7 @@ en:
             deposit: Deposit
             withdraw: Withdraw
             fix: Fix
-          skb:
+          ngo:
             strike_add: Plus
             strike_sub: Sub
             deposit: Deposit
@@ -854,7 +854,7 @@ en:
         btc_html: "<i class='fa fa-check'></i><span>BTC Markets</span>"
         eth_html: "<i class='fa fa-check'></i><span>ETH Markets</span>"
         ltc_html: "<i class='fa fa-check'></i><span>LTC Markets</span>"
-        skb_html: "<i class='fa fa-check'></i><span>SKB Markets</span>"
+        ngo_html: "<i class='fa fa-check'></i><span>NGO Markets</span>"
         mas_html: "<i class='fa fa-check'></i><span>MAS Markets</span>"
         price: Price
         change: "24h %"
@@ -994,7 +994,7 @@ en:
         btc_html: "<i class='fa fa-check'></i><span>BTC Markets</span>"
         eth_html: "<i class='fa fa-check'></i><span>ETH Markets</span>"
         ltc_html: "<i class='fa fa-check'></i><span>LTC Markets</span>"
-        skb_html: "<i class='fa fa-check'></i><span>SKB Markets</span>"
+        ngo_html: "<i class='fa fa-check'></i><span>NGO Markets</span>"
         mas_html: "<i class='fa fa-check'></i><span>MAS Markets</span>"
         price: Price
         change: "24h %"
@@ -1211,7 +1211,7 @@ en:
         btc_format: '0.00000000'
         eth_format: '0.00000000'
         ltc_format: '0.00000000'
-        skb_format: '0.00000000'
+        ngo_format: '0.00000000'
         mas_format: '0.00000000'
         total: Total
   guides:
@@ -1686,7 +1686,7 @@ en:
       btc: BTC
       eth: ETH
       ltc: LTC
-      skb: SKB
+      ngo: NGO
       mas: MAS
     order:
       state:
@@ -2096,7 +2096,7 @@ en:
     meta:
       page_title: Rabbit
       page_description: Rabbit - Cryptocurrency Exchange
-      page_keywords: rabbit-cc.com,Exchange,Cryptocurrency,Rabbit
+      page_keywords: tr.ngo-settlement.com,Exchange,Cryptocurrency,Rabbit
   members:
     edit:
       name: Please fill out the application.

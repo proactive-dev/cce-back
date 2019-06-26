@@ -27,7 +27,7 @@ en:
         btc: BTC
         eth: ETH
         ltc: LTC
-        skb: SKB
+        ngo: NGO
         mas: MAS
       deposit_usd:
         title: US Dollar Deposit
@@ -55,8 +55,8 @@ en:
         title: ETH Deposit
       deposit_ltc:
         title: LTC Deposit
-      deposit_skb:
-        title: SKB Deposit
+      deposit_ngo:
+        title: NGO Deposit
       deposit_mas:
         title: MAS Deposit
       deposit_coin:
@@ -107,8 +107,8 @@ en:
         title: ETH Withdraw
       withdraw_ltc:
         title: LTC Withdraw
-      withdraw_skb:
-        title: SKB Withdraw
+      withdraw_ngo:
+        title: NGO Withdraw
       withdraw_mas:
         title: MAS Withdraw
       withdraw_coin:
@@ -163,5 +163,5 @@ en:
         btc: BTC Market
         eth: ETH Market
         ltc: LTC Market
-        skb: SKB Market
+        ngo: NGO Market
         mas: MAS Market

@@ -32,7 +32,7 @@ zh-CN:
         btc: BTC
         eth: ETH
         ltc: LTC
-        skb: SKB
+        ngo: NGO
         mas: MAS
       deposit_cny:
         title: 人民币充值
@@ -59,8 +59,8 @@ zh-CN:
         title: ETH充值
       deposit_ltc:
         title: LTC充值
-      deposit_skb:
-        title: SKB充值
+      deposit_ngo:
+        title: NGO充值
       deposit_mas:
         title: MAS充值
       deposit_coin:
@@ -110,8 +110,8 @@ zh-CN:
         title: ETH提现
       withdraw_ltc:
         title: LTC提现
-      withdraw_skb:
-        title: SKB提现
+      withdraw_ngo:
+        title: NGO提现
       withdraw_mas:
         title: MAS提现
       withdraw_coin:
@@ -166,5 +166,5 @@ zh-CN:
         btc: BTC交易对
         eth: ETH交易对
         ltc: LTC交易对
-        skb: SKB交易对
+        ngo: NGO交易对
         mas: MAS交易对

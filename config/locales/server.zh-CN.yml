@@ -275,7 +275,7 @@ zh-CN:
       btc: BTC
       eth: ETH
       ltc: LTC
-      skb: SKB
+      ngo: NGO
       mas: MAS
   margin_market:
     currency:
@@ -283,7 +283,7 @@ zh-CN:
       btc: BTC
       eth: ETH
       ltc: LTC
-      skb: SKB
+      ngo: NGO
       mas: MAS
   currency:
     dollar:
@@ -308,7 +308,7 @@ zh-CN:
       format: '0,0.0000'
     sakurabloom:
       key: sakurabloom
-      code: SKB
+      code: NGO
       name: Sakurabloom
       format: '0,0.0000'
     masoyamacoin:
@@ -697,7 +697,7 @@ zh-CN:
     affiliates:
       index:
         title: 联盟计划
-        description: 您的加盟计划已经启用。可以通过添加您的代销商标签到任何 rabbit-cc.com 的URL.
+        description: 您的加盟计划已经启用。可以通过添加您的代销商标签到任何 tr.ngo-settlement.com 的URL.
         program_flows:
           title: Affiliate program flows
           flow1: Please set up an affiliate banner for Rabbit on your blog and website.
@@ -779,7 +779,7 @@ zh-CN:
         btc_format: '0.00000000'
         eth_format: '0.00000000'
         ltc_format: '0.00000000'
-        skb_format: '0.00000000'
+        ngo_format: '0.00000000'
         mas_format: '0.00000000'
         reason:
           usd:
@@ -806,7 +806,7 @@ zh-CN:
             deposit: 充值
             withdraw: 提现
             fix: 系统修正
-          skb:
+          ngo:
             strike_add: 成交买入
             strike_sub: 成交卖出
             deposit: 充值
@@ -881,7 +881,7 @@ zh-CN:
         btc_html: "<i class='fa fa-check'></i><span>BTC交易对</span>"
         eth_html: "<i class='fa fa-check'></i><span>ETH交易对</span>"
         ltc_html: "<i class='fa fa-check'></i><span>LTC交易对</span>"
-        skb_html: "<i class='fa fa-check'></i><span>SKB交易对</span>"
+        ngo_html: "<i class='fa fa-check'></i><span>NGO交易对</span>"
         mas_html: "<i class='fa fa-check'></i><span>MAS交易对</span>"
         price: 最新价
         change: "24h涨跌"
@@ -1021,7 +1021,7 @@ zh-CN:
         btc_html: "<i class='fa fa-check'></i><span>BTC交易对</span>"
         eth_html: "<i class='fa fa-check'></i><span>ETH交易对</span>"
         ltc_html: "<i class='fa fa-check'></i><span>LTC交易对</span>"
-        skb_html: "<i class='fa fa-check'></i><span>SKB交易对</span>"
+        ngo_html: "<i class='fa fa-check'></i><span>NGO交易对</span>"
         mas_html: "<i class='fa fa-check'></i><span>MAS交易对</span>"
         price: 最新价
         change: "24h涨跌"
@@ -1269,7 +1269,7 @@ zh-CN:
         btc_format: '0.00000000'
         eth_format: '0.00000000'
         ltc_format: '0.00000000'
-        skb_format: '0.00000000'
+        ngo_format: '0.00000000'
         mas_format: '0.00000000'
         total: 总额合计
   guides:
@@ -1752,7 +1752,7 @@ zh-CN:
       btc: BTC
       eth: ETH
       ltc: LTC
-      skb: SKB
+      ngo: NGO
       mas: MAS
     order:
       state:
@@ -1803,7 +1803,7 @@ zh-CN:
       truncate: "..."
   mailer:
     dear_user: 您好,
-    signature: rabbit-cc.com团队
+    signature: tr.ngo-settlement.com团队
     please_contact: 如果此次登录不是您本人操作，请马上<a href="mailto:%{contact_mail}">联系我们</a>。
     footer: 此邮件由系统自动发出，请勿直接回复。 有问题请<a href="mailto:%{contact_mail}">联系我们</a>。
   comment_mailer:
@@ -2164,7 +2164,7 @@ zh-CN:
     meta:
       page_title: Rabbit
       page_description: Rabbit - Cryptocurrency Exchange
-      page_keywords: rabbit-cc.com,Exchange,Cryptocurrency,Rabbit
+      page_keywords: tr.ngo-settlement.com,Exchange,Cryptocurrency,Rabbit
   members:
     edit:
       name: 为了保障资金安全，请填写您的真实姓名等信息。

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190411011530) do
+ActiveRecord::Schema.define(version: 20190421020510) do
 
   create_table "account_versions", force: true do |t|
     t.integer  "member_id"
@@ -207,8 +207,10 @@ ActiveRecord::Schema.define(version: 20190411011530) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.date     "birth_date"
+    t.integer  "gender",             default: 1
     t.text     "address"
     t.string   "city"
+    t.string   "state"
     t.string   "country"
     t.string   "zipcode"
     t.integer  "id_bill_type"
@@ -274,11 +276,13 @@ ActiveRecord::Schema.define(version: 20190411011530) do
     t.boolean  "activated"
     t.integer  "country_code"
     t.string   "phone_number"
-    t.boolean  "disabled",     default: false
-    t.boolean  "api_disabled", default: false
+    t.boolean  "disabled",                    default: false
+    t.boolean  "api_disabled",                default: false
     t.string   "nickname"
     t.integer  "referrer_id"
-    t.string   "referrer_ids", default: "--- []\n"
+    t.string   "referrer_ids",                default: "--- []\n"
+    t.integer  "level",             limit: 1, default: 0,          null: false
+    t.boolean  "commission_status",           default: false,      null: false
   end
 
   create_table "oauth_access_grants", force: true do |t|
@@ -492,6 +496,11 @@ ActiveRecord::Schema.define(version: 20190411011530) do
 
   add_index "running_accounts", ["member_id"], name: "index_running_accounts_on_member_id", using: :btree
   add_index "running_accounts", ["source_id", "source_type"], name: "index_running_accounts_on_source_id_and_source_type", using: :btree
+
+  create_table "settings", force: true do |t|
+    t.integer "maintenance_margin", limit: 1, default: 20, null: false
+    t.integer "initial_margin",     limit: 1, default: 40, null: false
+  end
 
   create_table "signup_histories", force: true do |t|
     t.integer  "member_id"

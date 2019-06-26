@@ -13,9 +13,9 @@ BACKUP_CONFIG=config_$DATE.tar.gz
 
 MYSQL_USER=root
 MYSQL_PASSWORD=admin
-DB_NAME=rabbit-cc_production
+DB_NAME=ngo-settlement_production
 
-BUCKET=rabbit-cc
+BUCKET=ngo-settlement
 S3_KEY=$BUCKET/backups/
 
 # DB backup

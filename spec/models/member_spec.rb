@@ -39,7 +39,7 @@ describe Member do
     let(:auth_hash) {
       {
         'provider' => 'identity',
-        'info' => { 'email' => 'foobar@rabbit-cc.com' }
+        'info' => { 'email' => 'foobar@ngo-settlement.com' }
       }
     }
 
