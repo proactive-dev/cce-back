@@ -9,6 +9,7 @@ class Account < ActiveRecord::Base
   STRIKE_UNLOCK = :strike_unlock
   ORDER_CANCEL = :order_cancel
   ORDER_SUBMIT = :order_submit
+  ORDER_FAIL = :order_fail
   ORDER_FULLFILLED = :order_fullfilled
   WITHDRAW_LOCK = :withdraw_lock
   WITHDRAW_UNLOCK = :withdraw_unlock
@@ -29,14 +30,15 @@ class Account < ActiveRecord::Base
   # relationship at account side. (Daniel)
   belongs_to :default_withdraw_fund_source_id, class_name: 'FundSource'
 
-  after_create  :touch_address
+  after_create :touch_address
 
-  validates :member_id, uniqueness: { scope: :currency }
+  validates :member_id, uniqueness: {scope: :currency}
   validates_numericality_of :balance, :locked, greater_than_or_equal_to: ZERO
 
-  scope :enabled, -> { where("currency in (?)", Currency.ids) }
+  scope :enabled, -> {where("currency in (?)", Currency.ids)}
 
   def payment_address
+    return nil unless currency_obj.coin?
     p_address = if currency_obj.erc20?
                   account = member.get_account('eth')
                   account.payment_addresses.last || account.touch_address
@@ -52,6 +54,7 @@ class Account < ActiveRecord::Base
   end
 
   def touch_address
+    return unless currency_obj.coin?
     payment_addresses.create(currency: self.currency) unless (currency_obj.erc20? || currency_obj.neo_gas_or_nep5?)
   end
 
@@ -90,7 +93,7 @@ class Account < ActiveRecord::Base
     raise AccountError, "cannot unlock and subtract funds (amount: #{amount})" if ((amount <= 0) or (amount > locked))
     raise LockedError, "invalid lock amount" unless locked
     raise LockedError, "invalid lock amount (amount: #{amount}, locked: #{locked}, self.locked: #{self.locked})" if ((locked <= 0) or (locked > self.locked))
-    change_balance_and_locked locked-amount, -locked
+    change_balance_and_locked locked - amount, -locked
   end
 
   after(*FUNS.keys) do |account, fun, changed, opts|
@@ -99,13 +102,13 @@ class Account < ActiveRecord::Base
       fee = opts[:fee] || ZERO
       reason = opts[:reason] || Account::UNKNOWN
 
-      attributes = { fun: fun,
-                     fee: fee,
-                     reason: reason,
-                     amount: account.amount,
-                     currency: account.currency.to_sym,
-                     member_id: account.member_id,
-                     account_id: account.id }
+      attributes = {fun: fun,
+                    fee: fee,
+                    reason: reason,
+                    amount: account.amount,
+                    currency: account.currency.to_sym,
+                    member_id: account.member_id,
+                    account_id: account.id}
 
       if opts[:ref] and opts[:ref].respond_to?(:id)
         ref_klass = opts[:ref].class
@@ -130,15 +133,20 @@ class Account < ActiveRecord::Base
     raise AccountError, "invalid account operation" unless FUNS.keys.include?(fun)
 
     case fun
-    when :sub_funds then [ZERO, ZERO - amount]
-    when :plus_funds then [ZERO, amount]
-    when :lock_funds then [amount, ZERO - amount]
-    when :unlock_funds then [ZERO - amount, amount]
+    when :sub_funds then
+      [ZERO, ZERO - amount]
+    when :plus_funds then
+      [ZERO, amount]
+    when :lock_funds then
+      [amount, ZERO - amount]
+    when :unlock_funds then
+      [ZERO - amount, amount]
     when :unlock_and_sub_funds
       locked = ZERO - opts[:locked]
       balance = opts[:locked] - amount
       [locked, balance]
-    else raise AccountError, "forbidden account operation"
+    else
+      raise AccountError, "forbidden account operation"
     end
   end
 
@@ -162,51 +170,46 @@ class Account < ActiveRecord::Base
 
   def change_balance_and_locked(delta_b, delta_l)
     self.balance += delta_b
-    self.locked  += delta_l
+    self.locked += delta_l
     self.class.connection.execute "update accounts set balance = balance + #{delta_b}, locked = locked + #{delta_l} where id = #{id}"
     add_to_transaction
     self
   end
 
-  scope :locked_sum, -> (currency) { with_currency(currency).sum(:locked) }
-  scope :balance_sum, -> (currency) { with_currency(currency).sum(:balance) }
+  scope :locked_sum, -> (currency) {with_currency(currency).sum(:locked)}
+  scope :balance_sum, -> (currency) {with_currency(currency).sum(:balance)}
 
-  class AccountError < RuntimeError; end
-  class LockedError < AccountError; end
-  class BalanceError < AccountError; end
+  class AccountError < RuntimeError;
+  end
+  class LockedError < AccountError;
+  end
+  class BalanceError < AccountError;
+  end
 
   def as_json(options = {})
     super(options).merge({
-      # check if there is a useable address, but don't touch it to create the address now.
-      "deposit_address" => payment_addresses.empty? ? "" : payment_address.address,
-      "name_text" => currency_obj.name_text,
-      "default_withdraw_fund_source_id" => default_withdraw_fund_source_id,
-      "tag" => payment_addresses.empty? ? "" : payment_address.tag
-    })
+                             # check if there is a useable address, but don't touch it to create the address now.
+                             "deposit_address" => payment_addresses.empty? ? "" : payment_address.address,
+                             "name_text" => currency_obj.name_text,
+                             "default_withdraw_fund_source_id" => default_withdraw_fund_source_id,
+                             "tag" => payment_addresses.empty? ? "" : payment_address.tag
+                         })
   end
 
   def for_notify
     {
-        id:     id,
+        id: id,
         currency: currency_obj,
         balance: balance,
         locked: locked,
-        estimated: estimate_balance('btc'),
+        estimated: estimate_balance,
         payment_address: payment_address
     }
   end
 
   private
 
-  def estimate_balance(quote_unit)
-    base_unit = currency_obj.code
-    price = if base_unit == quote_unit
-              1
-            else
-              Global["#{base_unit}#{quote_unit}"].ticker[:last]
-            end
-
-    (self.balance + self.locked) * price
+  def estimate_balance(quote_unit = 'btc')
+    Global.estimate(currency_obj.code, quote_unit, self.balance + self.locked)
   end
-
 end

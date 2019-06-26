@@ -1,4 +1,5 @@
 class Member < ActiveRecord::Base
+  extend Enumerize
   acts_as_taggable
   acts_as_reader
 
@@ -21,6 +22,7 @@ class Member < ActiveRecord::Base
   has_many :signup_histories
 
   has_one :id_document
+  enumerize :level, in: Level.enumerize
 
   has_many :authentications, dependent: :destroy
 
@@ -28,12 +30,12 @@ class Member < ActiveRecord::Base
   has_many :referees, class_name: 'Member', foreign_key: :referrer_id
   serialize :referrer_ids, Array
 
-  scope :enabled, -> { where(disabled: false) }
+  scope :enabled, -> {where(disabled: false)}
 
   delegate :activated?, to: :two_factors, prefix: true, allow_nil: true
-  delegate :name,       to: :id_document, allow_nil: true
-  delegate :full_name,  to: :id_document, allow_nil: true
-  delegate :verified?,  to: :id_document, prefix: true, allow_nil: true
+  delegate :name, to: :id_document, allow_nil: true
+  delegate :full_name, to: :id_document, allow_nil: true
+  delegate :verified?, to: :id_document, prefix: true, allow_nil: true
 
   before_validation :sanitize, :generate_sn
 
@@ -42,9 +44,9 @@ class Member < ActiveRecord::Base
   validates :email, email: true, uniqueness: true, allow_nil: true
 
   before_create :build_default_id_document
-  after_create  :touch_accounts
-  after_create  :touch_margin_accounts
-  after_create  :touch_lending_accounts
+  after_create :touch_accounts
+  after_create :touch_margin_accounts
+  after_create :touch_lending_accounts
   after_update :resend_activation
 
   class << self
@@ -154,6 +156,60 @@ class Member < ActiveRecord::Base
     name? and !name.empty?
   end
 
+  def calculate_trade_volume(trade_unit, trade_list)
+    trade_amount = Hash.new {|h, k| h[k] = 0}
+    trade_list.each do |trade|
+      quote_unit = trade.currency.bid["currency"]
+      trade_amount[quote_unit] += trade.funds
+    end
+    total_volume = 0
+    trade_amount.each do |key, value|
+      if key == trade_unit
+        total_volume += value
+      else
+        total_volume += Global.estimate(key, trade_unit, value)
+      end
+    end
+  end
+
+  def calculate_level
+    total_trade_volume = calculate_trade_volume(level_obj.trade['currency'], trades.d30)
+
+    level = 0
+    Level.all.each do |level_config|
+      unless (total_trade_volume >= level_config.trade['amount']) && (fee_account.balance >= level_config.holding['amount'])
+        level = level_config.id - 1
+        break
+      end
+    end
+
+    self.level = level
+    self.save!
+  end
+
+  def level_obj
+    Level.find level
+  end
+
+  def get_trade_fee(currency, amount, is_maker)
+    fee_config = is_maker ? level_obj.maker : level_obj.taker
+
+    if commission_status
+      fee = amount * fee_config['holding'] / 100
+      fee_estimation = Global.estimate(currency, level_obj.holding['currency'], fee)
+      if fee_estimation != 0 && fee_account.balance > fee_estimation
+        return [0, fee_estimation]
+      end
+    end
+
+    fee = amount * fee_config['normal'] / 100
+    [fee, 0]
+  end
+
+  def fee_account
+    get_account(level_obj.holding['currency'])
+  end
+
   # Same function as 'referrers', but used recursive with only referrer_id.
   # You can test speed with referral task.
   def recur_referrers
@@ -206,6 +262,7 @@ class Member < ActiveRecord::Base
 
     account
   end
+
   alias :get_main_account :get_account
   alias :ac :get_account
 
@@ -239,14 +296,14 @@ class Member < ActiveRecord::Base
   end
 
   def touch_margin_accounts
-    less = Currency.codes - self.accounts.map(&:currency).map(&:to_sym)
+    less = Currency.coin_codes - self.margin_accounts.map(&:currency).map(&:to_sym)
     less.each do |code|
       self.margin_accounts.create(currency: code, balance: 0, locked: 0)
     end
   end
 
   def touch_lending_accounts
-    less = Currency.codes - self.accounts.map(&:currency).map(&:to_sym)
+    less = Currency.coin_codes - self.lending_accounts.map(&:currency).map(&:to_sym)
     less.each do |code|
       self.lending_accounts.create(currency: code, balance: 0, locked: 0)
     end
@@ -286,13 +343,13 @@ class Member < ActiveRecord::Base
                      end
 
     {
-      total_margin: total_margin,
-      unrealized_pnl: unrealized_pnl,
-      unrealized_lending_fee: -unrealized_lending_fee,
-      net_value: net_value,
-      total_borrowed: total_borrowed,
-      current_margin: current_margin,
-      quote_unit: quote_unit
+        total_margin: total_margin,
+        unrealized_pnl: unrealized_pnl,
+        unrealized_lending_fee: -unrealized_lending_fee,
+        net_value: net_value,
+        total_borrowed: total_borrowed,
+        current_margin: current_margin,
+        quote_unit: quote_unit
     }
   end
 
@@ -302,7 +359,7 @@ class Member < ActiveRecord::Base
   end
 
   def force_liquidation
-    positions.open.each { |position| position.complete_close }
+    positions.open.each {|position| position.complete_close}
   end
 
   def all_ref_commissions
@@ -444,11 +501,11 @@ class Member < ActiveRecord::Base
 
   def as_json(options = {})
     super(options).merge({
-      "name" => self.name,
-      "app_activated" => self.app_two_factor.activated?,
-      "sms_activated" => self.sms_two_factor.activated?,
-      "memo" => self.id
-    })
+                             "name" => self.name,
+                             "app_activated" => self.app_two_factor.activated?,
+                             "sms_activated" => self.sms_two_factor.activated?,
+                             "memo" => self.id
+                         })
   end
 
   private
