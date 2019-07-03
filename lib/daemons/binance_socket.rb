@@ -59,7 +59,7 @@ def process_ticker(data)
   market_id = data.fetch('s').downcase
   low = data.fetch('l').to_f
   high = data.fetch('h').to_f
-  # open = data.fetch('o').to_f
+  open = data.fetch('o').to_f
   volume = data.fetch('q').to_f
   # timestamp = data.fetch('E')
 
@@ -71,9 +71,10 @@ def process_ticker(data)
       last: last || ::Trade::ZERO
   }
   Rails.cache.write "exchange:#{market_id}:ticker", ticker
+  Rails.cache.write "exchange:#{market_id}:ticker:open", open
 
-  seconds  = Time.now.to_i
-  time_key = seconds - (seconds % 5)
+  # seconds  = Time.now.to_i
+  # time_key = seconds - (seconds % 5)
   # Rails.cache.write "exchange:#{market_id}:h24_volume:#{time_key}", volume, expires_in: 24.hours
   Rails.cache.write "exchange:#{market_id}:h24_volume:latest", volume, expires_in: 24.hours
 
