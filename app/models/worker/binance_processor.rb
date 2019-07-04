@@ -8,8 +8,6 @@ module Worker
 
       init_market_data
       fetch_trades
-      # fetch_my_trades
-
       Thread.new do
         loop do
           fetch_depth
@@ -27,16 +25,16 @@ module Worker
       data  = payload['data']
 
       case event
-        when 'depth_update'
-          market_id = data.fetch('market')
-          bids = data.fetch('bids')
-          asks = data.fetch('asks')
+      when 'depth_update'
+        market_id = data.fetch('market')
+        bids = data.fetch('bids')
+        asks = data.fetch('asks')
 
-          update_depth(market_id, bids, asks)
-        when 'trade'
-          process_trades(data)
-        else
-          raise ArgumentError, "Unknown event: #{event}"
+        update_depth(market_id, bids, asks)
+      when 'trade'
+        process_trades(data)
+      else
+        raise ArgumentError, "Unknown event: #{event}"
       end
     rescue
       Rails.logger.error "Failed to process payload: #{$!}"
@@ -112,7 +110,7 @@ module Worker
           created_at = Time.at(item.fetch('time')/1000)
 
           trade = Trade.new(id: id, price: price, volume: volume, funds: price*volume,
-                                currency: market.id.to_sym, created_at: created_at)
+                            currency: market.id.to_sym, created_at: created_at)
           @trades[market.id].unshift(trade.for_global)
         end
         Rails.cache.write "exchange:#{market.id}:trades", @trades[market.id]
@@ -129,32 +127,9 @@ module Worker
       price = data.fetch('p').to_f
       volume = data.fetch('q').to_f
       created_at = Time.at(data.fetch('T')/1000)
-      bid_id = data.fetch('b')
-      ask_id = data.fetch('a')
 
-      # check_trade and create trade and match order
-
-      trade_params = {price: price, volume: volume, funds: price*volume, currency: market_id.to_sym, created_at: created_at}
-
-      bid = Order.find_by(binance_id: bid_id)
-      ask = Order.find_by(binance_id: ask_id)
-
-      if bid.nil? && ask.nil?
-        trade = Trade.new(trade_params)
-      else
-        trade_params[:ask_id] = ask.id unless ask.nil?
-        trade_params[:ask_member_id] = ask.member_id unless ask.nil?
-        trade_params[:bid_id] = bid.id unless ask.nil?
-        trade_params[:bid_member_id] = bid.member_id unless bid.nil?
-
-        trade = Trade.create!(trade_params)
-        trade.binance_id = id unless id.nil?
-        trade.save!
-
-        bid.strike trade unless bid.nil?
-        ask.strike trade unless ask.nil?
-      end
-
+      trade_params = {id: id, price: price, volume: volume, funds: price * volume, currency: market_id.to_sym, created_at: created_at}
+      trade = Trade.new(trade_params)
       trades = @trades[market_id]
       trades.unshift(trade.for_global)
       trades.pop if trades.size > FRESH_TRADES
