@@ -7,7 +7,6 @@ module Worker
       @binance_api_client  = Binance::Client::REST.new
 
       init_market_data
-      fetch_trades
       Thread.new do
         loop do
           fetch_depth
@@ -32,7 +31,7 @@ module Worker
 
         update_depth(market_id, bids, asks)
       when 'trade'
-        process_trades(data)
+        process_trade(data)
       else
         raise ArgumentError, "Unknown event: #{event}"
       end
@@ -77,11 +76,13 @@ module Worker
       bids.each do |order|
         @bid_depth[market_id][order[0]] = order[1]
         @bid_depth[market_id].delete_if{|k, v| v.to_f == 0}
+        broadcast_order(market_id, 'bid', order[0], order[1])
       end
 
       asks.each do |order|
         @ask_depth[market_id][order[0]] = order[1]
         @ask_depth[market_id].delete_if{|k, v| v.to_f == 0}
+        broadcast_order(market_id, 'ask', order[0], order[1])
       end
     end
 
@@ -100,28 +101,12 @@ module Worker
       Rails.logger.error $!.backtrace.join("\n")
     end
 
-    def fetch_trades
-      Market.from_binance.each do |market|
-        data = @binance_api_client.trades symbol: market.id.upcase, limit: FRESH_TRADES
-        data.each do |item|
-          id = item.fetch('id')
-          price = item.fetch('price').to_f
-          volume = item.fetch('qty').to_f
-          created_at = Time.at(item.fetch('time')/1000)
-
-          trade = Trade.new(id: id, price: price, volume: volume, funds: price*volume,
-                            currency: market.id.to_sym, created_at: created_at)
-          @trades[market.id].unshift(trade.for_global)
-        end
-        Rails.cache.write "exchange:#{market.id}:trades", @trades[market.id]
-        Rails.cache.write "exchange:#{market.id}:ticker_last", @trades[market.id].last.try(:price) || ::Trade::ZERO
-      end
-    rescue
-      Rails.logger.error "Failed to get trades: #{$!}"
-      Rails.logger.error $!.backtrace.join("\n")
+    def broadcast_order(market, type, price, volume)
+      data = {action: 'none', order: {type: type, volume: volume, price: price, market: market}}
+      AMQPQueue.enqueue(:slave_book, data, {persistent: false})
     end
 
-    def process_trades(data)
+    def process_trade(data)
       market_id = data.fetch('s').downcase
       id = data.fetch('t')
       price = data.fetch('p').to_f
@@ -136,6 +121,7 @@ module Worker
 
       Rails.cache.write "exchange:#{market_id}:trades", trades
       Rails.cache.write "exchange:#{market_id}:ticker_last", price
+      AMQPQueue.publish(:trade, trade.for_notify, {headers: {trade: 'new'}})
     end
 
   end
