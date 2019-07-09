@@ -1,12 +1,12 @@
 module Private
   class WithdrawsController < BaseController
 
-    before_action :two_factor_activated!
+    # before_action :two_factor_activated!
 
     def create
       @withdraw = Withdraw.new(withdraw_params)
 
-      if two_factor_auth_verified?
+      # if two_factor_auth_verified?
         unless current_user.id_document and current_user.id_document_verified? and current_user.activated?
           withdraws_h24 = current_user.withdraws.done.h24
           if withdraws_h24.present?
@@ -25,9 +25,9 @@ module Private
         else
           render text: @withdraw.errors.full_messages.join(', '), status: 403
         end
-      else
-        render text: I18n.t('private.withdraws.create.two_factors_error'), status: 403
-      end
+      # else
+      #   render text: I18n.t('private.withdraws.create.two_factors_error'), status: 403
+      # end
     end
 
     def destroy
