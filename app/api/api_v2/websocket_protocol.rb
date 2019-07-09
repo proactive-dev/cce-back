@@ -29,7 +29,7 @@ module APIv2
       q.bind(x).subscribe do |metadata, payload|
         begin
           payload = JSON.parse payload
-          send :orderbook, payload['order']
+          send payload['order']['type'], payload['order']
         rescue
           @logger.error "Error on receiving orders: #{$!}"
           @logger.error $!.backtrace.join("\n")
