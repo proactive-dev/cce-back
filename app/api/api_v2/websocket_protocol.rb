@@ -7,33 +7,13 @@ module APIv2
       @logger = logger
     end
 
-    def challenge
-      @challenge = SecureRandom.urlsafe_base64(40)
-      send :challenge, @challenge
-    end
-
-    def handle(message)
-      @logger.debug message
-
-      message = JSON.parse(message)
-      key     = message.keys.first
-      data    = message[key]
-
-      case key.downcase
-      when 'auth'
-        access_key = data['access_key']
-        token = APIToken.where(access_key: access_key).includes(:member).first
-        result = verify_answer data['answer'], token
-
-        if result
-          subscribe_orders
-          subscribe_trades token.member
-          send :success, {message: "Authenticated."}
-        else
-          send :error, {message: "Authentication failed."}
-        end
-      else
+    def broadcast(path)
+      market_id = nil
+      if Market.find_by_id(path).present?
+        market_id = path
       end
+      subscribe_orders(market_id)
+      subscribe_trades(market_id)
     rescue
       @logger.error "Error on handling message: #{$!}"
       @logger.error $!.backtrace.join("\n")
@@ -43,22 +23,19 @@ module APIv2
 
     def send(method, data)
       payload = JSON.dump({method => data})
-      @logger.debug payload
+      # @logger.debug payload
       @socket.send payload
     end
 
-    def verify_answer(answer, token)
-      str = "#{token.access_key}#{@challenge}"
-      answer == OpenSSL::HMAC.hexdigest('SHA256', token.secret_key, str)
-    end
-
-    def subscribe_orders
+    def subscribe_orders(market_id = nil)
       x = @channel.send *AMQPConfig.exchange(:orderbook)
       q = @channel.queue '', auto_delete: true
       q.bind(x).subscribe do |metadata, payload|
         begin
           payload = JSON.parse payload
-          send :orderbook, payload
+          if market_id.blank? || (market_id.present? && payload['order']['market'] == market_id)
+            send payload['order']['type'], payload['order']
+          end
         rescue
           @logger.error "Error on receiving orders: #{$!}"
           @logger.error $!.backtrace.join("\n")
@@ -66,47 +43,22 @@ module APIv2
       end
     end
 
-    def subscribe_trades(member)
+    def subscribe_trades(market_id = nil)
       x = @channel.send *AMQPConfig.exchange(:trade)
       q = @channel.queue '', auto_delete: true
-      q.bind(x, arguments: {'ask_member_id' => member.id, 'bid_member_id' => member.id, 'x-match' => 'any'})
+      q.bind(x, arguments: {trade: 'new'})
       q.subscribe(ack: true) do |metadata, payload|
         begin
           payload = JSON.parse payload
-          trade   = Trade.find payload['id']
-
-          send :trade, serialize_trade(trade, member, metadata)
+          if market_id.blank? || (market_id.present? && payload['market'] == market_id)
+            send :trade, payload
+          end
         rescue
           @logger.error "Error on receiving trades: #{$!}"
           @logger.error $!.backtrace.join("\n")
         ensure
           metadata.ack
         end
-      end
-    end
-
-    def serialize_trade(trade, member, metadata)
-      side = trade_side(member, metadata.headers)
-      hash = ::APIv2::Entities::Trade.represent(trade, side: side).serializable_hash
-
-      if [:both, :ask].include?(side)
-        hash[:ask] = ::APIv2::Entities::Order.represent trade.ask
-      end
-
-      if [:both, :bid].include?(side)
-        hash[:bid] = ::APIv2::Entities::Order.represent trade.bid
-      end
-
-      hash
-    end
-
-    def trade_side(member, headers)
-      if headers['ask_member_id'] == headers['bid_member_id']
-        :both
-      elsif headers['ask_member_id'] == member.id
-        :ask
-      else
-        :bid
       end
     end
 
