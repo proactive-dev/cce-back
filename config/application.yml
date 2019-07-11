@@ -58,7 +58,7 @@ defaults: &defaults
   # withdraw h24 limit
   # --------------------------------------------------------------
   #
-  WITHDRAW_H24_LIMIT_AMOUNT: '2'
+  WITHDRAW_H24_LIMIT_AMOUNT: '1'
   WITHDRAW_H24_LIMIT_CURRENCY: 'btc'
 
   # referral settings
