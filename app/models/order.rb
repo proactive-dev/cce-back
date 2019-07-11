@@ -97,7 +97,7 @@ class Order < ActiveRecord::Base
     if member.referrer_ids.present?
       if real_fee_estimation != 0
         ref_amount = real_fee_estimation
-        ref_currency = fee_account.currency
+        ref_currency = member.fee_account.currency
       else
         ref_amount = real_fee
         ref_currency = expect_account.currency
