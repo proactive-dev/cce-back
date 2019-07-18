@@ -23,8 +23,8 @@ module APIv2
 
     private
 
-    def send(method, data)
-      payload = JSON.dump({method => data})
+    def send(method, market, data)
+      payload = JSON.dump({market: market, method => data})
       # @logger.debug payload
       @socket.send payload
     end
@@ -35,12 +35,12 @@ module APIv2
     end
 
     def subscribe_trades(market_id)
-      send :trades, Global[market_id].trades.first(FRESH_ORDERS)
+      send :trades, market_id, Global[market_id].trades.first(FRESH_ORDERS)
     end
 
     def subscribe_orderbook(market_id)
-      send :asks, Global[market_id].asks.first(FRESH_ORDERS).reverse()
-      send :bids, Global[market_id].bids.first(FRESH_ORDERS)
+      send :asks, market_id, Global[market_id].asks.first(FRESH_ORDERS).reverse()
+      send :bids, market_id, Global[market_id].bids.first(FRESH_ORDERS)
     end
 
     def subscribe_market(market_id = nil)
@@ -51,10 +51,10 @@ module APIv2
         begin
           payload = JSON.parse payload
           if market_id.blank?
-            send :trade, payload
+            send :trade, payload['market'], payload
           elsif payload['market'] == market_id
             subscribe_orderbook(market_id)
-            send :trade, format_trade(payload)
+            send :trade, market_id, format_trade(payload)
           end
         rescue
           @logger.error "Error on receiving trades: #{$!}"
