@@ -18,7 +18,7 @@ HEIGHTS_URL = 'https://min-api.cryptocompare.com/data/coin/generalinfo'
 
 # Status of coin nodes that don't know full blockchain status.
 # BTC, BCH, LTC, DASH, NEO, XMR, BTG, BCD
-COINS_WITH_3RD_PARTY = ['BTC', 'BCH', 'LTC', 'DASH', 'XMR', 'BTG', 'BCD', 'NEO']
+COINS_WITH_3RD_PARTY = ['BTC', 'BCH', 'LTC', 'DASH', 'XMR', 'BTG']
 
 # Coins that know full blockchain status with block height.
 # ADA, ETH, ETC, XEM
