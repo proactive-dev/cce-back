@@ -2,9 +2,9 @@ module CoinAPI
   class NEO < BaseAPI
     BLOCKS_LIMIT = 20
 
-    # 3_610_795: Mainnet: 12th, Apr
-    # 2_549_400: Testnet: 16th, Apr
-    START_BLOCK = 2_549_400
+    # 4_123_220: Mainnet: 13th, Aug
+    # 2_964_030: Testnet: 16th, Aug
+    START_BLOCK = 4_123_220
 
     def initialize(*)
       super

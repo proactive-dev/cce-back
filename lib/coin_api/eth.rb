@@ -241,7 +241,7 @@ module CoinAPI
     end
 
     def earliest_block
-      7_733_385 # start blocknumber : 10th, May, 19
+      currency.code == 'etc' ? 8_586_980 : 8_340_930 # start blocknumber : 10th, Aug, 13
     end
   end
 end

@@ -4,9 +4,9 @@ module CoinAPI
     TRANSFER_V1 = 1744830465 # -1744830463: Testnet, 1744830465: Mainnet
     TRANSFER_V2 = 1744830466 # -1744830462: Testnet, 1744830466: Mainnet
 
-    # 2_104_900: Mainnet: 11th, Apr
-    # 1_935_680: Testnet: 11th, Apr
-    START_BLOCK = 2_104_900
+    # 2_281_640: Mainnet: 13th, Aug
+    # 2_112_761: Testnet: thth, Aug
+    START_BLOCK = 2_281_640
 
     def initialize(*)
       super
