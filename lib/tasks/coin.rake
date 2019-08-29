@@ -20,6 +20,17 @@ namespace :coin do
     end
   end
 
+  desc "Write addresses to redis (for deposit)"
+  task cache_addresses: :environment do
+    Global.cache_addresses('eth')
+    Global.cache_addresses('etc')
+  end
+
+  desc "Write tx_ids to redis"
+  task cache_txs: :environment do
+    Global.cache_txs
+  end
+
   desc "Claim neo gas and divide into per member."
   task claim_neo_gas: :environment do
     total = Account.locked_sum('neo') + Account.balance_sum('neo')

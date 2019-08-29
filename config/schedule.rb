@@ -30,7 +30,15 @@ every 1.day, :at => '0:00 am' do
   rake 'member:cal_level'
 end
 
-every 5.minutes do
+every 20.minutes do
+  rake 'coin:cache_addresses'
+end
+
+every 2.hours do
+  rake 'coin:cache_txs'
+end
+
+every 1.hour do
   rake 'solvency:liability_proof'
 end
 
