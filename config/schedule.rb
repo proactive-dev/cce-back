@@ -38,11 +38,11 @@ every 2.hours do
   rake 'coin:cache_txs'
 end
 
-every 1.hour do
+every 5.minutes do
   rake 'solvency:liability_proof'
 end
 
-every 1.day, :at => '4:00 pm' do
+every 3.hours do
   rake 'solvency:sync_balance'
 end
 
