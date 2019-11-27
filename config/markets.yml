@@ -4,11 +4,10 @@
   base_unit: eth
   quote_unit: btc
   #price_group_fixed: 1 # aggregate price levels in orderbook
-  bid: {fee: 0, currency: btc, fixed: 8}
-  ask: {fee: 0, currency: eth, fixed: 8}
+  bid: {fee: 0, currency: btc, fixed: 8, min: 0.0}
+  ask: {fee: 0, currency: eth, fixed: 8, min: 0.0}
   sort_order: 1
   source: binance
-  source_limit: {min_volume: 0.001, min_total: 0.001}
   #visible: false     # default to true
 
 - id: ltcbtc
@@ -17,11 +16,10 @@
   base_unit: ltc
   quote_unit: btc
   #price_group_fixed: 1 # aggregate price levels in orderbook
-  bid: {fee: 0, currency: btc, fixed: 8}
-  ask: {fee: 0, currency: ltc, fixed: 8}
+  bid: {fee: 0, currency: btc, fixed: 8, min: 0.0}
+  ask: {fee: 0, currency: ltc, fixed: 8, min: 0.0}
   sort_order: 1
   source: binance
-  source_limit: {min_volume: 0.01, min_total: 0.001}
   #visible: false     # default to true
 
 - id: skbbtc
@@ -30,8 +28,8 @@
   base_unit: skb
   quote_unit: btc
   #price_group_fixed: 1 # aggregate price levels in orderbook
-  bid: {fee: 0, currency: btc, fixed: 8}
-  ask: {fee: 0, currency: skb, fixed: 8}
+  bid: {fee: 0, currency: btc, fixed: 8, min: 0.0}
+  ask: {fee: 0, currency: skb, fixed: 8, min: 0.0}
   sort_order: 1
   margin: true
   #visible: false     # default to true
@@ -42,8 +40,8 @@
   base_unit: mas
   quote_unit: btc
   #price_group_fixed: 1 # aggregate price levels in orderbook
-  bid: {fee: 0, currency: btc, fixed: 8}
-  ask: {fee: 0, currency: mas, fixed: 8}
+  bid: {fee: 0, currency: btc, fixed: 8, min: 0.0}
+  ask: {fee: 0, currency: mas, fixed: 8, min: 0.0}
   sort_order: 1
   margin: true
   #visible: false     # default to true
@@ -54,11 +52,10 @@
   base_unit: ltc
   quote_unit: eth
   #price_group_fixed: 1 # aggregate price levels in orderbook
-  bid: {fee: 0, currency: eth, fixed: 8}
-  ask: {fee: 0, currency: ltc, fixed: 8}
+  bid: {fee: 0, currency: eth, fixed: 8, min: 0.0}
+  ask: {fee: 0, currency: ltc, fixed: 8, min: 0.0}
   sort_order: 1
   source: binance
-  source_limit: {min_volume: 0.001, min_total: 0.01}
   #visible: false     # default to true
 
 #- id: btcmas
@@ -67,8 +64,8 @@
 #  base_unit: btc
 #  quote_unit: mas
 #  #price_group_fixed: 1 # aggregate price levels in orderbook
-#  bid: {fee: 0, currency: mas, fixed: 8}
-#  ask: {fee: 0, currency: btc, fixed: 8}
+#  bid: {fee: 0, currency: mas, fixed: 8, min: 0.0}
+#  ask: {fee: 0, currency: btc, fixed: 8, min: 0.0}
 #  sort_order: 1
 #  #visible: false     # default to true
 
@@ -78,8 +75,8 @@
   base_unit: eth
   quote_unit: mas
   #price_group_fixed: 1 # aggregate price levels in orderbook
-  bid: {fee: 0, currency: mas, fixed: 8}
-  ask: {fee: 0, currency: eth, fixed: 8}
+  bid: {fee: 0, currency: mas, fixed: 8, min: 0.0}
+  ask: {fee: 0, currency: eth, fixed: 8, min: 0.0}
   sort_order: 1
   #visible: false     # default to true
 
@@ -89,8 +86,8 @@
   base_unit: ltc
   quote_unit: mas
   #price_group_fixed: 1 # aggregate price levels in orderbook
-  bid: {fee: 0, currency: mas, fixed: 8}
-  ask: {fee: 0, currency: ltc, fixed: 8}
+  bid: {fee: 0, currency: mas, fixed: 8, min: 0.0}
+  ask: {fee: 0, currency: ltc, fixed: 8, min: 0.0}
   sort_order: 1
   #visible: false     # default to true
 
@@ -100,8 +97,8 @@
 #  base_unit: btc
 #  quote_unit: skb
 #  #price_group_fixed: 1 # aggregate price levels in orderbook
-#  bid: {fee: 0, currency: skb, fixed: 8}
-#  ask: {fee: 0, currency: btc, fixed: 8}
+#  bid: {fee: 0, currency: skb, fixed: 8, min: 0.0}
+#  ask: {fee: 0, currency: btc, fixed: 8, min: 0.0}
 #  sort_order: 1
 #  #visible: false     # default to true
 
@@ -111,8 +108,8 @@
   base_unit: eth
   quote_unit: skb
   #price_group_fixed: 1 # aggregate price levels in orderbook
-  bid: {fee: 0, currency: skb, fixed: 8}
-  ask: {fee: 0, currency: eth, fixed: 8}
+  bid: {fee: 0, currency: skb, fixed: 8, min: 0.0}
+  ask: {fee: 0, currency: eth, fixed: 8, min: 0.0}
   sort_order: 1
   #visible: false     # default to true
 
@@ -122,8 +119,8 @@
   base_unit: ltc
   quote_unit: skb
   #price_group_fixed: 1 # aggregate price levels in orderbook
-  bid: {fee: 0, currency: skb, fixed: 8}
-  ask: {fee: 0, currency: ltc, fixed: 8}
+  bid: {fee: 0, currency: skb, fixed: 8, min: 0.0}
+  ask: {fee: 0, currency: ltc, fixed: 8, min: 0.0}
   sort_order: 1
   #visible: false     # default to true
 
@@ -133,7 +130,7 @@
   base_unit: mas
   quote_unit: skb
   #price_group_fixed: 1 # aggregate price levels in orderbook
-  bid: {fee: 0, currency: skb, fixed: 8}
-  ask: {fee: 0, currency: mas, fixed: 8}
+  bid: {fee: 0, currency: skb, fixed: 8, min: 0.0}
+  ask: {fee: 0, currency: mas, fixed: 8, min: 0.0}
   sort_order: 1
   #visible: false     # default to true

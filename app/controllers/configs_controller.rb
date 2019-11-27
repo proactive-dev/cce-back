@@ -12,4 +12,9 @@ class ConfigsController < ApplicationController
     render json: {levels: configs}.to_json, status: :ok
   end
 
+  def markets
+    configs = Market.all.sort
+    render json: {markets: configs}.to_json, status: :ok
+  end
+
 end
