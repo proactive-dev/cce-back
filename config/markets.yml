@@ -50,19 +50,6 @@
   source: binance
   #visible: false     # default to true
 
-- id: bnbbtc
-  code: 5
-  name: BNB/BTC      # default name
-  base_unit: bnb
-  quote_unit: btc
-  #price_group_fixed: 1 # aggregate price levels in orderbook
-  bid: {fee: 0.001, currency: btc, fixed: 7, min: 0.0001}
-  ask: {fee: 0.001, currency: bnb, fixed: 2, min: 0.01}
-  margin: false
-  sort_order: 1
-  source: binance
-  visible: false     # default to true
-
 - id: adabtc
   code: 6
   name: ADA/BTC      # default name
@@ -434,19 +421,6 @@
   #price_group_fixed: 1 # aggregate price levels in orderbook
   bid: {fee: 0, currency: usdt, fixed: 2, min: 10.0}
   ask: {fee: 0, currency: bchabc, fixed: 5, min: 0.00001}
-  margin: false
-  sort_order: 1
-  source: binance
-  #visible: false     # default to true
-
-- id: bnbusdt
-  code: 35
-  name: BNB/USDT      # default name
-  base_unit: bnb
-  quote_unit: usdt
-  #price_group_fixed: 1 # aggregate price levels in orderbook
-  bid: {fee: 0.001, currency: usdt, fixed: 4, min: 10.0}
-  ask: {fee: 0.001, currency: bnb, fixed: 2, min: 0.01}
   margin: false
   sort_order: 1
   source: binance

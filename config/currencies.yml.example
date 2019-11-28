@@ -88,25 +88,6 @@
   deposit: {fee: 0, min_amount: 0}
   withdraw: {fee: 0.001, min_amount: 0.002, quick_max: 0}
 
-- id: 7
-  name: Binance Coin
-  code: bnb
-  symbol: "BNB"
-  type: coin
-  precision: 8
-  base_factor: 1_000_000_000_000_000_000
-  min_confirm: 1
-  max_confirm: 3
-  erc20_contract_address: '0xB8c77482e45F1F44dE1745F52C74426C631bDD52'
-  api_client: ERC20
-  rpc: http://172.31.46.110:8555
-  info_url: https://coinmarketcap.com/currencies/binance-coin
-  blockchain: https://etherscan.io/tx/#{txid}
-  address_url: https://etherscan.io/token/0xB8c77482e45F1F44dE1745F52C74426C631bDD52?a={address}
-  case_sensitive: false
-  deposit: {fee: 0, min_amount: 0}
-  withdraw: {fee: 0.001, min_amount: 0.1, quick_max: 0}
-
 - id: 8
   name: Cardano
   code: ada
