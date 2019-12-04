@@ -74,7 +74,7 @@
   margin: false
   sort_order: 1
   source: binance
-  #visible: false     # default to true
+  visible: false     # default to true
 
 - id: dashbtc
   code: 8
@@ -87,7 +87,7 @@
   margin: false
   sort_order: 1
   source: binance
-  #visible: false     # default to true
+  visible: false     # default to true
 
 - id: xmrbtc
   code: 9
@@ -100,7 +100,7 @@
   margin: false
   sort_order: 1
   source: binance
-  #visible: false     # default to true
+  visible: false     # default to true
 
 - id: neobtc
   code: 10
@@ -113,7 +113,7 @@
   margin: false
   sort_order: 1
   source: binance
-  #visible: false     # default to true
+  visible: false     # default to true
 
 - id: etcbtc
   code: 11
@@ -126,7 +126,7 @@
   margin: false
   sort_order: 1
   source: binance
-  #visible: false     # default to true
+  visible: false     # default to true
 
 - id: xembtc
   code: 12
@@ -139,7 +139,7 @@
   margin: false
   sort_order: 1
   source: binance
-  #visible: false     # default to true
+  visible: false     # default to true
 
 - id: dentbtc
   code: 13
@@ -165,7 +165,7 @@
   margin: false
   sort_order: 1
   source: binance
-  #visible: false     # default to true
+  visible: false     # default to true
 
 - id: omgbtc
   code: 15
@@ -178,7 +178,7 @@
   margin: false
   sort_order: 1
   source: binance
-  #visible: false     # default to true
+  visible: false     # default to true
 
 - id: btgbtc
   code: 16
@@ -191,7 +191,7 @@
   margin: false
   sort_order: 1
   source: binance
-  #visible: false     # default to true
+  visible: false     # default to true
 
 - id: repbtc
   code: 17
@@ -204,7 +204,7 @@
   margin: false
   sort_order: 1
   source: binance
-  #visible: false     # default to true
+  visible: false     # default to true
 
 - id: btctusd
   code: 18
@@ -217,7 +217,7 @@
   margin: false
   sort_order: 1
   source: binance
-  #visible: false     # default to true
+  visible: false     # default to true
 
 - id: linkbtc
   code: 19
@@ -230,7 +230,7 @@
   margin: false
   sort_order: 1
   source: binance
-  #visible: false     # default to true
+  visible: false     # default to true
 
 - id: zrxbtc
   code: 20
@@ -243,7 +243,7 @@
   margin: false
   sort_order: 1
   source: binance
-  #visible: false     # default to true
+  visible: false     # default to true
 
 - id: bcdbtc
   code: 21
@@ -256,7 +256,7 @@
   margin: false
   sort_order: 1
   source: binance
-  #visible: false     # default to true
+  visible: false     # default to true
 
 - id: mcobtc
   code: 22
@@ -269,7 +269,7 @@
   margin: false
   sort_order: 1
   source: binance
-  #visible: false     # default to true
+  visible: false     # default to true
 
 - id: sntbtc
   code: 23
@@ -282,7 +282,7 @@
   margin: false
   sort_order: 1
   source: binance
-  #visible: false     # default to true
+  visible: false     # default to true
 
 - id: dgdbtc
   code: 24
@@ -295,7 +295,7 @@
   margin: false
   sort_order: 1
   source: binance
-  #visible: false     # default to true
+  visible: false     # default to true
 
 - id: btcusdc
   code: 25
@@ -308,7 +308,7 @@
   margin: false
   sort_order: 1
   source: binance
-  #visible: false     # default to true
+  visible: false     # default to true
 
 - id: manabtc
   code: 26
@@ -321,7 +321,7 @@
   margin: false
   sort_order: 1
   source: binance
-  #visible: false     # default to true
+  visible: false     # default to true
 
 - id: btcusds
   code: 27
@@ -334,7 +334,7 @@
   margin: false
   sort_order: 1
   source: binance
-  #visible: false     # default to true
+  visible: false     # default to true
 
 - id: gasbtc
   code: 28
@@ -347,7 +347,7 @@
   margin: false
   sort_order: 1
   source: binance
-  #visible: false     # default to true
+  visible: false     # default to true
 
 - id: ngobtc
   code: 29
@@ -450,7 +450,7 @@
   margin: false
   sort_order: 1
   source: binance
-  #visible: false     # default to true
+  visible: false     # default to true
 
 - id: dashusdt
   code: 38
@@ -463,7 +463,7 @@
   margin: false
   sort_order: 1
   source: binance
-  #visible: false     # default to true
+  visible: false     # default to true
 
 - id: xmrusdt
   code: 39
@@ -476,7 +476,7 @@
   margin: false
   sort_order: 1
   source: binance
-  #visible: false     # default to true
+  visible: false     # default to true
 
 - id: neousdt
   code: 40
@@ -489,7 +489,7 @@
   margin: false
   sort_order: 1
   source: binance
-  #visible: false     # default to true
+  visible: false     # default to true
 
 - id: etcusdt
   code: 41
@@ -502,7 +502,7 @@
   margin: false
   sort_order: 1
   source: binance
-  #visible: false     # default to true
+  visible: false     # default to true
 
 - id: batusdt
   code: 44
@@ -515,7 +515,7 @@
   margin: false
   sort_order: 1
   source: binance
-  #visible: false     # default to true
+  visible: false     # default to true
 
 - id: omgusdt
   code: 45
@@ -528,7 +528,7 @@
   margin: false
   sort_order: 1
   source: binance
-  #visible: false     # default to true
+  visible: false     # default to true
 
 - id: tusdusdt
   code: 48
@@ -541,7 +541,7 @@
   margin: false
   sort_order: 1
   source: binance
-  #visible: false     # default to true
+  visible: false     # default to true
 
 - id: linkusdt
   code: 49
@@ -554,7 +554,7 @@
   margin: false
   sort_order: 1
   source: binance
-  #visible: false     # default to true
+  visible: false     # default to true
 
 - id: zrxusdt
   code: 50
@@ -567,7 +567,7 @@
   margin: false
   sort_order: 1
   source: binance
-  #visible: false     # default to true
+  visible: false     # default to true
 
 - id: usdcusdt
   code: 55
@@ -580,7 +580,7 @@
   margin: false
   sort_order: 1
   source: binance
-  #visible: false     # default to true
+  visible: false     # default to true
 
 - id: usdsusdt
   code: 57
@@ -593,7 +593,7 @@
   margin: false
   sort_order: 1
   source: binance
-  #visible: false     # default to true
+  visible: false     # default to true
 
 - id: ngousdt
   code: 59
