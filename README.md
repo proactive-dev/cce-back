@@ -1,2 +1,2 @@
-# ngo-backend
-Backend project for NGO exchange
+# ex-backend
+Backend project for cryptocurrency exchange
