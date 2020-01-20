@@ -1,0 +1,90 @@
+- id: 1
+  name: Bitcoin
+  code: btc
+  symbol: "฿"
+  type: coin
+  precision: 8
+  base_factor: 100_000_000
+  min_confirm: 1
+  max_confirm: 3
+  api_client: BTC
+  rpc: http://btcrpc:btcrpcpwd@127.0.0.1:8342
+  info_url: https://coinmarketcap.com/currencies/bitcoin
+  blockchain: https://blockchain.com/btc/tx/#{txid}
+  address_url: https://blockchain.com/btc/address/#{address}
+  case_sensitive: true
+  deposit: {fee: 0, min_amount: 0}
+  withdraw: {fee: 0.0005, min_amount: 0.002, quick_max: 0}
+
+- id: 2
+  name: Ethereum
+  code: eth
+  symbol: "Ξ"
+  type: coin
+  precision: 8
+  base_factor: 1_000_000_000_000_000_000
+  min_confirm: 1
+  max_confirm: 3
+  api_client: ETH
+  rpc: http://127.0.0.1:8555
+  info_url: https://coinmarketcap.com/currencies/ethereum
+  blockchain: https://etherscan.io/tx/#{txid}
+  address_url: https://etherscan.io/address/#{address}
+  case_sensitive: false
+  deposit: {fee: 0, min_amount: 0}
+  withdraw: {fee: 0.01, min_amount: 0.02, quick_max: 0}
+
+- id: 4
+  name: Litecoin
+  code: ltc
+  symbol: "Ł"
+  type: coin
+  precision: 8
+  base_factor: 100_000_000
+  min_confirm: 1
+  max_confirm: 3
+  api_client: BTC
+  rpc: http://ltcrpc:ltcrpcpwd@127.0.0.1:9342
+  info_url: https://coinmarketcap.com/currencies/litecoin
+  blockchain: http://explorer.litecoin.net/tx/#{txid}
+  address_url: http://explorer.litecoin.net/address/#{address}
+  case_sensitive: true
+  deposit: {fee: 0, min_amount: 0}
+  withdraw: {fee: 0.001, min_amount: 0.002, quick_max: 0}
+
+- id: 5
+  name: Bitcoin Cash
+  code: bch
+  symbol: "₿"
+  type: coin
+  precision: 8
+  base_factor: 100_000_000
+  min_confirm: 1
+  max_confirm: 3
+  api_client: BTC
+  rpc: http://bchrpc:bchrpcpwd@127.0.0.1:8342
+  info_url: https://coinmarketcap.com/currencies/bitcoin-cash
+  blockchain: https://explorer.bitcoin.com/bch/tx/#{txid}
+  address_url: https://explorer.bitcoin.com/bch/address/#{address}
+  case_sensitive: true
+  deposit: {fee: 0, min_amount: 0}
+  withdraw: {fee: 0.001, min_amount: 0.002, quick_max: 0}
+
+- id: 9
+  name: Tether USD
+  code: usdt
+  symbol: "USD₮"
+  type: coin
+  precision: 6
+  base_factor: 1_000_000
+  min_confirm: 1
+  max_confirm: 3
+  erc20_contract_address: '0xdac17f958d2ee523a2206206994597c13d831ec7'
+  api_client: ERC20
+  rpc: http://127.0.0.1:8555
+  info_url: https://coinmarketcap.com/currencies/tether
+  blockchain: https://etherscan.io/tx/#{txid}
+  address_url: https://etherscan.io/token/0xdac17f958d2ee523a2206206994597c13d831ec7?a={address}
+  case_sensitive: false
+  deposit: {fee: 0, min_amount: 0}
+  withdraw: {fee: 6.6, min_amount: 13.2, quick_max: 0}

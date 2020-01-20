@@ -6,9 +6,9 @@ require 'mina/slack/tasks'
 
 set :repository, ''
 set :user, 'deploy'
-set :deploy_to, '/home/deploy/exchange'
+set :deploy_to, '/home/deploy/ex-backend'
 set :branch, 'master'
-set :domain, 'tr.ngo-settlement.com'
+set :domain, 'cce.apolloit.biz'
 
 set :shared_paths, [
   'config/database.yml',

@@ -28,8 +28,6 @@ zh-CN:
       withdraws/satoshi: Withdraw Bitcoin
       withdraws/ethereum: Withdraw Ethereum
       withdraws/litecoin: Withdraw Litecoin
-      withdraws/sakurabloom: Withdraw Sakurabloom
-      withdraws/masoyamacoin: Withdraw Masoyamacoin
     attributes:
       api_token:
         access_key: Access Key
@@ -234,18 +232,6 @@ zh-CN:
               blank: 请输入您的提现地址。
               invalid: 无效的提现地址，请核对。
               ismine: 提现地址为系统所有，请更换其他地址。
-        withdraws/sakurabloom:
-          attributes:
-            fund_uid:
-              blank: 请输入您的提现地址。
-              invalid: 无效的提现地址，请核对。
-              ismine: 提现地址为系统所有，请更换其他地址。
-        withdraws/masoyamacoin:
-          attributes:
-            fund_uid:
-              blank: 请输入您的提现地址。
-              invalid: 无效的提现地址，请核对。
-              ismine: 提现地址为系统所有，请更换其他地址。
         two_factor:
           attributes:
             otp:
@@ -275,16 +261,12 @@ zh-CN:
       btc: BTC
       eth: ETH
       ltc: LTC
-      ngo: NGO
-      mas: MAS
   margin_market:
     currency:
       usd: USD
       btc: BTC
       eth: ETH
       ltc: LTC
-      ngo: NGO
-      mas: MAS
   currency:
     dollar:
       key: USD
@@ -305,16 +287,6 @@ zh-CN:
       key: litecoin
       code: LTC
       name: Litecoin
-      format: '0,0.0000'
-    sakurabloom:
-      key: sakurabloom
-      code: NGO
-      name: Sakurabloom
-      format: '0,0.0000'
-    masoyamacoin:
-      key: masoyamacoin
-      code: MAS
-      name: Masoyamacoin
       format: '0,0.0000'
   datagrid:
     empty: 没有任何数据查询结果
@@ -463,20 +435,6 @@ zh-CN:
       key: Litecoin
       title: Litecoin充值
       intro: 从本地钱包客户端或任意在线钱包客户端转出Litecoin到我们为您提供的充值地址。
-      latency: 1 confirmation
-      transfer: 自动
-      go: 立即充值
-    sakurabloom:
-      key: Sakurabloom
-      title: Sakurabloom充值
-      intro: 从本地钱包客户端或任意在线钱包客户端转出Sakurabloom到我们为您提供的充值地址。
-      latency: 1 confirmation
-      transfer: 自动
-      go: 立即充值
-    masoyamacoin:
-      key: Masoyamacoin
-      title: Masoyamacoin充值
-      intro: 从本地钱包客户端或任意在线钱包客户端转出Masoyamacoin到我们为您提供的充值地址。
       latency: 1 confirmation
       transfer: 自动
       go: 立即充值
@@ -647,32 +605,6 @@ zh-CN:
           manage_fund_source: 管理提现地址
         create:
           notice: 您的提现请求提交成功，请按照提示继续完成您的转账操作。
-      sakurablooms:
-        destroy:
-          notice: 提现申请已被撤销，冻结余额已返还到您的账户
-        update:
-          notice: 提现申请成功，我们会尽快处理您的请求
-          alert_two_factor: 两步验证错误
-        new:
-          submit: 提交
-          allin: 全部提取
-          fund_source_label: 标签
-          manage_fund_source: 管理提现地址
-        create:
-          notice: 您的提现请求提交成功，请按照提示继续完成您的转账操作。
-      masoyamacoins:
-        destroy:
-          notice: 提现申请已被撤销，冻结余额已返还到您的账户
-        update:
-          notice: 提现申请成功，我们会尽快处理您的请求
-          alert_two_factor: 两步验证错误
-        new:
-          submit: 提交
-          allin: 全部提取
-          fund_source_label: 标签
-          manage_fund_source: 管理提现地址
-        create:
-          notice: 您的提现请求提交成功，请按照提示继续完成您的转账操作。
     tickets:
       index:
         new_ticket: 新建服务单
@@ -697,12 +629,12 @@ zh-CN:
     affiliates:
       index:
         title: 联盟计划
-        description: 您的加盟计划已经启用。可以通过添加您的代销商标签到任何 tr.ngo-settlement.com 的URL.
+        description: 您的加盟计划已经启用。可以通过添加您的代销商标签到任何 cce.apolloit.biz 的URL.
         program_flows:
           title: Affiliate program flows
-          flow1: Please set up an affiliate banner for NGO-Settlement on your blog and website.
-          flow2: Someone will create a new account of NGO-Settlement through the link of affiliate banner on your blog or website.
-          flow3: We will give you an affiliate fee as a referral fee from NGO-Settlement.
+          flow1: Please set up an affiliate banner for Apollo IT on your blog and website.
+          flow2: Someone will create a new account of Apollo IT through the link of affiliate banner on your blog or website.
+          flow3: We will give you an affiliate fee as a referral fee from Apollo IT.
         url:
           title: Affiliate URL
           your: Your Affiliate URL
@@ -779,8 +711,6 @@ zh-CN:
         btc_format: '0.00000000'
         eth_format: '0.00000000'
         ltc_format: '0.00000000'
-        ngo_format: '0.00000000'
-        mas_format: '0.00000000'
         reason:
           usd:
             strike_add: 成交卖出
@@ -801,18 +731,6 @@ zh-CN:
             withdraw: 提现
             fix: 系统修正
           ltc:
-            strike_add: 成交买入
-            strike_sub: 成交卖出
-            deposit: 充值
-            withdraw: 提现
-            fix: 系统修正
-          ngo:
-            strike_add: 成交买入
-            strike_sub: 成交卖出
-            deposit: 充值
-            withdraw: 提现
-            fix: 系统修正
-          mas:
             strike_add: 成交买入
             strike_sub: 成交卖出
             deposit: 充值
@@ -881,8 +799,6 @@ zh-CN:
         btc_html: "<i class='fa fa-check'></i><span>BTC交易对</span>"
         eth_html: "<i class='fa fa-check'></i><span>ETH交易对</span>"
         ltc_html: "<i class='fa fa-check'></i><span>LTC交易对</span>"
-        ngo_html: "<i class='fa fa-check'></i><span>NGO交易对</span>"
-        mas_html: "<i class='fa fa-check'></i><span>MAS交易对</span>"
         price: 最新价
         change: "24h涨跌"
       range_switch:
@@ -1021,8 +937,6 @@ zh-CN:
         btc_html: "<i class='fa fa-check'></i><span>BTC交易对</span>"
         eth_html: "<i class='fa fa-check'></i><span>ETH交易对</span>"
         ltc_html: "<i class='fa fa-check'></i><span>LTC交易对</span>"
-        ngo_html: "<i class='fa fa-check'></i><span>NGO交易对</span>"
-        mas_html: "<i class='fa fa-check'></i><span>MAS交易对</span>"
         price: 最新价
         change: "24h涨跌"
 #      range_switch:
@@ -1269,8 +1183,6 @@ zh-CN:
         btc_format: '0.00000000'
         eth_format: '0.00000000'
         ltc_format: '0.00000000'
-        ngo_format: '0.00000000'
-        mas_format: '0.00000000'
         total: 总额合计
   guides:
     private:
@@ -1430,12 +1342,6 @@ zh-CN:
         litecoin:
           sum: 最低 0.001
           fund_extra: 填写常用标签（可选）
-        sakurabloom:
-          sum: 最低 0.001
-          fund_extra: 填写常用标签（可选）
-        masoyamacoin:
-          sum: 最低 0.001
-          fund_extra: 填写常用标签（可选）
     hints:
       deposit:
         bank:
@@ -1461,10 +1367,6 @@ zh-CN:
         ethereum:
           sum: "<a target='_balance' href='#'>资费说明</a>"
         litecoin:
-          sum: "<a target='_balance' href='#'>资费说明</a>"
-        sakurabloom:
-          sum: "<a target='_balance' href='#'>资费说明</a>"
-        masoyamacoin:
           sum: "<a target='_balance' href='#'>资费说明</a>"
     creating: Creating...
     updating: Updating...
@@ -1523,20 +1425,6 @@ zh-CN:
           account_balance: 可用金额
           member_name: 账户名
         litecoin:
-          fee: 手续费
-          sum: 提取金额
-          fund_uid: 提现地址
-          fund_extra: 提现标签
-          account_balance: 可用金额
-          member_name: 账户名
-        sakurabloom:
-          fee: 手续费
-          sum: 提取金额
-          fund_uid: 提现地址
-          fund_extra: 提现标签
-          account_balance: 可用金额
-          member_name: 账户名
-        masoyamacoin:
           fee: 手续费
           sum: 提取金额
           fund_uid: 提现地址
@@ -1752,8 +1640,6 @@ zh-CN:
       btc: BTC
       eth: ETH
       ltc: LTC
-      ngo: NGO
-      mas: MAS
     order:
       state:
         done: 完全成交
@@ -1784,8 +1670,6 @@ zh-CN:
         dollar: 美元 - 银行转账
         ethereum: Ethereum
         litecoin: Litecoin
-        sakurabloom: Sakurabloom
-        masoyamacoin: Masoyamacoin
     id_document:
       id_document_type:
         id_card: 身份证
@@ -1803,47 +1687,47 @@ zh-CN:
       truncate: "..."
   mailer:
     dear_user: 您好,
-    signature: tr.ngo-settlement.com团队
+    signature: cce.apolloit.biz团队
     please_contact: 如果此次登录不是您本人操作，请马上<a href="mailto:%{contact_mail}">联系我们</a>。
     footer: 此邮件由系统自动发出，请勿直接回复。 有问题请<a href="mailto:%{contact_mail}">联系我们</a>。
   comment_mailer:
     admin_notification:
-      subject: "[NGO-Settlement] 用户回复了服务单"
+      subject: "[Apollo IT] 用户回复了服务单"
       notification_content: 用户 %{email} 回复了服务单，详情请查看链接：
     user_notification:
-      subject: "[NGO-Settlement] 您的服务单有了新的回复"
+      subject: "[Apollo IT] 您的服务单有了新的回复"
       notification_content: '您的服务单有一条新的回复, 请在下方链接查看详情：'
   deposit_mailer:
     accepted:
-      subject: "[NGO-Settlement] 您的充值已经到账"
+      subject: "[Apollo IT] 您的充值已经到账"
       content: 您的 %{currency} 已经到账.
   member_mailer:
     notify_signin:
-      subject: "[NGO-Settlement] 您刚刚成功登录"
+      subject: "[Apollo IT] 您刚刚成功登录"
       just_signed_in: 您刚刚成功登录了。
     google_auth_activated:
-      subject: "[NGO-Settlement] 绑定谷歌两步验证"
+      subject: "[Apollo IT] 绑定谷歌两步验证"
       google_auth_activated: 您已绑定谷歌两步验证。
     google_auth_deactivated:
-      subject: "[NGO-Settlement] 重置谷歌两步验证"
+      subject: "[Apollo IT] 重置谷歌两步验证"
       google_auth_deactivated: 您已重置谷歌两步验证。
     sms_auth_activated:
-      subject: "[NGO-Settlement] 绑定短信两步验证"
+      subject: "[Apollo IT] 绑定短信两步验证"
       sms_auth_activated: 您已绑定短信两步验证。
     sms_auth_deactivated:
-      subject: "[NGO-Settlement] 重置短信两步验证"
+      subject: "[Apollo IT] 重置短信两步验证"
       sms_auth_deactivated: 您已重置短信两步验证。
     reset_password_done:
-      subject: "[NGO-Settlement] 密码修改成功"
+      subject: "[Apollo IT] 密码修改成功"
       successful: 您已成功修改密码。请妥善保管~
     phone_number_verified:
-      subject: "[NGO-Settlement] 您已成功绑定手机"
+      subject: "[Apollo IT] 您已成功绑定手机"
       verified: '您已成功绑定手机，号码为：%{phone_number}。'
     notify_cancel_orders:
-      subject: "[NGO-Settlement] 您的订单已取消"
+      subject: "[Apollo IT] 您的订单已取消"
       orders_canceled: 您的订单已取消。 因为他们使用借来的资产，他们的持续时间已过期。
     notify_disabled_from_lending:
-      subject: "[NGO-Settlement] 您的帐户已被停用"
+      subject: "[Apollo IT] 您的帐户已被停用"
       member_disabled: 您的帐户已被停用。 因为借款金额不足。
   system_mailer:
     daily_stats:
@@ -1856,39 +1740,39 @@ zh-CN:
       trades_change_total: 交易数变动总计
   ticket_mailer:
     admin_notification:
-      subject: "[NGO-Settlement] 用户新建了服务单"
+      subject: "[Apollo IT] 用户新建了服务单"
       admin_notification_content: 用户 %{email} 新建了服务单，详情请查看链接：
     author_notification:
-      subject: "[NGO-Settlement] 您的服务单提交成功"
+      subject: "[Apollo IT] 您的服务单提交成功"
       thanks_for_submit_ticket: 感谢您的反馈。我们会尽快处理，并第一时间告知您相关进展。
   token_mailer:
     activation:
-      subject: "[NGO-Settlement] 帐号激活"
-      click_to_verify: '感谢您注册 NGO-Settlement，赶快点击下面的链接验证您的E-mail吧：'
+      subject: "[Apollo IT] 帐号激活"
+      click_to_verify: '感谢您注册 Apollo IT，赶快点击下面的链接验证您的E-mail吧：'
       unable_to_click: 如果链接无法点击，请完整拷贝到浏览器地址栏里直接访问。
       link_expire: 链接30分钟之内有效。
     reset_password:
-      subject: "[NGO-Settlement] 请重置您的密码"
+      subject: "[Apollo IT] 请重置您的密码"
       hi: 您好
       follow_the_link: '请使用下面的连接，在30分钟之内尝试重置您的登录密码：'
   withdraw_mailer:
     submitted:
-      subject: "[NGO-Settlement] 您的提现状态更新"
+      subject: "[Apollo IT] 您的提现状态更新"
       content: 您的%{currency}提现请求已经被成功提交，我们会尽快处理您的提现请求。谢谢您的耐心等待，如果您有任何问题，请及时与我们联系。
     processing:
-      subject: "[NGO-Settlement] 您的提现状态更新"
+      subject: "[Apollo IT] 您的提现状态更新"
       content: 您的%{currency}提现请求正在处理中，谢谢您的耐心等待，如果您有任何问题，请及时与我们联系。
     done:
-      subject: "[NGO-Settlement] 您的提现状态更新"
+      subject: "[Apollo IT] 您的提现状态更新"
       content: 您的%{currency}提现请求已经处理完毕，请查询您的账户。如果您有任何问题，请及时与我们联系。
     withdraw_state:
-      subject: "[NGO-Settlement] 您的提现状态更新"
+      subject: "[Apollo IT] 您的提现状态更新"
       your_state: '您的提现状态：'
 
   'true': true
   'false': false
   slogan: Cryptocurrency Exchange
-  brand: NGO-Settlement
+  brand: Apollo IT
   tags:
     vip: VIP
     hero: 超级用户
@@ -1902,9 +1786,9 @@ zh-CN:
   gon:
     ask: 卖出
     bid: 买入
-    brand: NGO-Settlement
+    brand: Apollo IT
     notification:
-      title: NGO-Settlement
+      title: Apollo IT
       enabled: 实时更新已开启。
       new_trade: "您的%{kind}委托 #%{id} 以 %{price} %{quote_unit} 价格成交，%{kind} %{volume} %{base_unit}。"
   back: 返回
@@ -1927,12 +1811,12 @@ zh-CN:
     withdraw_done: '%{email} 您好，您于%{time}进行了（%{currency}）提现操作，金额为%{amount}。最新余额为：%{balance}。（若非本人操作，请立即联系客服！）'
   landing:
     welcome:
-      title: Welcome to NGO-Settlement!
+      title: Welcome to Apollo IT!
       subtitle: We are a peer to peer cryptocurrency exchange platform.
     vision:
       title: Our vision
-      desc1: ”NGO-Settlement is a project aims to provide both easy access for the public to buy cryptocurrencies, and an easy, safe and reliable exchange between cryptocurrencies. The project promises to deliver that by establishing a peer-to-peer decentralized network for cryptocurrencies exchange”
-      desc2: ”Using the NGO-Settlement, you can exchange altcoin directly with no central organization involved. NGO-Settlement allows members to buy and sell cryptocurrencies directly to and from each other.”
+      desc1: ”Apollo IT is a project aims to provide both easy access for the public to buy cryptocurrencies, and an easy, safe and reliable exchange between cryptocurrencies. The project promises to deliver that by establishing a peer-to-peer decentralized network for cryptocurrencies exchange”
+      desc2: ”Using the Apollo IT, you can exchange altcoin directly with no central organization involved. Apollo IT allows members to buy and sell cryptocurrencies directly to and from each other.”
     count:
       currency: Cryptocurrencies Exchanged
       country: Countries Supported
@@ -2162,9 +2046,9 @@ zh-CN:
     application:
       close: 关闭
     meta:
-      page_title: NGO-Settlement
-      page_description: NGO-Settlement - Cryptocurrency Exchange
-      page_keywords: tr.ngo-settlement.com,Exchange,Cryptocurrency,NGO-Settlement
+      page_title: Apollo IT
+      page_description: Apollo IT - Cryptocurrency Exchange
+      page_keywords: cce.apolloit.biz,Exchange,Cryptocurrency
   members:
     edit:
       name: 为了保障资金安全，请填写您的真实姓名等信息。
@@ -2320,30 +2204,6 @@ zh-CN:
       canceled: 已撤销
       failed: 提现出错
   withdraws/litecoin:
-    aasm_state:
-      submitting: 待确认
-      submitted: 待校验
-      rejected: 已驳回
-      pending: 已提交
-      suspect: 异常
-      processing: 受理中
-      done: 提现成功
-      almost_done: 发送中
-      canceled: 已撤销
-      failed: 提现出错
-  withdraws/sakurabloom:
-    aasm_state:
-      submitting: 待确认
-      submitted: 待校验
-      rejected: 已驳回
-      pending: 已提交
-      suspect: 异常
-      processing: 受理中
-      done: 提现成功
-      almost_done: 发送中
-      canceled: 已撤销
-      failed: 提现出错
-  withdraws/masoyamacoin:
     aasm_state:
       submitting: 待确认
       submitted: 待校验

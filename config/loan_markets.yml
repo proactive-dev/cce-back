@@ -15,15 +15,3 @@
   name: Litecoin
   precision: 8
   fee: 0.1
-
-- id: ngo
-  code: 5
-  name: sakurabloom
-  precision: 8
-  fee: 0.1
-
-- id: mas
-  code: 6
-  name: masoyamacoin
-  precision: 8
-  fee: 0.1

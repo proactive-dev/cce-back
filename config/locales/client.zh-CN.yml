@@ -32,8 +32,6 @@ zh-CN:
         btc: BTC
         eth: ETH
         ltc: LTC
-        ngo: NGO
-        mas: MAS
       deposit_cny:
         title: 人民币充值
         desc: "通过银行转账汇款的方式，经人工审核后充值人民币到您的交易账户中，流程如下："
@@ -59,10 +57,6 @@ zh-CN:
         title: ETH充值
       deposit_ltc:
         title: LTC充值
-      deposit_ngo:
-        title: NGO充值
-      deposit_mas:
-        title: MAS充值
       deposit_coin:
         address: 地址
         new_address: 生成新地址
@@ -110,10 +104,6 @@ zh-CN:
         title: ETH提现
       withdraw_ltc:
         title: LTC提现
-      withdraw_ngo:
-        title: NGO提现
-      withdraw_mas:
-        title: MAS提现
       withdraw_coin:
         intro: 指定要提现的地址，输入提取数量，提交即可，10分钟之内到账。
         label: 标签
@@ -166,5 +156,3 @@ zh-CN:
         btc: BTC交易对
         eth: ETH交易对
         ltc: LTC交易对
-        ngo: NGO交易对
-        mas: MAS交易对

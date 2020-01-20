@@ -1,6 +1,6 @@
 en:
   js:
-    brand: NGO-Settlement
+    brand: Apollo IT
     submit: Submit
     cancel: Cancel
     confirm: Confirm
@@ -27,8 +27,6 @@ en:
         btc: BTC
         eth: ETH
         ltc: LTC
-        ngo: NGO
-        mas: MAS
       deposit_usd:
         title: US Dollar Deposit
         desc: "To deposit via Bank transfer, please follow these steps:"
@@ -55,10 +53,6 @@ en:
         title: ETH Deposit
       deposit_ltc:
         title: LTC Deposit
-      deposit_ngo:
-        title: NGO Deposit
-      deposit_mas:
-        title: MAS Deposit
       deposit_coin:
         address: Address
         new_address: New Address
@@ -107,10 +101,6 @@ en:
         title: ETH Withdraw
       withdraw_ltc:
         title: LTC Withdraw
-      withdraw_ngo:
-        title: NGO Withdraw
-      withdraw_mas:
-        title: MAS Withdraw
       withdraw_coin:
         intro: Please fill in the address and amount, then submit the form. It will be confirmed in 10 minutes
         label: Label
@@ -163,5 +153,3 @@ en:
         btc: BTC Market
         eth: ETH Market
         ltc: LTC Market
-        ngo: NGO Market
-        mas: MAS Market

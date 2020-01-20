@@ -3,11 +3,11 @@ defaults: &defaults
   # sites hosts
   # session expire seconds
   # admin role account
-  URL_HOST: tr.ngo-settlement.com:8443
-  URL_UI: tr.ngo-settlement.com
+  URL_HOST: cce.apolloit.biz:8443
+  URL_UI: cce.apolloit.biz
   URL_SCHEMA: https
   SESSION_EXPIRE: '60'
-  ADMIN: 'admin@ngo-settlement.com'
+  ADMIN: 'admin@apolloit.biz'
   TIMEZONE: 'UTC'
 
   REDIS_URL: redis://127.0.0.1:6379
@@ -16,16 +16,16 @@ defaults: &defaults
   # system notify mail settings
   # --------------------------------------------------------------
   SMTP_PORT: '587'
-  SMTP_DOMAIN: ngo-settlement.com
-  SMTP_ADDRESS: mail.ngo-settlement.com
-  SMTP_USERNAME: tr-smtp@ngo-settlement.com
+  SMTP_DOMAIN: apolloit.biz
+  SMTP_ADDRESS: mail.apolloit.biz
+  SMTP_USERNAME: tr-smtp@apolloit.biz
   SMTP_PASSWORD: 585JgtdR%r3EQpC
   SMTP_AUTHENTICATION: plain # could be plain, login or cram_md5
 
-  SUPPORT_MAIL: support@ngo-settlement.com
-  SYSTEM_MAIL_FROM: system@ngo-settlement.com
-  SYSTEM_MAIL_TO: group@ngo-settlement.com
-  OPERATE_MAIL_TO: support@ngo-settlement.com
+  SUPPORT_MAIL: support@apolloit.biz
+  SYSTEM_MAIL_FROM: system@apolloit.biz
+  SYSTEM_MAIL_TO: group@apolloit.biz
+  OPERATE_MAIL_TO: support@apolloit.biz
 
   # WebSocket Streaming API settings
   # --------------------------------------------------------------
@@ -47,8 +47,8 @@ defaults: &defaults
   # --------------------------------------------------------------
   # https://github.com/twilio/twilio-ruby
   #
-  BINANCE_API_KEY: 'sbtkknhi4RDI1GI2RVDzTTLFFkEiGTfq3N1cBiL8lwJEdBUTt2KkzflQ5q9wmX92'
-  BINANCE_SEC_KEY: 'UE2K5tyaedGylxOdCvqrtGqCTuUPGS86rt6NZIl9nqKwJKcn4ZCTY7yiNH1VFJ28'
+  BINANCE_API_KEY: 'pr80OlSLy8DeHGle6FkapdSAd5YPKhSQRgHeqrJfnm3TJGWTLVzan2defmcq1x7i'
+  BINANCE_SEC_KEY: 'vwlAb64Foe6xwcrtjGMWGx1eJHDBqfEf0rGg2KWZB6h7Fo8Ew8PVUZqw0kPAsrzg'
 
   # margin trading and loan setting
   # --------------------------------------------------------------

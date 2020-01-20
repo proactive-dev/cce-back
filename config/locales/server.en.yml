@@ -23,8 +23,6 @@ en:
       withdraws/satoshi: Withdraw Bitcoin
       withdraws/ethereum: Withdraw Ethereum
       withdraws/litecoin: Withdraw Litecoin
-      withdraws/sakurabloom: Withdraw Sakurabloom
-      withdraws/masoyamacoin: Withdraw Masoyamacoin
     attributes:
       api_token:
         access_key: Access Key
@@ -230,18 +228,6 @@ en:
               blank: Please enter your withdrawal address
               invalid: Invalid withdrawals address, please review.
               ismine: Please use a new address.
-        withdraws/sakurabloom:
-          attributes:
-            fund_uid:
-              blank: Please enter your withdrawal address
-              invalid: Invalid withdrawals address, please review.
-              ismine: Please use a new address.
-        withdraws/masoyamacoin:
-          attributes:
-            fund_uid:
-              blank: Please enter your withdrawal address
-              invalid: Invalid withdrawals address, please review.
-              ismine: Please use a new address.
         two_factor:
           attributes:
             otp:
@@ -269,16 +255,12 @@ en:
       btc: BTC
       eth: ETH
       ltc: LTC
-      ngo: NGO
-      mas: MAS
   margin_market:
     currency:
       usd: USD
       btc: BTC
       eth: ETH
       ltc: LTC
-      ngo: NGO
-      mas: MAS
   currency:
     dollar:
       key: USD
@@ -299,16 +281,6 @@ en:
       key: litecoin
       code: LTC
       name: Litecoin
-      format: '0,0.0000'
-    sakurabloom:
-      key: sakurabloom
-      code: NGO
-      name: Sakurabloom
-      format: '0,0.0000'
-    masoyamacoin:
-      key: masoyamacoin
-      code: MAS
-      name: Masoyamacoin
       format: '0,0.0000'
   datagrid:
     empty: no data found
@@ -442,14 +414,14 @@ en:
     satoshi:
       key: Bitcoin
       title: Bitcoin Deposits
-      intro: Deposit bitcoin from your own wallet address to NGO-Settlement account
+      intro: Deposit bitcoin from your own wallet address to Apollo IT account
       latency: 1 confirmation
       transfer: Automatic
       go: Deposit
     ethereum:
       key: Ethereum
       title: Ethereum Deposits
-      intro: Deposit ethereum from your own wallet address to NGO-Settlement account
+      intro: Deposit ethereum from your own wallet address to Apollo IT account
       latency: 1 confirmation
       transfer: Automatic
       go: Deposit
@@ -457,20 +429,6 @@ en:
       key: Litecoin
       title: Litecoin Deposits
       intro: Deposit litecoin from your own wallet address to world-ct.com account
-      latency: 1 confirmation
-      transfer: Automatic
-      go: Deposit
-    sakurabloom:
-      key: Sakurabloom
-      title: Sakurabloom Deposits
-      intro: Deposit sakurabloom from your own wallet address to world-ct.com account
-      latency: 1 confirmation
-      transfer: Automatic
-      go: Deposit
-    masoyamacoin:
-      key: Masoyamacoin
-      title: Masoyamacoin Deposits
-      intro: Deposit masoyamacoin from your own wallet address to world-ct.com account
       latency: 1 confirmation
       transfer: Automatic
       go: Deposit
@@ -619,32 +577,6 @@ en:
           manage_fund_source: Manage Fund Source
         create:
           notice: Withdrawal request successfully submitted. Use the info below to complete the bank transfer.
-      sakurablooms:
-        destroy:
-          notice: Withdraw been canceled, frozen balance has returned to your account
-        update:
-          notice: Withdraw request is submit successful, we will process it as soon as possible
-          alert_two_factor: Two-Factor Authentication error
-        new:
-          submit: Submit
-          allin: All-In
-          fund_source_label: Label
-          manage_fund_source: Manage Fund Source
-        create:
-          notice: Withdrawal request successfully submitted. Use the info below to complete the bank transfer.
-      masoyamacoins:
-        destroy:
-          notice: Withdraw been canceled, frozen balance has returned to your account
-        update:
-          notice: Withdraw request is submit successful, we will process it as soon as possible
-          alert_two_factor: Two-Factor Authentication error
-        new:
-          submit: Submit
-          allin: All-In
-          fund_source_label: Label
-          manage_fund_source: Manage Fund Source
-        create:
-          notice: Withdrawal request successfully submitted. Use the info below to complete the bank transfer.
     tickets:
       index:
         new_ticket: New Ticket
@@ -665,16 +597,16 @@ en:
       view_open_tickets: View open tickets
     account_versions:
       index:
-        description: Every transaction and every penny of income in NGO-Settlement are well documented and exhaustive.
+        description: Every transaction and every penny of income in Apollo IT are well documented and exhaustive.
     affiliates:
       index:
         title: Affiliate program
-        description: Your affiliate program is enabled, and you can earn commissions by adding your affiliate tag to any tr.ngo-settlement.com URL.
+        description: Your affiliate program is enabled, and you can earn commissions by adding your affiliate tag to any cce.apolloit.biz URL.
         program_flows:
           title: Affiliate program flows
-          flow1: Please set up an affiliate banner for NGO-Settlement on your blog and website.
-          flow2: Someone will create a new account of NGO-Settlement through the link of affiliate banner on your blog or website.
-          flow3: We will give you an affiliate fee as a referral fee from NGO-Settlement.
+          flow1: Please set up an affiliate banner for Apollo IT on your blog and website.
+          flow2: Someone will create a new account of Apollo IT through the link of affiliate banner on your blog or website.
+          flow3: We will give you an affiliate fee as a referral fee from Apollo IT.
         url:
           title: Affiliate URL
           your: Your Affiliate URL
@@ -753,8 +685,6 @@ en:
         btc_format: '0.00000000'
         eth_format: '0.00000000'
         ltc_format: '0.00000000'
-        ngo_format: '0.00000000'
-        mas_format: '0.00000000'
         reason:
           usd:
             strike_add: Plus
@@ -775,18 +705,6 @@ en:
             withdraw: Withdraw
             fix: Fix
           ltc:
-            strike_add: Plus
-            strike_sub: Sub
-            deposit: Deposit
-            withdraw: Withdraw
-            fix: Fix
-          ngo:
-            strike_add: Plus
-            strike_sub: Sub
-            deposit: Deposit
-            withdraw: Withdraw
-            fix: Fix
-          mas:
             strike_add: Plus
             strike_sub: Sub
             deposit: Deposit
@@ -854,8 +772,6 @@ en:
         btc_html: "<i class='fa fa-check'></i><span>BTC Markets</span>"
         eth_html: "<i class='fa fa-check'></i><span>ETH Markets</span>"
         ltc_html: "<i class='fa fa-check'></i><span>LTC Markets</span>"
-        ngo_html: "<i class='fa fa-check'></i><span>NGO Markets</span>"
-        mas_html: "<i class='fa fa-check'></i><span>MAS Markets</span>"
         price: Price
         change: "24h %"
       range_switch:
@@ -994,8 +910,6 @@ en:
         btc_html: "<i class='fa fa-check'></i><span>BTC Markets</span>"
         eth_html: "<i class='fa fa-check'></i><span>ETH Markets</span>"
         ltc_html: "<i class='fa fa-check'></i><span>LTC Markets</span>"
-        ngo_html: "<i class='fa fa-check'></i><span>NGO Markets</span>"
-        mas_html: "<i class='fa fa-check'></i><span>MAS Markets</span>"
         price: Price
         change: "24h %"
       account_balance:
@@ -1211,8 +1125,6 @@ en:
         btc_format: '0.00000000'
         eth_format: '0.00000000'
         ltc_format: '0.00000000'
-        ngo_format: '0.00000000'
-        mas_format: '0.00000000'
         total: Total
   guides:
     private:
@@ -1266,15 +1178,15 @@ en:
       panel: Login
       new:
         title: Login my account
-        intro: Login NGO-Settlement now for you to exchange.
+        intro: Login Apollo IT now for you to exchange.
       failure:
         title: Login my account
-        intro: Login NGO-Settlement now for you to exchange.
+        intro: Login Apollo IT now for you to exchange.
     identities:
       panel: Create Account
       new:
         title: Create My Account
-        intro: This will be your only ID on NGO-Settlement which is necessary for your exchange, deposit and withdrawal . please fill it out carefully.
+        intro: This will be your only ID on Apollo IT which is necessary for your exchange, deposit and withdrawal . please fill it out carefully.
       edit:
         panel: My Account
         title: Reset Password
@@ -1364,12 +1276,6 @@ en:
         litecoin:
           sum: Minimum amount 0.001
           fund_extra: Enter a label for this address (optional)
-        sakurabloom:
-          sum: Minimum amount 0.001
-          fund_extra: Enter a label for this address (optional)
-        masoyamacoin:
-          sum: Minimum amount 0.001
-          fund_extra: Enter a label for this address (optional)
     hints:
       deposit:
         dollar:
@@ -1395,10 +1301,6 @@ en:
         ethereum:
           sum: "<a target='_balance' href='#'>Fee structure</a>"
         litecoin:
-          sum: "<a target='_balance' href='#'>Fee structure</a>"
-        sakurabloom:
-          sum: "<a target='_balance' href='#'>Fee structure</a>"
-        masoyamacoin:
           sum: "<a target='_balance' href='#'>Fee structure</a>"
     creating: Creating...
     updating: Updating...
@@ -1460,20 +1362,6 @@ en:
           fee: Fee
           sum: Amount
           fund_uid: Litecoin Address
-          fund_extra: Label
-          account_balance: Account Balance
-          member_name: Account
-        sakurabloom:
-          fee: Fee
-          sum: Amount
-          fund_uid: Sakurabloom Address
-          fund_extra: Label
-          account_balance: Account Balance
-          member_name: Account
-        masoyamacoin:
-          fee: Fee
-          sum: Amount
-          fund_uid: Masoyamacoin Address
           fund_extra: Label
           account_balance: Account Balance
           member_name: Account
@@ -1618,7 +1506,7 @@ en:
       trade: Submit and cancel orders
     authorizations:
       new:
-        title: NGO-Settlement Application Authorization
+        title: Apollo IT Application Authorization
         authorize_html: Authorize <strong class='text-info'>%{name}</strong> to use your account?
         scopes: 'This application will be able to:'
         authorize: Authorize
@@ -1686,8 +1574,6 @@ en:
       btc: BTC
       eth: ETH
       ltc: LTC
-      ngo: NGO
-      mas: MAS
     order:
       state:
         done: DONE
@@ -1718,8 +1604,6 @@ en:
         satoshi: Bitcoin
         ethereum: Ethereum
         litecoin: Litecoin
-        sakurabloom: Sakurabloom
-        masoyamacoin: Masoyamacoin
     id_document:
       id_document_type:
         id_card: ID Card
@@ -1737,41 +1621,41 @@ en:
       truncate: "..."
   mailer:
     dear_user: Dear user,
-    signature: Thanks,<br/>The NGO-Settlement Team
+    signature: Thanks,<br/>The Apollo IT Team
     please_contact: If it's not you, please <a href='mailto:%{contact_mail}'>contact us</a> ASAP.
     footer: This is an automatically generated email, please do not reply, if you have any question, please <a href="mailto:%{contact_mail}">contact us</a>.
   comment_mailer:
     admin_notification:
-      subject: "[NGO-Settlement] User reply a ticket"
+      subject: "[Apollo IT] User reply a ticket"
       notification_content: User %{email} reply a ticket, please follow the link below to see the detail
     user_notification:
-      subject: "[NGO-Settlement] Your ticket got a new reply"
+      subject: "[Apollo IT] Your ticket got a new reply"
       notification_content: 'Your ticket got a new reply, please follow the link below to see the detail:'
   deposit_mailer:
     accepted:
-      subject: "[NGO-Settlement] Your deposit has been credited into your account"
+      subject: "[Apollo IT] Your deposit has been credited into your account"
       content: Your %{currency} deposit has been credited into your account.
   member_mailer:
     notify_signin:
-      subject: "[NGO-Settlement] You have just signed in"
+      subject: "[Apollo IT] You have just signed in"
       just_signed_in: You have just signed in.
     google_auth_activated:
-      subject: "[NGO-Settlement] Google authenticator activated"
+      subject: "[Apollo IT] Google authenticator activated"
       google_auth_activated: You have activated google authenticator successfully
     google_auth_deactivated:
-      subject: "[NGO-Settlement] Google authenticator deactivated"
+      subject: "[Apollo IT] Google authenticator deactivated"
       google_auth_deactivated: You have deactivated google authenticator successfully
     sms_auth_activated:
-      subject: "[NGO-Settlement] SMS authenticator activated"
+      subject: "[Apollo IT] SMS authenticator activated"
       sms_auth_activated: You have activated SMS authenticator successfully
     sms_auth_deactivated:
-      subject: "[NGO-Settlement] SMS authenticator deactivated"
+      subject: "[Apollo IT] SMS authenticator deactivated"
       sms_auth_deactivated: You have deactivated SMS authenticator successfully
     reset_password_done:
-      subject: "[NGO-Settlement] Your password changed"
+      subject: "[Apollo IT] Your password changed"
       successful: Your password has been changed successfully.
     phone_number_verified:
-      subject: "[NGO-Settlement] Your phone number verified"
+      subject: "[Apollo IT] Your phone number verified"
       verified: 'Your phone number verified: %{phone_number}'
   system_mailer:
     daily_stats:
@@ -1784,38 +1668,38 @@ en:
       trades_change_total: Trades Changes Total
   ticket_mailer:
     admin_notification:
-      subject: "[NGO-Settlement] User created a new ticket"
+      subject: "[Apollo IT] User created a new ticket"
       admin_notification_content: User %{email} created a new ticket, please follow the link below to see the detail
     author_notification:
-      subject: "[NGO-Settlement] Thank you for submit ticket"
+      subject: "[Apollo IT] Thank you for submit ticket"
       thanks_for_submit_ticket: Thank you for submit ticket to us, we will get back to you as soon as possible.
   token_mailer:
     activation:
-      subject: "[NGO-Settlement] Account Activation"
-      click_to_verify: 'Thank you for signing up on NGO-Settlement, please follow this link to verify your Email:'
+      subject: "[Apollo IT] Account Activation"
+      click_to_verify: 'Thank you for signing up on Apollo IT, please follow this link to verify your Email:'
       unable_to_click: Copy and open the link in your browser if you are unable to click and visit it.
       link_expire: The link expires in 30 minutes.
     reset_password:
-      subject: "[NGO-Settlement] Please Reset Your Password"
+      subject: "[Apollo IT] Please Reset Your Password"
       hi: Hi,
       follow_the_link: 'Please follow this link to reset your password within 30 minutes:'
   withdraw_mailer:
     submitted:
-      subject: "[NGO-Settlement] Your withdraw state update"
+      subject: "[Apollo IT] Your withdraw state update"
       content: The request of your %{currency} withdrawal has been successfully submitted, We will process it as soon as possible. Please be patient with us. Contact us if you have any questions.
     processing:
-      subject: "[NGO-Settlement] Your withdraw state update"
+      subject: "[Apollo IT] Your withdraw state update"
       content: The request of your %{currency} withdrawal is in process. Please be patient with us. Contact us if you have any questions.
     done:
-      subject: "[NGO-Settlement] Your withdraw state update"
+      subject: "[Apollo IT] Your withdraw state update"
       content: The request of your %{currency} withdrawal is complete. Please check it out. Contact us if you have any questions.
     withdraw_state:
-      subject: "[NGO-Settlement] Your withdraw state update"
+      subject: "[Apollo IT] Your withdraw state update"
       your_state: 'Your withdrawal state: '
   'true': true
   'false': false
   slogan: Best cryptocurrency exchange
-  brand: NGO-Settlement
+  brand: Apollo IT
   tags:
     vip: VIP
     hero: Hero Member
@@ -1829,9 +1713,9 @@ en:
   gon:
     ask: Ask
     bid: Bid
-    brand: NGO-Settlement
+    brand: Apollo IT
     notification:
-      title: NGO-Settlement
+      title: Apollo IT
       enabled: Notification enabled.
       new_trade: "%{kind} order#%{id} executed at %{price} %{quote_unit} for %{volume} %{base_unit}。"
   back: Back
@@ -1855,12 +1739,12 @@ en:
     withdraw_done: Hi %{email}, the request of your withdrawal is complete.
   landing:
     welcome:
-      title: Welcome to NGO-Settlement!
+      title: Welcome to Apollo IT!
       subtitle: We are a peer to peer cryptocurrency exchange platform.
     vision:
       title: Our vision
-      desc1: ”NGO-Settlement is a project aims to provide both easy access for the public to buy cryptocurrencies, and an easy, safe and reliable exchange between cryptocurrencies. The project promises to deliver that by establishing a peer-to-peer decentralized network for cryptocurrencies exchange”
-      desc2: ”Using the NGO-Settlement, you can exchange altcoin directly with no central organization involved. NGO-Settlement allows members to buy and sell cryptocurrencies directly to and from each other.”
+      desc1: ”Apollo IT is a project aims to provide both easy access for the public to buy cryptocurrencies, and an easy, safe and reliable exchange between cryptocurrencies. The project promises to deliver that by establishing a peer-to-peer decentralized network for cryptocurrencies exchange”
+      desc2: ”Using the Apollo IT, you can exchange altcoin directly with no central organization involved. Apollo IT allows members to buy and sell cryptocurrencies directly to and from each other.”
     count:
       currency: Cryptocurrencies Exchanged
       country: Countries Supported
@@ -2094,9 +1978,9 @@ en:
     application:
       close: Close
     meta:
-      page_title: NGO-Settlement
-      page_description: NGO-Settlement - Cryptocurrency Exchange
-      page_keywords: tr.ngo-settlement.com,Exchange,Cryptocurrency,NGO-Settlement
+      page_title: Apollo IT
+      page_description: Apollo IT - Cryptocurrency Exchange
+      page_keywords: cce.apolloit.biz,Exchange,Cryptocurrency,Apollo IT
   members:
     edit:
       name: Please fill out the application.
@@ -2173,7 +2057,7 @@ en:
     google_auths:
       edit:
         submit: Disable
-        warning: 'Tip: If you have lost your Two-Factor Authentication by some reason and can''t login your NGO-Settlement account, please contact our online customer service.'
+        warning: 'Tip: If you have lost your Two-Factor Authentication by some reason and can''t login your Apollo IT account, please contact our online customer service.'
       show:
         step-1: Step 1
         step-2: Step 2
@@ -2252,30 +2136,6 @@ en:
       canceled: Cancelled
       failed: Failed
   withdraws/litecoin:
-    aasm_state:
-      submitting: Submitting
-      submitted: Submitted
-      rejected: Rejected
-      pending: Pending
-      suspect: Suspect
-      processing: processing
-      done: Done
-      almost_done: Almost Done
-      canceled: Cancelled
-      failed: Failed
-  withdraws/sakurabloom:
-    aasm_state:
-      submitting: Submitting
-      submitted: Submitted
-      rejected: Rejected
-      pending: Pending
-      suspect: Suspect
-      processing: processing
-      done: Done
-      almost_done: Almost Done
-      canceled: Cancelled
-      failed: Failed
-  withdraws/masoyamacoin:
     aasm_state:
       submitting: Submitting
       submitted: Submitted

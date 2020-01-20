@@ -7,15 +7,15 @@
 
 DATE=$(date +%Y%m%d)
 BACKUP_DIR=/home/deploy/.backup/
-CONFIG_DIR=/home/deploy/exchange/config
+CONFIG_DIR=/home/deploy/ex-backend/config
 BACKUP_DB=db_$DATE.zip
 BACKUP_CONFIG=config_$DATE.tar.gz
 
 MYSQL_USER=root
 MYSQL_PASSWORD=admin
-DB_NAME=ngo-settlement_production
+DB_NAME=ex_production
 
-BUCKET=ngo-settlement
+BUCKET=exchange
 S3_KEY=$BUCKET/backups/
 
 # DB backup
@@ -42,5 +42,5 @@ find $BACKUP_DIR -ctime +7 -exec rm -f {} \;
 ########################
 #crontab -e
 ##########
-#00 04 * * 01 /home/deploy/exchange/config/backup.sh
+#00 04 * * 01 /home/deploy/ex-backend/config/backup.sh
 ########################
