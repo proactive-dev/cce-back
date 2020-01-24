@@ -10,7 +10,8 @@ module Private
           position.close(amount)
           render status: 200, nothing: true
         else
-          render status: 500, nothing: true
+          render_json(PositionUpdateFail.new)
+          #render status: 500, nothing: true
         end
       end
     end

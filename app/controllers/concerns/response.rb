@@ -194,5 +194,52 @@ module Concerns
       end
     end
 
+    class OrderCreateFail < Result
+      def initialize(text = 'order-create-fail')
+        super code: 5001, text: text, status: :bad_request
+      end
+    end
+
+    class OrderCancelFail < Result
+      def initialize(text = 'order-cancel-fail')
+        super code: 5002, text: text, status: :bad_request
+      end
+    end
+
+    class TriggerOrderCreateFail < Result
+      def initialize(text = 'trigger-order-create-fail')
+        super code: 5011, text: text, status: :bad_request
+      end
+    end
+
+    class TriggerOrderCancelFail < Result
+      def initialize(text = 'trigger-order-cancel-fail')
+        super code: 5012, text: text, status: :bad_request
+      end
+    end
+
+    class LoanCreateFail < Result
+      def initialize(text = 'loan-create-fail')
+        super code: 5021, text: text, status: :bad_request
+      end
+    end
+
+    class LoanUpdateFail < Result
+      def initialize(text = 'loan-update-fail')
+        super code: 5022, text: text, status: :bad_request
+      end
+    end
+
+    class LoanCancelFail < Result
+      def initialize(text = 'loan-cancel-fail')
+        super code: 5023, text: text, status: :bad_request
+      end
+    end
+
+    class PositionUpdateFail < Result
+      def initialize(text = 'position-update-fail')
+        super code: 5031, text: text, status: :bad_request
+      end
+    end
   end
 end

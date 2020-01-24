@@ -23,7 +23,8 @@ module Concerns
         Rails.logger.warn "Member id=#{current_user.id} failed to submit order: #{$!}"
         Rails.logger.warn params.inspect
         Rails.logger.warn $!.backtrace[0,20].join("\n")
-        render status: 500, json: error_result(@trigger_order.errors)
+        render_json(TriggerOrderCreateFail.new(@trigger_order.errors))
+        #render status: 500, json: error_result(@trigger_order.errors)
       end
     end
 

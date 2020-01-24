@@ -23,7 +23,8 @@ module Concerns
         Rails.logger.fatal "Member id=#{current_user.id} failed to submit order: #{$!}"
         Rails.logger.fatal params.inspect
         Rails.logger.fatal $!.backtrace[0,20].join("\n")
-        render status: 500, json: error_result(@order.errors)
+        render_json(OrderCreateFail.new(@order.errors))
+        #render status: 500, json: error_result(@order.errors)
       end
     end
 

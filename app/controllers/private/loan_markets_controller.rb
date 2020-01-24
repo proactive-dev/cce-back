@@ -34,7 +34,8 @@ module Private
         if active_loan.save!
           render status: 200, nothing: true
         else
-          render status: 500, nothing: true
+          render_json(LoanUpdateFail.new)
+          #render status: 500, nothing: true
         end
       end
     end

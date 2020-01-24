@@ -21,7 +21,8 @@ module Concerns
         Rails.logger.warn "Member id=#{current_user.id} failed to submit loan: #{$!}"
         Rails.logger.warn params.inspect
         Rails.logger.warn $!.backtrace[0,20].join("\n")
-        render status: 500, json: error_result(@loan.errors)
+        render_json(LoanCreateFail.new(@loan.errors))
+        #render status: 500, json: error_result(@loan.errors)
       end
     end
 

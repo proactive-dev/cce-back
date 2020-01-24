@@ -19,7 +19,8 @@ module Private
         if loaning.update
           render status: 200, nothing: true
         else
-          render status: 500, nothing: true
+          render_json(LoanUpdateFail.new)
+          #render status: 500, nothing: true
         end
       end
     end
@@ -32,7 +33,8 @@ module Private
         if loaning.cancel
           render status: 200, nothing: true
         else
-          render status: 500, nothing: true
+          render_json(LoanCancelFail.new(@trigger_order.errors))
+          #render status: 500, nothing: true
         end
       end
     end
